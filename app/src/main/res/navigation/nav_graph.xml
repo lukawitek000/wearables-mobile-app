@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/scanningBluetoothFragment">
+
+    <fragment
+        android:id="@+id/scanningBluetoothFragment"
+        android:name="com.erasmus.upv.eps.wearables.ui.ScanningBluetoothFragment"
+        android:label="Scanning BLE" >
+        <action
+            android:id="@+id/action_scanningBluetoothFragment_to_responseDataListFragment"
+            app:destination="@id/responseDataListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/responseDataListFragment"
+        android:name="com.erasmus.upv.eps.wearables.ui.ResponseDataListFragment"
+        android:label="Received Data"
+        tools:layout="@layout/response_data_list_fragment" />
+</navigation>
