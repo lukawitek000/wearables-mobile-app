@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 
@@ -13,16 +16,27 @@ class ResponseDataListFragment : Fragment() {
 
     private lateinit var viewModel: ResponseDataListViewModel
 
+    private lateinit var receivedDataAdapter: ResponseDataAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.response_data_list_fragment, container, false)
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+        val view = inflater.inflate(R.layout.response_data_list_fragment, container, false)
         viewModel = ViewModelProvider(this).get(ResponseDataListViewModel::class.java)
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.received_data_recyclerView)
+        receivedDataAdapter = ResponseDataAdapter(viewModel.data)
+        recyclerView.adapter = receivedDataAdapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
+        view.findViewById<Button>(R.id.add_random_data_button).setOnClickListener {
+            viewModel.addResponse()
+            receivedDataAdapter.notifyDataSetChanged()
+        }
+
+        return view
     }
 
 
