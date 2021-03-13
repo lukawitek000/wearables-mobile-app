@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
+import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
 import java.security.Permission
 
 
@@ -60,6 +61,9 @@ class ScanningBluetoothFragment : Fragment() {
         scanResultRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         scanResultsAdapter = ScanResultsAdapter(viewModel.scanResults){
             //TODO
+
+            it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
+
             findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
             Toast.makeText(requireContext(), "${it.name} selected", Toast.LENGTH_SHORT).show()
         }

@@ -1,7 +1,9 @@
 package com.erasmus.upv.eps.wearables.ui
 
+
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
+import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ResponseDataListFragment : Fragment() {
 
@@ -27,7 +32,7 @@ class ResponseDataListFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(ResponseDataListViewModel::class.java)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.received_data_recyclerView)
-        receivedDataAdapter = ResponseDataAdapter(viewModel.data)
+        receivedDataAdapter = ResponseDataAdapter(viewModel.responseData.value!!)
         recyclerView.adapter = receivedDataAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
@@ -36,8 +41,20 @@ class ResponseDataListFragment : Fragment() {
             receivedDataAdapter.notifyDataSetChanged()
         }
 
+        BLEConnectionManager.responseList = viewModel.responseData
+
+        viewModel.responseData.observe(viewLifecycleOwner){
+            Log.i("Scan", "onCreateView: data changed $it")
+            receivedDataAdapter.notifyDataSetChanged()
+        }
+
+
         return view
     }
+
+
+
+
 
 
 
