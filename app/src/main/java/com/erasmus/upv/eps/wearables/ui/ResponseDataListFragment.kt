@@ -38,7 +38,7 @@ class ResponseDataListFragment : Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.received_data_recyclerView)
        // receivedDataAdapter = ResponseDataAdapter(viewModel.responseData.value!!)
-        BLEConnectionForegroundService.initValues()
+        //BLEConnectionForegroundService.initValues()
         receivedDataAdapter = ResponseDataAdapter(BLEConnectionManager.responseList.value!!)
         recyclerView.adapter = receivedDataAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)

@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothGatt
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -32,8 +33,13 @@ class BLEConnectionForegroundService : LifecycleService() {
         val receiveData = MutableLiveData<MutableList<Response>>()
         fun initValues(){
             receiveData.value = (emptyList<Response>().toMutableList())
-            //BLEConnectionManager.responseList.value = emptyList<Response>().toMutableList()
+            BLEConnectionManager.responseList.value?.clear()
+           // BLEConnectionManager.responseList = BLEConnectionManager.initResponseList()
+           // BLEConnectionManager.responseList.value =  receiveData.value
         }
+
+        var gattDevice: BluetoothGatt? = null
+
     }
 
     override fun onCreate() {
@@ -60,7 +66,8 @@ class BLEConnectionForegroundService : LifecycleService() {
     }
 
     private fun stopService(){
-       // initValues()
+        initValues()
+        gattDevice?.disconnect()
         notificationManager.cancel(NOTIFICATION_ID)
         stopForeground(true)
         stopSelf()

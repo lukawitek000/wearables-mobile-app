@@ -14,7 +14,8 @@ object BLEConnectionManager {
     private var bluetoothGatt: BluetoothGatt? = null
     private const val TAG = "ScanningBLEManager"
 
-    val responseList: MutableLiveData<MutableList<Response>> = MutableLiveData(emptyList<Response>().toMutableList())
+    var responseList: MutableLiveData<MutableList<Response>> = MutableLiveData(emptyList<Response>().toMutableList())
+
 
     val gattCallback = object : BluetoothGattCallback(){
         override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
