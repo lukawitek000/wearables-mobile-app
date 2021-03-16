@@ -40,7 +40,10 @@ class BLEConnectionForegroundService : LifecycleService() {
 
         var gattDevice: BluetoothGatt? = null
 
+        var isServiceRunning: Boolean = false
+
     }
+
 
     override fun onCreate() {
         super.onCreate()
@@ -66,6 +69,7 @@ class BLEConnectionForegroundService : LifecycleService() {
     }
 
     private fun stopService(){
+        isServiceRunning = false
         initValues()
         gattDevice?.disconnect()
         notificationManager.cancel(NOTIFICATION_ID)
@@ -80,6 +84,7 @@ class BLEConnectionForegroundService : LifecycleService() {
     }
 
     private fun startForegroundService(){
+        isServiceRunning = true
         Log.i(TAG, "startForegroundService: start service")
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){

@@ -57,6 +57,10 @@ class ScanningBluetoothFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(ScanningBluetoothViewModel::class.java)
 
+        if(BLEConnectionForegroundService.isServiceRunning){
+            findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
+        }
+
 
         val scanResultRecyclerView = view.findViewById<RecyclerView>(R.id.scan_results_recyclerView)
         scanResultRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

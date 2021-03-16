@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -15,6 +16,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
@@ -44,22 +46,8 @@ class ResponseDataListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
         view.findViewById<Button>(R.id.stop_receiving_data_button).setOnClickListener {
-            sendCommandToBLEConnectionService("STOP")
-            findNavController().navigateUp()
+            stopServiceAndNavigateBack()
         }
-
-
-
-
-        //BLEConnectionManager.responseList = viewModel.responseData
-
-        //BLEConnectionManager.responseList = BLEConnectionForegroundService.receiveData
-
-       /* viewModel.responseData.observe(viewLifecycleOwner){
-            Log.i("Scan", "onCreateView: data changed $it")
-            receivedDataAdapter.notifyDataSetChanged()
-        }
-        */
 
         BLEConnectionForegroundService.receiveData.observe(viewLifecycleOwner){
             Log.i("Scan", "onCreateView: data changed $it")
@@ -67,16 +55,24 @@ class ResponseDataListFragment : Fragment() {
         }
         sendCommandToBLEConnectionService("START")
 
-        /*
-        Intent(requireContext(), BLEConnectionForegroundService::class.java).also { intent ->
-            requireActivity().startService(intent)
-        }*/
 
+        (requireActivity() as MainActivity).onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                stopServiceAndNavigateBack()
+            }
 
+        }
+
+        )
 
         return view
     }
 
+    private fun stopServiceAndNavigateBack() {
+        BLEConnectionForegroundService.isServiceRunning = false
+        sendCommandToBLEConnectionService("STOP")
+        findNavController().navigateUp()
+    }
 
 
 
