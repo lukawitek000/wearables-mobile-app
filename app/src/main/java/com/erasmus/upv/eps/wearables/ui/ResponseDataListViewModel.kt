@@ -17,7 +17,7 @@ class ResponseDataListViewModel : ViewModel() {
 
     val data: MutableList<Response> = mutableListOf()
 
-    val responseData = MutableLiveData<MutableList<Response>>()
+    var responseData = MutableLiveData<MutableList<Response>>()
 
     init {
         responseData.value = emptyList<Response>().toMutableList()
