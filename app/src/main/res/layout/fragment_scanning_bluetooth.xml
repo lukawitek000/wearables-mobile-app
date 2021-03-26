@@ -31,4 +31,14 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/go_to_data_screen_button"
+        android:text="GO"
+        app:layout_constraintBottom_toBottomOf="@+id/scan_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/scan_button"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

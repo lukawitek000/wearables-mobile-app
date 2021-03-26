@@ -38,7 +38,11 @@ class BLEConnectionForegroundService : LifecycleService() {
            // BLEConnectionManager.responseList.value =  receiveData.value
         }
 
-        var gattDevice: BluetoothGatt? = null
+        //var gattDevice: BluetoothGatt? = null
+
+
+        var gattDevicesMap: HashMap<String, BluetoothGatt?> = HashMap<String, BluetoothGatt?>()
+
 
         var isServiceRunning: Boolean = false
 
@@ -71,7 +75,10 @@ class BLEConnectionForegroundService : LifecycleService() {
     private fun stopService(){
         isServiceRunning = false
         initValues()
-        gattDevice?.disconnect()
+       // gattDevice?.disconnect()
+        gattDevicesMap.forEach {
+            it.value?.disconnect()
+        }
         notificationManager.cancel(NOTIFICATION_ID)
         stopForeground(true)
         stopSelf()

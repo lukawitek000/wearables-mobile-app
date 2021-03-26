@@ -8,10 +8,12 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.erasmus.upv.eps.wearables.model.Response
 import java.util.*
+import kotlin.collections.HashMap
 
 object BLEConnectionManager {
 
-    private var bluetoothGatt: BluetoothGatt? = null
+    //private var bluetoothGatt: BluetoothGatt? = null
+    private var bluetoothGatts = HashMap<String, BluetoothGatt?>()
     private const val TAG = "ScanningBLEManager"
 
     var responseList: MutableLiveData<MutableList<Response>> = MutableLiveData(emptyList<Response>().toMutableList())
@@ -27,12 +29,18 @@ object BLEConnectionManager {
                     Log.i(TAG, "onConnectionStateChange: connected address $deviceAddress name = $deviceName")
 
                     // save device instance
-                    bluetoothGatt = gatt
+                   // bluetoothGatt = gatt
+                    if(!bluetoothGatts.containsKey(gatt?.device?.name) && gatt != null){
+                        bluetoothGatts[gatt.device.name] = gatt
+                        bluetoothGatts[gatt.device.name]?.discoverServices()
+                    }
 
                     // gatt?.device?.createBond()
                     // listenToBondStateChanges(requireContext())
 
-                    bluetoothGatt?.discoverServices()
+                    //bluetoothGatt?.discoverServices()
+
+
                     //Handler(Looper.getMainLooper()).post {
                     //  bluetoothGatt?.discoverServices()
                     //}
@@ -120,12 +128,23 @@ object BLEConnectionManager {
     private fun readBatteryLevel() {
         val batteryServiceUuid = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb")
         val batteryLevelCharUuid = UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb")
+        for(gatt in bluetoothGatts.values){
+            val batteryLevelChar = gatt?.getService(batteryServiceUuid)?.getCharacteristic(batteryLevelCharUuid)
+            Log.i(TAG, "readBatteryLevel: ${batteryLevelChar?.isReadable()}")
+            if (batteryLevelChar?.isReadable() == true) {
+                gatt.readCharacteristic(batteryLevelChar)
+            }
+            enableNotifications(batteryLevelChar!!, gatt)
+        }
+        /*
         val batteryLevelChar = bluetoothGatt?.getService(batteryServiceUuid)?.getCharacteristic(batteryLevelCharUuid)
         Log.i(TAG, "readBatteryLevel: ${batteryLevelChar?.isReadable()}")
         if (batteryLevelChar?.isReadable() == true) {
             bluetoothGatt?.readCharacteristic(batteryLevelChar)
         }
         enableNotifications(batteryLevelChar!!)
+
+         */
     }
 
 
@@ -141,7 +160,7 @@ object BLEConnectionManager {
 
     private val CCC_DESCRIPTOR_UUID = "00002902-0000-1000-8000-00805f9b34fb"
 
-    fun enableNotifications(characteristic: BluetoothGattCharacteristic) {
+    fun enableNotifications(characteristic: BluetoothGattCharacteristic, bluetoothGatt: BluetoothGatt?) {
         val cccdUuid = UUID.fromString(CCC_DESCRIPTOR_UUID)
         val payload = when {
             characteristic.isIndicatable() -> BluetoothGattDescriptor.ENABLE_INDICATION_VALUE
@@ -157,12 +176,12 @@ object BLEConnectionManager {
                 Log.e(TAG, "setCharacteristicNotification failed for ${characteristic.uuid}")
                 return
             }
-            writeDescriptor(cccDescriptor, payload)
+            writeDescriptor(cccDescriptor, payload, bluetoothGatt)
         } ?: Log.e(TAG, "${characteristic.uuid} doesn't contain the CCC descriptor!")
     }
 
 
-    fun disableNotifications(characteristic: BluetoothGattCharacteristic) {
+   /* fun disableNotifications(characteristic: BluetoothGattCharacteristic) {
         if (!characteristic.isNotifiable() && !characteristic.isIndicatable()) {
             Log.e(TAG, "${characteristic.uuid} doesn't support indications/notifications")
             return
@@ -176,10 +195,10 @@ object BLEConnectionManager {
             }
             writeDescriptor(cccDescriptor, BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE)
         } ?: Log.e(TAG, "${characteristic.uuid} doesn't contain the CCC descriptor!")
-    }
+    }*/
 
 
-    fun writeDescriptor(descriptor: BluetoothGattDescriptor, payload: ByteArray) {
+    fun writeDescriptor(descriptor: BluetoothGattDescriptor, payload: ByteArray, bluetoothGatt: BluetoothGatt?) {
         bluetoothGatt?.let { gatt ->
             descriptor.value = payload
             gatt.writeDescriptor(descriptor)

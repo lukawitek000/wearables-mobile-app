@@ -12,7 +12,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
-import android.location.LocationProvider
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -32,7 +31,6 @@ import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
-import java.security.Permission
 
 
 class ScanningBluetoothFragment : Fragment() {
@@ -67,12 +65,22 @@ class ScanningBluetoothFragment : Fragment() {
         scanResultsAdapter = ScanResultsAdapter(viewModel.scanResults){
             //TODO
 
-            BLEConnectionForegroundService.gattDevice = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
+            //BLEConnectionForegroundService.gattDevice = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
 
-            findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
+            val bluetoothGatt = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
+            BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.name ?: "NULL"] = bluetoothGatt
+
+            //findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
             Toast.makeText(requireContext(), "${it.name} selected", Toast.LENGTH_SHORT).show()
         }
         scanResultRecyclerView.adapter = scanResultsAdapter
+
+        view.findViewById<Button>(R.id.go_to_data_screen_button).setOnClickListener {
+            Log.i(
+                TAG,
+                "onCreateView: list of devices ${BLEConnectionForegroundService.gattDevicesMap}")
+            findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
+        }
 
 
         scanButton = view.findViewById(R.id.scan_button)
