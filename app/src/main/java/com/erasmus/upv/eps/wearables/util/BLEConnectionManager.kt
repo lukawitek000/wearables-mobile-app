@@ -30,9 +30,9 @@ object BLEConnectionManager {
 
                     // save device instance
                    // bluetoothGatt = gatt
-                    if(!bluetoothGatts.containsKey(gatt?.device?.name) && gatt != null){
-                        bluetoothGatts[gatt.device.name] = gatt
-                        bluetoothGatts[gatt.device.name]?.discoverServices()
+                    if(!bluetoothGatts.containsKey(gatt?.device?.address) && gatt != null){
+                        bluetoothGatts[gatt.device.address] = gatt
+                        bluetoothGatts[gatt.device.address]?.discoverServices()
                     }
 
                     // gatt?.device?.createBond()
@@ -62,7 +62,7 @@ object BLEConnectionManager {
         }
 
 
-        override fun onCharacteristicRead(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic, status: Int) {
+        override fun onCharacteristicRead(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic, status: Int) {
             super.onCharacteristicRead(gatt, characteristic, status)
             when(status){
                 BluetoothGatt.GATT_SUCCESS -> {
@@ -71,7 +71,7 @@ object BLEConnectionManager {
                     val batteryLevel = characteristic.value.first().toInt()
                     Log.i(TAG, "onCharacteristicRead: battery level $batteryLevel%")
 
-                    val result = Response(System.currentTimeMillis(), batteryLevel)
+                    val result = Response(System.currentTimeMillis(), batteryLevel, gatt.device)
                     //responseList.value?.add(result)
                     addResultToLiveDataList(result)
                 }
@@ -84,13 +84,13 @@ object BLEConnectionManager {
             }
         }
 
-        override fun onCharacteristicChanged(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic) {
+        override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
             super.onCharacteristicChanged(gatt, characteristic)
             with(characteristic) {
                 Log.i(TAG, "Characteristic $uuid changed | value: ${value.toHexString()}")
                 Log.i(TAG, "onCharacteristicChanged: battery percentage = ${value.first().toInt()} ")
                 val batteryLevel = value.first().toInt()
-                val result = Response(System.currentTimeMillis(), batteryLevel)
+                val result = Response(System.currentTimeMillis(), batteryLevel, gatt.device)
                 addResultToLiveDataList(result)
                 //responseList.value?.add(result)
                 //responseList.value = res

@@ -13,7 +13,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/received_data_textView"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/device_name_connected_textView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -25,5 +25,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/time_stamp_textView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/device_name_connected_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Redmi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/time_stamp_textView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

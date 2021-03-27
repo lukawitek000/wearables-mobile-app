@@ -28,6 +28,7 @@ class ResponseDataAdapter(private val data: List<Response>): RecyclerView.Adapte
 
         //holder.timeStampTextView.text = data[position].timeStamp.toString()
         holder.receivedDataTextView.text = data[position].data.toString()
+        holder.deviceNameConnectedTextView.text = data[position].device.name.toString()
     }
 
     override fun getItemCount(): Int {
@@ -39,7 +40,7 @@ class ResponseDataAdapter(private val data: List<Response>): RecyclerView.Adapte
 
         val timeStampTextView: TextView = view.findViewById<TextView>(R.id.time_stamp_textView)
         val receivedDataTextView: TextView = view.findViewById<TextView>(R.id.received_data_textView)
-
+        val deviceNameConnectedTextView: TextView = view.findViewById<TextView>(R.id.device_name_connected_textView)
 
     }
 

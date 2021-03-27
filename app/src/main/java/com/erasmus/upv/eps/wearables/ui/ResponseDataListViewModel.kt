@@ -26,7 +26,7 @@ class ResponseDataListViewModel : ViewModel() {
     fun addResponse(){
         val randomTimeStamp = Random.nextLong(0L, 1000000000000000L)
         val randomData = Random.nextInt(0, 200)
-        data.add(Response(randomTimeStamp, randomData))
+        //data.add(Response(randomTimeStamp, randomData))
     }
 
 

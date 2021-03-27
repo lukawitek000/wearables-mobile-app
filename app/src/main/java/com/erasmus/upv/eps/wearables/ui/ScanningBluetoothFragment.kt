@@ -68,7 +68,7 @@ class ScanningBluetoothFragment : Fragment() {
             //BLEConnectionForegroundService.gattDevice = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
 
             val bluetoothGatt = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
-            BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.name ?: "NULL"] = bluetoothGatt
+            BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address ?: "NULL"] = bluetoothGatt
 
             //findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
             Toast.makeText(requireContext(), "${it.name} selected", Toast.LENGTH_SHORT).show()
