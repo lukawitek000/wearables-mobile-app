@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 
 class MainActivity : AppCompatActivity() {
@@ -16,10 +17,34 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_container) as NavHostFragment
-        navController = navHostFragment.navController
-        setupActionBarWithNavController(navController)
+        setUpNavController()
+        setUpActionBar()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    }
+
+    private fun setUpActionBar() {
+        val appBarConfiguration = AppBarConfiguration
+            .Builder(R.id.splashScreenFragment, R.id.tutorialFragment, R.id.matchesFragment)
+            .build()
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        controlActionBarVisibility()
+    }
+
+    private fun setUpNavController() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_container) as NavHostFragment
+        navController = navHostFragment.navController
+    }
+
+    private fun controlActionBarVisibility() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.splashScreenFragment -> {
+                    supportActionBar?.hide()
+                }
+                else -> supportActionBar?.show()
+            }
+        }
     }
 
 
