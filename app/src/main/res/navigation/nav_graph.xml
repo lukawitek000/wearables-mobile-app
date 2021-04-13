@@ -38,9 +38,9 @@
     </fragment>
     <fragment
         android:id="@+id/matchesFragment"
-        android:name="com.erasmus.upv.eps.wearables.ui.fragments.MatchesFragment"
+        android:name="com.erasmus.upv.eps.wearables.ui.fragments.MatchesViewPagerFragment"
         android:label="Matches"
-        tools:layout="@layout/fragment_matches" />
+        tools:layout="@layout/fragment_view_pager_matches" />
     <fragment
         android:id="@+id/tutorialFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.TutorialFragment"

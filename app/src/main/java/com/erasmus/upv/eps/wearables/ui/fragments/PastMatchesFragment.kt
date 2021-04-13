@@ -7,15 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import com.erasmus.upv.eps.wearables.R
 
-class MatchesFragment : Fragment() {
 
+class PastMatchesFragment : Fragment() {
+
+    companion object{
+        fun newInstance() = PastMatchesFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_matches, container, false)
+        return inflater.inflate(R.layout.fragment_past_matches, container, false)
     }
+
 
 }

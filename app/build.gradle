@@ -53,5 +53,8 @@ dependencies {
     //lifecycle service dependencies
     implementation "androidx.lifecycle:lifecycle-service:2.3.0"
 
+    //view pager for matches fragments
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
 
 }
