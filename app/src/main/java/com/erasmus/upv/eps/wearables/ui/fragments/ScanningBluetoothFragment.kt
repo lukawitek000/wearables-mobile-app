@@ -58,7 +58,7 @@ class ScanningBluetoothFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(ScanningBluetoothViewModel::class.java)
 
         if(BLEConnectionForegroundService.isServiceRunning){
-            findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
+            //findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
         }
 
 
@@ -81,7 +81,8 @@ class ScanningBluetoothFragment : Fragment() {
             Log.i(
                 TAG,
                 "onCreateView: list of devices ${BLEConnectionForegroundService.gattDevicesMap}")
-            findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
+            findNavController().navigate(R.id.action_scanningBluetoothFragment_to_configureDevicesFragment)
+            // findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
         }
 
 

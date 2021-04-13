@@ -10,8 +10,8 @@
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.ScanningBluetoothFragment"
         android:label="Scanning BLE" >
         <action
-            android:id="@+id/action_scanningBluetoothFragment_to_responseDataListFragment"
-            app:destination="@id/responseDataListFragment" />
+            android:id="@+id/action_scanningBluetoothFragment_to_configureDevicesFragment"
+            app:destination="@id/configureDevicesFragment" />
     </fragment>
     <fragment
         android:id="@+id/responseDataListFragment"
@@ -106,4 +106,9 @@
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.MatchStatisticsFragment"
         android:label="fragment_match_statistics"
         tools:layout="@layout/fragment_match_statistics" />
+    <fragment
+        android:id="@+id/configureDevicesFragment"
+        android:name="com.erasmus.upv.eps.wearables.ui.fragments.ConfigureDevicesFragment"
+        android:label="fragment_configure_devices"
+        tools:layout="@layout/fragment_configure_devices" />
 </navigation>
