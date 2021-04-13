@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ResponseDataListFragment">
+    tools:context=".ui.fragments.ResponseDataListFragment">
 
     <TextView
         android:id="@+id/time_stamp_label_textView"

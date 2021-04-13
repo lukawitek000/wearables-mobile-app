@@ -1,4 +1,4 @@
-package com.erasmus.upv.eps.wearables.ui
+package com.erasmus.upv.eps.wearables.ui.fragments
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -30,6 +30,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
+import com.erasmus.upv.eps.wearables.ui.adapters.ScanResultsAdapter
+import com.erasmus.upv.eps.wearables.viewModels.ScanningBluetoothViewModel
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
 
 

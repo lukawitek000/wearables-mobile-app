@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/scanningBluetoothFragment"
-        android:name="com.erasmus.upv.eps.wearables.ui.ScanningBluetoothFragment"
+        android:name="com.erasmus.upv.eps.wearables.ui.fragments.ScanningBluetoothFragment"
         android:label="Scanning BLE" >
         <action
             android:id="@+id/action_scanningBluetoothFragment_to_responseDataListFragment"
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/responseDataListFragment"
-        android:name="com.erasmus.upv.eps.wearables.ui.ResponseDataListFragment"
+        android:name="com.erasmus.upv.eps.wearables.ui.fragments.ResponseDataListFragment"
         android:label="Received Data"
         tools:layout="@layout/response_data_list_fragment" />
 </navigation>

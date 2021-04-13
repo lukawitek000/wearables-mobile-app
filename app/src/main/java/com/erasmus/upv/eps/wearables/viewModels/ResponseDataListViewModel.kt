@@ -1,4 +1,4 @@
-package com.erasmus.upv.eps.wearables.ui
+package com.erasmus.upv.eps.wearables.viewModels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

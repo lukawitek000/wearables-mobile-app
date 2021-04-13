@@ -1,4 +1,4 @@
-package com.erasmus.upv.eps.wearables.ui
+package com.erasmus.upv.eps.wearables.viewModels
 
 import android.bluetooth.BluetoothDevice
 import androidx.lifecycle.ViewModel

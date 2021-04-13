@@ -1,4 +1,4 @@
-package com.erasmus.upv.eps.wearables.ui
+package com.erasmus.upv.eps.wearables.ui.adapters
 
 import android.bluetooth.BluetoothDevice
 import android.view.LayoutInflater
