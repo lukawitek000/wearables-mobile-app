@@ -15,7 +15,7 @@ class ScanResultsAdapter(private val scanResults: MutableList<BluetoothDevice>,
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScanResultsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.scan_result_view, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_view_scan_result, parent, false)
         return ScanResultsViewHolder(view)
     }
 

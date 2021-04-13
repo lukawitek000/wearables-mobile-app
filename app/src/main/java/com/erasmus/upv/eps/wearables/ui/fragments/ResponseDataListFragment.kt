@@ -32,7 +32,7 @@ class ResponseDataListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.response_data_list_fragment, container, false)
+        val view = inflater.inflate(R.layout.fragment_response_data_list, container, false)
         viewModel = ViewModelProvider(this).get(ResponseDataListViewModel::class.java)
 
         //viewModel.responseData = BLEConnectionForegroundService.receiveData

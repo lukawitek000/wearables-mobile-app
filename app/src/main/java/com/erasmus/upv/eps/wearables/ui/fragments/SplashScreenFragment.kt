@@ -7,10 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 
 class SplashScreenFragment : Fragment() {
@@ -24,7 +21,7 @@ class SplashScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.splash_screen_fragment, container, false)
+        val view = inflater.inflate(R.layout.fragment_splash_screen, container, false)
 
         navigateAfterTimeout()
 

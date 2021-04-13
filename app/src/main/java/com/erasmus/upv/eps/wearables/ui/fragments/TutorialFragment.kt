@@ -16,7 +16,7 @@ class TutorialFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.tutorial_fragment, container, false)
+        val view = inflater.inflate(R.layout.fragment_tutorial, container, false)
         view.findViewById<Button>(R.id.button).setOnClickListener {
             findNavController().navigate(R.id.action_tutorialFragment_to_matchesFragment)
         }

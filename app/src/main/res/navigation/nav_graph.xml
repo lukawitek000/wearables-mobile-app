@@ -17,12 +17,12 @@
         android:id="@+id/responseDataListFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.ResponseDataListFragment"
         android:label="Received Data"
-        tools:layout="@layout/response_data_list_fragment" />
+        tools:layout="@layout/fragment_response_data_list" />
     <fragment
         android:id="@+id/splashScreenFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.SplashScreenFragment"
         android:label="splash_screen_fragment"
-        tools:layout="@layout/splash_screen_fragment" >
+        tools:layout="@layout/fragment_splash_screen" >
         <action
             android:id="@+id/action_splashScreenFragment_to_tutorialFragment"
             app:destination="@id/tutorialFragment"
@@ -40,12 +40,12 @@
         android:id="@+id/matchesFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.MatchesFragment"
         android:label="Matches"
-        tools:layout="@layout/matches_fragment" />
+        tools:layout="@layout/fragment_matches" />
     <fragment
         android:id="@+id/tutorialFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.TutorialFragment"
         android:label="Tutorial"
-        tools:layout="@layout/tutorial_fragment" >
+        tools:layout="@layout/fragment_tutorial" >
         <action
             android:id="@+id/action_tutorialFragment_to_matchesFragment"
             app:destination="@id/matchesFragment"

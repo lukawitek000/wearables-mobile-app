@@ -2,7 +2,6 @@ package com.erasmus.upv.eps.wearables
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController

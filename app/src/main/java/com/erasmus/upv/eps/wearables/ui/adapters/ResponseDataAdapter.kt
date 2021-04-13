@@ -19,7 +19,7 @@ class ResponseDataAdapter(private val data: List<Response>): RecyclerView.Adapte
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResponseDataViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.response_data_view, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_view_response_data, parent, false)
         return ResponseDataViewHolder(view)
     }
 
