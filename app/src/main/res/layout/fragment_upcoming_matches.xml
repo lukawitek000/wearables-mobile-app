@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.UpcomingMatchesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
@@ -18,5 +18,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/start_match_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start match"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

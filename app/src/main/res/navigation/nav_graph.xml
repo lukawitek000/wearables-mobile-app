@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_matchesFragment_to_matchStatisticsFragment"
             app:destination="@id/matchStatisticsFragment" />
+        <action
+            android:id="@+id/action_matchesFragment_to_scanningBluetoothFragment"
+            app:destination="@id/scanningBluetoothFragment" />
     </fragment>
     <fragment
         android:id="@+id/tutorialFragment"
