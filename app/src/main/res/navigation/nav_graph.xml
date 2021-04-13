@@ -40,7 +40,11 @@
         android:id="@+id/matchesFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.MatchesViewPagerFragment"
         android:label="Matches"
-        tools:layout="@layout/fragment_view_pager_matches" />
+        tools:layout="@layout/fragment_view_pager_matches" >
+        <action
+            android:id="@+id/action_matchesFragment_to_createMatchFragment"
+            app:destination="@id/createMatchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/tutorialFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.TutorialFragment"
@@ -62,10 +66,33 @@
         android:id="@+id/playersFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.PlayersFragment"
         android:label="Players"
-        tools:layout="@layout/fragment_players" />
+        tools:layout="@layout/fragment_players" >
+        <action
+            android:id="@+id/action_playersFragment_to_createPlayerFragment"
+            app:destination="@id/createPlayerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/teamsFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.TeamsFragment"
         android:label="Teams"
-        tools:layout="@layout/fragment_teams" />
+        tools:layout="@layout/fragment_teams" >
+        <action
+            android:id="@+id/action_teamsFragment_to_createTeamFragment"
+            app:destination="@id/createTeamFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createMatchFragment"
+        android:name="com.erasmus.upv.eps.wearables.ui.fragments.CreateMatchFragment"
+        android:label="Create Match"
+        tools:layout="@layout/fragment_create_match" />
+    <fragment
+        android:id="@+id/createTeamFragment"
+        android:name="com.erasmus.upv.eps.wearables.ui.fragments.CreateTeamFragment"
+        android:label="Create Team"
+        tools:layout="@layout/fragment_create_team" />
+    <fragment
+        android:id="@+id/createPlayerFragment"
+        android:name="com.erasmus.upv.eps.wearables.ui.fragments.CreatePlayerFragment"
+        android:label="Create Player"
+        tools:layout="@layout/fragment_create_player" />
 </navigation>
