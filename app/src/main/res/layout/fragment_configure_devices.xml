@@ -30,4 +30,14 @@
         app:layout_constraintTop_toBottomOf="@+id/textView11"
         app:layout_constraintVertical_bias="0.501" />
 
+    <Button
+        android:id="@+id/done_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/configure_gesture_bt" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

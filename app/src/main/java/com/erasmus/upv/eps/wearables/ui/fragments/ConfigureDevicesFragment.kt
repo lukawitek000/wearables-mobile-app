@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.navigation.fragment.findNavController
 import com.erasmus.upv.eps.wearables.R
 
 
@@ -20,6 +21,10 @@ class ConfigureDevicesFragment : Fragment() {
 
         view.findViewById<Button>(R.id.configure_gesture_bt).setOnClickListener {
             ConfigureGestureFragment().show(childFragmentManager, ConfigureGestureFragment.TAG)
+        }
+
+        view.findViewById<Button>(R.id.done_bt).setOnClickListener {
+            findNavController().navigate(R.id.action_configureDevicesFragment_to_currentMatchFragment)
         }
 
 

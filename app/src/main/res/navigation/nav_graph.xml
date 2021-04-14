@@ -110,5 +110,14 @@
         android:id="@+id/configureDevicesFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.ConfigureDevicesFragment"
         android:label="fragment_configure_devices"
-        tools:layout="@layout/fragment_configure_devices" />
+        tools:layout="@layout/fragment_configure_devices" >
+        <action
+            android:id="@+id/action_configureDevicesFragment_to_currentMatchFragment"
+            app:destination="@id/currentMatchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/currentMatchFragment"
+        android:name="com.erasmus.upv.eps.wearables.ui.fragments.CurrentMatchFragment"
+        android:label="fragment_current_match"
+        tools:layout="@layout/fragment_current_match" />
 </navigation>
