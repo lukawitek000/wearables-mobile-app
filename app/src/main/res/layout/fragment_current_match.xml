@@ -19,4 +19,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/ask_team_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Which team"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ask_player_bt"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <Button
+        android:id="@+id/ask_player_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WHICH PLAYER"
+        app:layout_constraintBottom_toBottomOf="@+id/ask_team_bt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ask_team_bt"
+        app:layout_constraintTop_toTopOf="@+id/ask_team_bt" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
