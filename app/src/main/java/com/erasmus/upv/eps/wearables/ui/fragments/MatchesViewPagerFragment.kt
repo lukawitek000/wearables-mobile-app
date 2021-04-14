@@ -10,13 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.ui.adapters.MatchesViewPagerAdapter
+import com.erasmus.upv.eps.wearables.ui.fragments.MatchesFragment.Companion.MatchTime
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MatchesViewPagerFragment : Fragment() {
-
-
 
     private lateinit var viewPager: ViewPager2
 
@@ -44,9 +43,9 @@ class MatchesViewPagerFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) {
                 tab, position ->
             if(position == 0){
-                tab.text = "UPCOMING"
+                tab.text = MatchTime.UPCOMING.name
             }else{
-                tab.text = "PAST"
+                tab.text = MatchTime.PAST.name
             }
         }.attach()
     }
