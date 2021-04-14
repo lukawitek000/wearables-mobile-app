@@ -8,9 +8,9 @@ data class Team (
     val name: String,
     val players: List<Player>,
     val sport: String,
-    val color: Color,
+    val color: Int,
     val country: String,
     val city: String,
-    val logo: Uri,
+    val logo: Uri?,
     val others: String
 )

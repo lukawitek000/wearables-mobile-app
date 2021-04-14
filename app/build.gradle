@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -9,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.erasmus.upv.eps.wearables"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -29,6 +30,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -56,5 +61,6 @@ dependencies {
     //view pager for matches fragments
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
+    kapt 'com.android.databinding:compiler:3.1.4'
 
 }
