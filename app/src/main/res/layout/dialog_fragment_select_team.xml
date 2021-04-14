@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp"
-    tools:context=".ui.fragments.DialogWhichTeamFragment">
+    tools:context=".ui.dialogs.SelectTeamDialogFragment">
 
 
     <Button

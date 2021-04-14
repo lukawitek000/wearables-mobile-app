@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/splashScreenFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.SplashScreenFragment"
-        android:label="splash_screen_fragment"
+        android:label="Splash Screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action
             android:id="@+id/action_splashScreenFragment_to_tutorialFragment"
@@ -104,12 +104,12 @@
     <fragment
         android:id="@+id/matchStatisticsFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.MatchStatisticsFragment"
-        android:label="fragment_match_statistics"
+        android:label="Match statistics"
         tools:layout="@layout/fragment_match_statistics" />
     <fragment
         android:id="@+id/configureDevicesFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.ConfigureDevicesFragment"
-        android:label="fragment_configure_devices"
+        android:label="Configure Devices"
         tools:layout="@layout/fragment_configure_devices" >
         <action
             android:id="@+id/action_configureDevicesFragment_to_currentMatchFragment"
@@ -118,6 +118,6 @@
     <fragment
         android:id="@+id/currentMatchFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.CurrentMatchFragment"
-        android:label="fragment_current_match"
+        android:label="Current Match"
         tools:layout="@layout/fragment_current_match" />
 </navigation>

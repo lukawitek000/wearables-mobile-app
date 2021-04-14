@@ -1,7 +1,6 @@
-package com.erasmus.upv.eps.wearables.ui.fragments
+package com.erasmus.upv.eps.wearables.ui.dialogs
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +8,10 @@ import com.erasmus.upv.eps.wearables.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class DialogWhichTeamFragment : BottomSheetDialogFragment() {
+class SelectTeamDialogFragment : BottomSheetDialogFragment() {
 
     companion object{
-        const val TAG = "DialogWhichTeamFragment"
+        const val TAG = "SelectTeamDialogFragment"
     }
 
 
@@ -22,7 +21,7 @@ class DialogWhichTeamFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dialog_which_team, container, false)
+        return inflater.inflate(R.layout.dialog_fragment_select_team, container, false)
     }
 
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import com.erasmus.upv.eps.wearables.R
+import com.erasmus.upv.eps.wearables.ui.dialogs.ConfigureGestureDialogFragment
 
 
 class ConfigureDevicesFragment : Fragment() {
@@ -20,7 +21,7 @@ class ConfigureDevicesFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_configure_devices, container, false)
 
         view.findViewById<Button>(R.id.configure_gesture_bt).setOnClickListener {
-            ConfigureGestureFragment().show(childFragmentManager, ConfigureGestureFragment.TAG)
+            ConfigureGestureDialogFragment().show(childFragmentManager, ConfigureGestureDialogFragment.TAG)
         }
 
         view.findViewById<Button>(R.id.done_bt).setOnClickListener {
