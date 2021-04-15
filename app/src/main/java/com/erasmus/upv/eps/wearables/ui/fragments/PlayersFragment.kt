@@ -6,24 +6,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
+import com.erasmus.upv.eps.wearables.databinding.FragmentPlayersBinding
+import com.erasmus.upv.eps.wearables.ui.adapters.PlayersAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class PlayersFragment : Fragment() {
 
+    private lateinit var binding: FragmentPlayersBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        binding = FragmentPlayersBinding.inflate(inflater, container, false)
 
-        val view =  inflater.inflate(R.layout.fragment_players, container, false)
-
-        view.findViewById<FloatingActionButton>(R.id.create_player_fb).setOnClickListener {
+        binding.createPlayerFb.setOnClickListener {
             findNavController().navigate(R.id.action_playersFragment_to_createPlayerFragment)
         }
 
-        return view
+        val rv = binding.playersRv
+        rv.adapter = PlayersAdapter(players)
+        rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        return binding.root
     }
 
 

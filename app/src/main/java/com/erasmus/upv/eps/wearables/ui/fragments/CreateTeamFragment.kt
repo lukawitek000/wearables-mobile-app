@@ -6,10 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreateTeamBinding
 import com.erasmus.upv.eps.wearables.model.Player
-import com.erasmus.upv.eps.wearables.ui.adapters.PlayersAdapter
+import com.erasmus.upv.eps.wearables.ui.adapters.PlayersShortAdapter
 
 
 class CreateTeamFragment : Fragment() {
@@ -24,7 +23,7 @@ class CreateTeamFragment : Fragment() {
         binding = FragmentCreateTeamBinding.inflate(inflater, container, false)
 
         val recyclerView = binding.teamPlayersRv
-        recyclerView.adapter = PlayersAdapter(players)
+        recyclerView.adapter = PlayersShortAdapter(players)
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         return binding.root
