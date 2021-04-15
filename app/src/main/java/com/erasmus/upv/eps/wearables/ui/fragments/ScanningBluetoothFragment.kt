@@ -74,6 +74,7 @@ class ScanningBluetoothFragment : Fragment() {
 
             //findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
             Toast.makeText(requireContext(), "${it.name} selected", Toast.LENGTH_SHORT).show()
+            scanResultsAdapter.notifyItemChanged(viewModel.scanResults.indexOfFirst { device -> device.address == it.address })
         }
         scanResultRecyclerView.adapter = scanResultsAdapter
 

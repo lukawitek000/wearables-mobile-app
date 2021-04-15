@@ -1,6 +1,8 @@
 package com.erasmus.upv.eps.wearables.ui.adapters
 
 import android.bluetooth.BluetoothDevice
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ class ScanResultsAdapter(private val scanResults: MutableList<BluetoothDevice>,
     : RecyclerView.Adapter<ScanResultsAdapter.ScanResultsViewHolder>() {
 
 
+    private val selectedDevices = emptyList<BluetoothDevice>().toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScanResultsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_view_scan_result, parent, false)
@@ -24,7 +27,22 @@ class ScanResultsAdapter(private val scanResults: MutableList<BluetoothDevice>,
         holder.deviceNameTextView.text = scanResults[position].name ?: "No name"
         holder.deviceAddressTextView.text = scanResults[position].address
 
+        Log.i("ScanResultsAdapter", "onBindViewHolder: selected scans $selectedDevices")
+
+        Log.i("ScanResultsAdapter", "onBindViewHolder: all scans $scanResults")
+        if(selectedDevices.contains(scanResults[position])){
+            holder.itemView.setBackgroundColor(Color.RED)
+            holder.deviceNameTextView.setTextColor(Color.RED)
+        }else{
+            holder.itemView.setBackgroundColor(Color.WHITE)
+        }
+
         holder.itemView.setOnClickListener {
+            if(!selectedDevices.contains(scanResults[position])){
+                selectedDevices.add(scanResults[position])
+            }else{
+                selectedDevices.remove(scanResults[position])
+            }
             onClickScanResult(scanResults[position])
         }
 
