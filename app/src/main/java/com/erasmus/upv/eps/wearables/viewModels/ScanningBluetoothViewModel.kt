@@ -8,6 +8,6 @@ class ScanningBluetoothViewModel: ViewModel() {
 
     var scanResults = mutableListOf<BluetoothDevice>()
 
-
+    var selectedScanResults = mutableListOf<BluetoothDevice>()
 
 }

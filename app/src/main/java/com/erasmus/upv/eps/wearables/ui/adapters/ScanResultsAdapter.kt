@@ -32,7 +32,6 @@ class ScanResultsAdapter(private val scanResults: MutableList<BluetoothDevice>,
         Log.i("ScanResultsAdapter", "onBindViewHolder: all scans $scanResults")
         if(selectedDevices.contains(scanResults[position])){
             holder.itemView.setBackgroundColor(Color.RED)
-            holder.deviceNameTextView.setTextColor(Color.RED)
         }else{
             holder.itemView.setBackgroundColor(Color.WHITE)
         }
