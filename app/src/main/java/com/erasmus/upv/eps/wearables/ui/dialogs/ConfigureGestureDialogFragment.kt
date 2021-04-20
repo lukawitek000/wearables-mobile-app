@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.DialogFragmentConfigureGestureBinding
 import com.erasmus.upv.eps.wearables.model.Device
@@ -29,10 +31,37 @@ class ConfigureGestureDialogFragment(private val device: Device, private val ges
                 inflater, container, false
         )
 
-        binding.confGestureDeviceNameTv.text = device.name
-        binding.gestureConfigGestureNameTv.text = gesture.name
+        binding.configGestureNameTv.text = gesture.name
+        binding.doneConfigGestureBn.setOnClickListener {
+            dismiss()
+        }
+        configDropDownInputs()
 
         return binding.root
+    }
+
+    private fun configDropDownInputs() {
+        configSelectActionInput()
+        configSelectTeamInput()
+        configSelectPlayerInput()
+    }
+
+    private fun configSelectPlayerInput() {
+        val players = listOf("Ana", "Luke", "Piotr")
+        val adapter = ArrayAdapter(requireContext(), R.layout.input_list_item, players)
+        (binding.selectPlayerForGestureTf.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+    }
+
+    private fun configSelectTeamInput() {
+        val teams = listOf("Real Madrid", "Valencia FC")
+        val adapter = ArrayAdapter(requireContext(), R.layout.input_list_item, teams)
+        (binding.selectTeamForGestureTf.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+    }
+
+    private fun configSelectActionInput() {
+        val actions = listOf("Goal", "Assist", "Foul")
+        val adapter = ArrayAdapter(requireContext(), R.layout.input_list_item, actions)
+        (binding.selectActionTf.editText as? AutoCompleteTextView)?.setAdapter(adapter)
     }
 
 
