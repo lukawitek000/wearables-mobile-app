@@ -5,24 +5,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.erasmus.upv.eps.wearables.R
+import com.erasmus.upv.eps.wearables.databinding.DialogFragmentConfigureGestureBinding
+import com.erasmus.upv.eps.wearables.model.Device
+import com.erasmus.upv.eps.wearables.model.Gesture
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class ConfigureGestureDialogFragment : BottomSheetDialogFragment() {
+class ConfigureGestureDialogFragment(private val device: Device, private val gesture: Gesture) : BottomSheetDialogFragment() {
 
 
     companion object {
         const val TAG = "ConfigureGestureDialogFragment"
-        fun newInstance() = ConfigureGestureDialogFragment()
     }
+
+    private lateinit var binding: DialogFragmentConfigureGestureBinding
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.dialog_fragment_configure_gesture, container, false)
+    ): View {
+        binding = DialogFragmentConfigureGestureBinding.inflate(
+                inflater, container, false
+        )
+
+        binding.confGestureDeviceNameTv.text = device.name
+        binding.gestureConfigGestureNameTv.text = gesture.name
+
+        return binding.root
     }
 
 
