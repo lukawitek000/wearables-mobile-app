@@ -27,14 +27,14 @@ class CurrentMatchFragment : Fragment() {
         binding = FragmentCurrentMatchBinding.inflate(
                 inflater, container, false
         )
-//        view.findViewById<Button>(R.id.ask_team_bt).setOnClickListener {
-//            SelectTeamDialogFragment().show(childFragmentManager, SelectTeamDialogFragment.TAG)
-//        }
-//
-//
-//        view.findViewById<Button>(R.id.ask_player_bt).setOnClickListener {
-//            SelectPlayerDialogFragment().show(childFragmentManager, SelectPlayerDialogFragment.TAG)
-//        }
+        binding.simulateWhichTeamBn.setOnClickListener {
+            SelectTeamDialogFragment().show(childFragmentManager, SelectTeamDialogFragment.TAG)
+        }
+
+
+        binding.simulateWhichPlayerBn.setOnClickListener {
+            SelectPlayerDialogFragment().show(childFragmentManager, SelectPlayerDialogFragment.TAG)
+        }
 
         val rv = binding.liveActionsRv
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

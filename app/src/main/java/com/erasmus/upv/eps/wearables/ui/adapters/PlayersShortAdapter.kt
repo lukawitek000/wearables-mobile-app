@@ -7,7 +7,10 @@ import com.erasmus.upv.eps.wearables.databinding.ItemViewPlayerBinding
 import com.erasmus.upv.eps.wearables.databinding.ItemViewPlayerShortBinding
 import com.erasmus.upv.eps.wearables.model.Player
 
-class PlayersShortAdapter(private val players: List<Player>) : RecyclerView.Adapter<PlayersShortAdapter.PlayersShortViewHolder>() {
+class PlayersShortAdapter(
+        private val players: List<Player>,
+        private val choosePlayer: (player: Player) -> Unit = {}
+                          ) : RecyclerView.Adapter<PlayersShortAdapter.PlayersShortViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayersShortViewHolder {
@@ -21,6 +24,9 @@ class PlayersShortAdapter(private val players: List<Player>) : RecyclerView.Adap
     override fun onBindViewHolder(holder: PlayersShortViewHolder, position: Int) {
         holder.binding.playerNameTv.text = players[position].name
         holder.binding.playerNumberTv.text = players[position].number.toString()
+        holder.itemView.setOnClickListener {
+            choosePlayer.invoke(players[position])
+        }
     }
 
     override fun getItemCount(): Int = players.size
