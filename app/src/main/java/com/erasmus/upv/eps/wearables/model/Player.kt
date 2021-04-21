@@ -1,7 +1,11 @@
 package com.erasmus.upv.eps.wearables.model
 
+import androidx.room.Entity
+
+
+@Entity
 data class Player(
-    var id: String,
+    var id: Long,
     var name: String,
     var sport: String,
     var number: Int,

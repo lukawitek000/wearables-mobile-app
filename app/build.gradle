@@ -63,4 +63,12 @@ dependencies {
 
     kapt 'com.android.databinding:compiler:3.1.4'
 
+
+    def room_version = "2.3.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    // kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
+
+
 }
