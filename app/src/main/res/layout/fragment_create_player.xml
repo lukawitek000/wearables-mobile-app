@@ -8,47 +8,44 @@
     android:padding="8dp"
     tools:context=".ui.fragments.CreatePlayerFragment">
 
-    <Button
-        android:id="@+id/handball_bt"
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:id="@+id/sport_radio_group"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Handball"
-        app:layout_constraintEnd_toStartOf="@+id/basketball_bt"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/football_bt"
-        app:layout_constraintTop_toTopOf="@+id/football_bt" />
-
-    <Button
-        android:id="@+id/basketball_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Basketball"
+        android:checkedButton="@+id/football_radio_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/handball_bt"
-        app:layout_constraintTop_toTopOf="@+id/football_bt" />
-
-    <Button
-        android:id="@+id/football_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Football"
-        app:layout_constraintEnd_toStartOf="@+id/handball_bt"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/football_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Football" />
+
+        <RadioButton
+            android:id="@+id/handball_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Handball" />
+
+        <RadioButton
+            android:id="@+id/basketball_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="BasketBall" />
+    </RadioGroup>
 
 
     <LinearLayout
         android:id="@+id/player_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/football_bt">
+        app:layout_constraintTop_toBottomOf="@+id/sport_radio_group">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/player_name_tf"
@@ -58,6 +55,7 @@
             android:hint="Name">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/player_name_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -71,6 +69,8 @@
             android:hint="Number">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/player_number_et"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -85,6 +85,7 @@
             android:hint="Position">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/player_position_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -98,6 +99,7 @@
             android:hint="Other info">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/player_other_info_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
