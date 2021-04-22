@@ -2,11 +2,13 @@ package com.erasmus.upv.eps.wearables.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.databinding.ItemViewTeamBinding
 import com.erasmus.upv.eps.wearables.model.Team
 
-class TeamsAdapter(private val teams: List<Team>) : RecyclerView.Adapter<TeamsAdapter.TeamsViewHolder>() {
+class TeamsAdapter() : ListAdapter<Team, TeamsAdapter.TeamsViewHolder>(TeamsComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamsViewHolder {
         return TeamsViewHolder(
@@ -19,15 +21,26 @@ class TeamsAdapter(private val teams: List<Team>) : RecyclerView.Adapter<TeamsAd
     }
 
     override fun onBindViewHolder(holder: TeamsViewHolder, position: Int) {
-        holder.binding.teamNameAdapterTv.text = teams[position].name
-        holder.binding.teamCityAdapterTv.text = teams[position].city
+        holder.binding.teamNameAdapterTv.text = getItem(position).name
+        holder.binding.teamCityAdapterTv.text = getItem(position).city
     }
 
-    override fun getItemCount(): Int = teams.size
 
 
 
 
     inner class TeamsViewHolder(val binding: ItemViewTeamBinding) : RecyclerView.ViewHolder(binding.root)
+
+
+    class TeamsComparator : DiffUtil.ItemCallback<Team>(){
+        override fun areItemsTheSame(oldItem: Team, newItem: Team): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Team, newItem: Team): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+    }
 
 }

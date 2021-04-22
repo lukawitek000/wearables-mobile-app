@@ -15,4 +15,6 @@ class TeamRepository (
         }
     }
 
+    val allTeams = teamDao.getAllTeams()
+
 }
