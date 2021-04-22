@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.erasmus.upv.eps.wearables.db.AppDatabase
 import com.erasmus.upv.eps.wearables.db.dao.PlayerDao
+import com.erasmus.upv.eps.wearables.db.dao.TeamDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,4 +35,9 @@ object RoomModule {
     }
 
 
+    @Singleton
+    @Provides
+    fun provideTeamDao(wearablesDb: AppDatabase): TeamDao {
+        return wearablesDb.teamDao()
+    }
 }

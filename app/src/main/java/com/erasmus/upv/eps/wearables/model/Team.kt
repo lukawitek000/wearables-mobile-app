@@ -2,9 +2,12 @@ package com.erasmus.upv.eps.wearables.model
 
 import android.graphics.Color
 import android.net.Uri
+import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+@Entity
 data class Team (
+    @PrimaryKey(autoGenerate = true)
     val id: Long,
     val name: String,
     //val players: List<Player>,
