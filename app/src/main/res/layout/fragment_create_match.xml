@@ -79,8 +79,9 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/match_time_et"
-                android:imeOptions="actionNext"
-                android:inputType="time"
+                android:focusable="false"
+                android:clickable="false"
+                android:cursorVisible="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

@@ -1,6 +1,7 @@
 package com.erasmus.upv.eps.wearables.ui.fragments
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -24,14 +25,37 @@ class CreateMatchFragment : Fragment() {
         binding = FragmentCreateMatchBinding.inflate(inflater, container, false)
 
         handleDateInput()
+        handleTimeInput()
 
         return binding.root
     }
+
+    private fun handleTimeInput() {
+        binding.matchTimeEt.setOnClickListener {
+            createTimePicker()
+        }
+    }
+
 
     private fun handleDateInput() {
         binding.matchDateEt.setOnClickListener {
             createDataPicker()
         }
+    }
+
+
+    private fun createTimePicker() {
+        val calendar = Calendar.getInstance()
+        val timePickerDialog = TimePickerDialog(
+            requireContext(),
+            TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                binding.matchTimeEt.setText("$hourOfDay:$minute")
+            },
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            true
+        )
+        timePickerDialog.show()
     }
 
     private fun createDataPicker() {
