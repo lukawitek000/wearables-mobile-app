@@ -14,6 +14,34 @@
     android:padding="8dp"
     tools:context=".ui.fragments.CreateMatchFragment">
 
+    <RadioGroup
+        android:id="@+id/sport_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkedButton="@+id/football_radio_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/football_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Football" />
+
+        <RadioButton
+            android:id="@+id/handball_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Handball" />
+
+        <RadioButton
+            android:id="@+id/basketball_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="BasketBall" />
+    </RadioGroup>
+
 
     <LinearLayout
         android:id="@+id/matches_main_info_layout"
@@ -23,7 +51,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/football_bt">
+        app:layout_constraintTop_toBottomOf="@+id/sport_radio_group">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/date_tf"
@@ -33,6 +61,9 @@
             android:hint="Date">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/match_data_et"
+                android:imeOptions="actionNext"
+                android:inputType="date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -46,6 +77,9 @@
             android:hint="Time">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/match_time_et"
+                android:imeOptions="actionNext"
+                android:inputType="time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -60,6 +94,9 @@
             android:hint="Location">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/match_location_et"
+                android:imeOptions="actionNext"
+                android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -73,6 +110,9 @@
             android:hint="City">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/match_city_et"
+                android:imeOptions="actionNext"
+                android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -86,6 +126,9 @@
             android:hint="League">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/match_league_et"
+                android:imeOptions="actionNext"
+                android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -99,6 +142,9 @@
             android:hint="Other details">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/match_details_et"
+                android:imeOptions="actionDone"
+                android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -106,36 +152,7 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/handball_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Handball"
-        app:layout_constraintEnd_toStartOf="@+id/basketball_bt"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/football_bt"
-        app:layout_constraintTop_toTopOf="@+id/football_bt" />
 
-    <Button
-        android:id="@+id/basketball_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Basketball"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/handball_bt"
-        app:layout_constraintTop_toTopOf="@+id/football_bt" />
-
-    <Button
-        android:id="@+id/football_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Football"
-        app:layout_constraintEnd_toStartOf="@+id/handball_bt"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/select_team_label_tv"
