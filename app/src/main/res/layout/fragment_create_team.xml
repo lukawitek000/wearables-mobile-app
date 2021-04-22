@@ -11,46 +11,44 @@
         tools:context=".ui.fragments.CreateTeamFragment">
 
 
-        <Button
-            android:id="@+id/handball_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Handball"
-            app:layout_constraintEnd_toStartOf="@+id/basketball_bt"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/football_bt"
-            app:layout_constraintTop_toTopOf="@+id/football_bt" />
-
-        <Button
-            android:id="@+id/basketball_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Basketball"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/handball_bt"
-            app:layout_constraintTop_toTopOf="@+id/football_bt" />
-
-        <Button
-            android:id="@+id/football_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Football"
-            app:layout_constraintEnd_toStartOf="@+id/handball_bt"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/team_details_label_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="Team details"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/football_bt" />
+            app:layout_constraintTop_toBottomOf="@+id/sport_radio_group" />
+
+        <RadioGroup
+            android:id="@+id/sport_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/football_radio_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioButton
+                android:id="@+id/football_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Football" />
+
+            <RadioButton
+                android:id="@+id/handball_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Handball" />
+
+            <RadioButton
+                android:id="@+id/basketball_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="BasketBall" />
+        </RadioGroup>
+
 
         <LinearLayout
             android:id="@+id/team_details_layout"
@@ -78,6 +76,9 @@
                 android:hint="Name">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/team_name_et"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -91,6 +92,9 @@
                 android:hint="Country">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/team_country_et"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -104,6 +108,9 @@
                 android:hint="City">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/team_city_et"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -117,6 +124,9 @@
                 android:hint="Others">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/team_info_et"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
