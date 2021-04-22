@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
@@ -15,9 +16,11 @@ import com.erasmus.upv.eps.wearables.model.Match
 import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.ui.adapters.MatchesAdapter
+import com.erasmus.upv.eps.wearables.viewModels.MatchesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 
-
+@AndroidEntryPoint
 class MatchesFragment : Fragment() {
 
     companion object {
@@ -33,6 +36,8 @@ class MatchesFragment : Fragment() {
 
     private var matchesType = MatchTime.UPCOMING
 
+    private val viewModel: MatchesViewModel by viewModels()
+
 
 
     override fun onCreateView(
@@ -47,8 +52,20 @@ class MatchesFragment : Fragment() {
             matchesType = getSerializable(MATCH_TIME_KEY) as MatchTime
         }
         setUpMatchesRecyclerView()
-
+        loadDataFromDb()
         return binding.root
+    }
+
+    private fun loadDataFromDb() {
+        if(matchesType == MatchTime.UPCOMING) {
+            viewModel.getAllUpcomingMatches().observe(viewLifecycleOwner){
+                matchesAdapter.submitList(it)
+            }
+        }else{
+            viewModel.getAllUpcomingMatches().observe(viewLifecycleOwner){
+                matchesAdapter.submitList(it)
+            }
+        }
     }
 
     private fun setUpMatchesRecyclerView() {

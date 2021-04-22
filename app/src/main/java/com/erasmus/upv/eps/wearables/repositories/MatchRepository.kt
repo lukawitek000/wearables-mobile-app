@@ -16,4 +16,8 @@ class MatchRepository
             }
         }
 
+    var allMatches = matchDao.getAllMatches()
+
+
+
 }
