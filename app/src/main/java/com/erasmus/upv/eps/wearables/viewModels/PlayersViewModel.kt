@@ -14,12 +14,9 @@ class PlayersViewModel
     private val repository: PlayerRepository
 ) : ViewModel(){
 
-    var players = emptyList<Player>()
-
     fun getAllPlayers(): LiveData<List<Player>>{
         return repository.allPlayers.asLiveData()
     }
-
 
 
 }

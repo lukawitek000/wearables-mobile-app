@@ -33,7 +33,6 @@ class PlayersFragment : Fragment() {
         }
 
         setUpRecyclerView()
-        loadPlayersFromDb()
         listenToDbChanges()
 
         return binding.root
@@ -41,16 +40,10 @@ class PlayersFragment : Fragment() {
 
     private fun listenToDbChanges() {
         viewModel.getAllPlayers().observe(viewLifecycleOwner){
-            //viewModel.players = it
-            //playersAdapter.notifyDataSetChanged()
-          //  playersAdapter.
             playersAdapter.submitList(it)
         }
     }
 
-    private fun loadPlayersFromDb() {
-
-    }
 
     private fun setUpRecyclerView() {
         val rv = binding.playersRv
