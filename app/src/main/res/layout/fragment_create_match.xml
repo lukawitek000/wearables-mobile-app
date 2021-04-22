@@ -61,9 +61,10 @@
             android:hint="Date">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/match_data_et"
-                android:imeOptions="actionNext"
-                android:inputType="date"
+                android:id="@+id/match_date_et"
+                android:focusable="false"
+                android:clickable="false"
+                android:cursorVisible="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
