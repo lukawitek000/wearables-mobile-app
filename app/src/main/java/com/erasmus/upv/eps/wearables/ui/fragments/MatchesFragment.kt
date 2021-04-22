@@ -53,17 +53,12 @@ class MatchesFragment : Fragment() {
 
     private fun setUpMatchesRecyclerView() {
         binding.matchesRv.layoutManager = LinearLayoutManager(requireContext())
-        matchesAdapter = MatchesAdapter(getMatchesList()) {
+        matchesAdapter = MatchesAdapter() {
             handleClickOnMatchesRecyclerView(it)
         }
         binding.matchesRv.adapter = matchesAdapter
     }
 
-    private fun getMatchesList() = if(matchesType == MatchTime.UPCOMING){
-        upcomingMatches
-    }else{
-        pastMatches
-    }
 
     private fun handleClickOnMatchesRecyclerView(match: Match){
         if(matchesType ==  MatchTime.UPCOMING) {
@@ -90,89 +85,3 @@ class MatchesFragment : Fragment() {
 
 
 }
-
-
-
-
-
-val upcomingMatches = listOf<Match>(
-//    Match(
-//        id = "1",
-//        guestTeam = Team("1", "LKS",
-//            listOf(Player(1L, "Adam", "Football", 10, "GK")),
-//            "Football", Color.CYAN, "Poland", "Lodz", null, "Other info"),
-//        homeTeam = Team("2", "Widzew", listOf(Player(2L, "Piotr", "Football", 9, "CF")),
-//            "Football", Color.BLUE, "Poland", "Lodz", null, "Other info 2"),
-//        date = LocalDate.of(2021, 5, 12),
-//        location = "Lodz",
-//        sport = "Football",
-//        league = "Ekstraklasa",
-//        otherDetails = "Some details",
-//    ),
-//    Match(
-//        id = "2",
-//        guestTeam = Team("1", "LKS",
-//            listOf(Player(1L, "Adam", "Football", 10, "GK")),
-//            "Football", Color.CYAN, "Poland", "Lodz", null, "Other info"),
-//        homeTeam = Team("2", "Widzew", listOf(Player(2L, "Piotr", "Football", 9, "CF")),
-//            "Football", Color.BLUE, "Poland", "Lodz", null, "Other info 2"),
-//        date = LocalDate.of(2021, 6, 2),
-//        location = "Lodz",
-//        sport = "Football",
-//        league = "Ekstraklasa",
-//        otherDetails = "Some details",
-//    ), Match(
-//        id = "3",
-//        guestTeam = Team("1", "LKS",
-//            listOf(Player(1L, "Adam", "Football", 10, "GK")),
-//            "Football", Color.CYAN, "Poland", "Lodz", null, "Other info"),
-//        homeTeam = Team("2", "Widzew", listOf(Player(2L, "Piotr", "Football", 9, "CF")),
-//            "Football", Color.BLUE, "Poland", "Lodz", null, "Other info 2"),
-//        date = LocalDate.of(2021, 10, 20),
-//        location = "Lodz",
-//        sport = "Football",
-//        league = "Ekstraklasa",
-//        otherDetails = "Some details",
-//    )
-)
-
-private val pastMatches = listOf<Match>(
-//    Match(
-//        id = "10",
-//        guestTeam = Team("1", "LKS",
-//            listOf(Player(1L, "Adam", "Football", 10, "GK")),
-//            "Football", Color.CYAN, "Poland", "Lodz", null, "Other info"),
-//        homeTeam = Team("2", "Widzew", listOf(Player(2L, "Piotr", "Football", 9, "CF")),
-//            "Football", Color.BLUE, "Poland", "Lodz", null, "Other info 2"),
-//        date = LocalDate.of(2021, 1, 2),
-//        location = "Lodz",
-//        sport = "Football",
-//        league = "Ekstraklasa",
-//        otherDetails = "Some details",
-//    ),
-//    Match(
-//        id = "20",
-//        guestTeam = Team("1", "LKS",
-//            listOf(Player(1L, "Adam", "Football", 10, "GK")),
-//            "Football", Color.CYAN, "Poland", "Lodz", null, "Other info"),
-//        homeTeam = Team("2", "Widzew", listOf(Player(2L, "Piotr", "Football", 9, "CF")),
-//            "Football", Color.BLUE, "Poland", "Lodz", null, "Other info 2"),
-//        date = LocalDate.of(2020, 1, 20),
-//        location = "Lodz",
-//        sport = "Football",
-//        league = "Ekstraklasa",
-//        otherDetails = "Some details",
-//    ), Match(
-//        id = "30",
-//        guestTeam = Team("1", "LKS Past",
-//            listOf(Player(1L, "Adam", "Football", 10, "GK")),
-//            "Football", Color.CYAN, "Poland", "Lodz", null, "Other info"),
-//        homeTeam = Team("2", "Widzew", listOf(Player(2L, "Piotr", "Football", 9, "CF")),
-//            "Football", Color.BLUE, "Poland", "Lodz", null, "Other info 2"),
-//        date = LocalDate.of(2021, 2, 11),
-//        location = "Lodz",
-//        sport = "Football",
-//        league = "Ekstraklasa",
-//        otherDetails = "Some details",
-//    )
-)
