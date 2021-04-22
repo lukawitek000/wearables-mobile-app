@@ -3,6 +3,7 @@ package com.erasmus.upv.eps.wearables.di
 import android.content.Context
 import androidx.room.Room
 import com.erasmus.upv.eps.wearables.db.AppDatabase
+import com.erasmus.upv.eps.wearables.db.dao.MatchDao
 import com.erasmus.upv.eps.wearables.db.dao.PlayerDao
 import com.erasmus.upv.eps.wearables.db.dao.TeamDao
 import dagger.Module
@@ -40,4 +41,12 @@ object RoomModule {
     fun provideTeamDao(wearablesDb: AppDatabase): TeamDao {
         return wearablesDb.teamDao()
     }
+
+    @Singleton
+    @Provides
+    fun provideMatchDao(wearablesDb: AppDatabase): MatchDao {
+        return wearablesDb.matchDao()
+    }
+
+
 }

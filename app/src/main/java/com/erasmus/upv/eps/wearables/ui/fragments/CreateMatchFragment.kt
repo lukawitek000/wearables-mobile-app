@@ -9,14 +9,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreateMatchBinding
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreatePlayerBinding
+import com.erasmus.upv.eps.wearables.model.Match
+import com.erasmus.upv.eps.wearables.viewModels.CreateMatchViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+@AndroidEntryPoint
 class CreateMatchFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateMatchBinding
+    private val viewModel: CreateMatchViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,8 +34,35 @@ class CreateMatchFragment : Fragment() {
 
         handleDateInput()
         handleTimeInput()
+        createMatch()
 
         return binding.root
+    }
+
+    private fun createMatch() {
+        binding.doneCreatingMatchFb.setOnClickListener {
+            viewModel.createMatch(getMatchFromUserInput())
+            Toast.makeText(requireContext(), "Match created", Toast.LENGTH_SHORT).show()
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun getMatchFromUserInput(): Match {
+        return Match(
+            0L,
+            binding.matchDateEt.text.toString(),
+            binding.matchTimeEt.text.toString(),
+            binding.matchLocationEt.text.toString(),
+            getSelectedSport(),
+            binding.matchLeagueEt.text.toString(),
+            binding.matchDetailsEt.text.toString()
+        )
+    }
+
+    private fun getSelectedSport(): String  = when(binding.sportRadioGroup.checkedRadioButtonId){
+        R.id.football_radio_button -> "Football"
+        R.id.handball_radio_button -> "Handball"
+        else -> "Basketball"
     }
 
     private fun handleTimeInput() {

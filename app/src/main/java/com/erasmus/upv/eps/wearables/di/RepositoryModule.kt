@@ -1,8 +1,10 @@
 package com.erasmus.upv.eps.wearables.di
 
 import com.erasmus.upv.eps.wearables.WearablesApplication_HiltComponents
+import com.erasmus.upv.eps.wearables.db.dao.MatchDao
 import com.erasmus.upv.eps.wearables.db.dao.PlayerDao
 import com.erasmus.upv.eps.wearables.db.dao.TeamDao
+import com.erasmus.upv.eps.wearables.repositories.MatchRepository
 import com.erasmus.upv.eps.wearables.repositories.PlayerRepository
 import com.erasmus.upv.eps.wearables.repositories.TeamRepository
 import dagger.Module
@@ -29,5 +31,9 @@ object RepositoryModule {
         return TeamRepository(teamDao)
     }
 
-
+    @Singleton
+    @Provides
+    fun provideMatchRepository(matchDao: MatchDao): MatchRepository {
+        return MatchRepository(matchDao)
+    }
 }
