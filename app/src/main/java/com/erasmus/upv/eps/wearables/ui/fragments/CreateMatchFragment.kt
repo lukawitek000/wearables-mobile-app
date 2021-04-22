@@ -50,8 +50,7 @@ class CreateMatchFragment : Fragment() {
     private fun getMatchFromUserInput(): Match {
         return Match(
             0L,
-            binding.matchDateEt.text.toString(),
-            binding.matchTimeEt.text.toString(),
+            Date(),
             binding.matchLocationEt.text.toString(),
             getSelectedSport(),
             binding.matchLeagueEt.text.toString(),
@@ -85,6 +84,7 @@ class CreateMatchFragment : Fragment() {
             requireContext(),
             TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
                 binding.matchTimeEt.setText("$hourOfDay:$minute")
+                setMatchTime(hourOfDay, minute)
             },
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
@@ -93,14 +93,28 @@ class CreateMatchFragment : Fragment() {
         timePickerDialog.show()
     }
 
+    private fun setMatchTime(hourOfDay: Int, minute: Int) {
+        viewModel.matchDate.set(
+            viewModel.matchDate.get(Calendar.YEAR),
+            viewModel.matchDate.get(Calendar.MONTH),
+            viewModel.matchDate.get(Calendar.DAY_OF_MONTH),
+            hourOfDay,
+            minute
+            )
+    }
+
     private fun createDataPicker() {
         val calendar = Calendar.getInstance()
 
         val datePickerDialog = DatePickerDialog(
-            requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                Log.i("CreateMatchFragment", "createDataPicker: $year - $month - $dayOfMonth")
+            requireContext(),
+            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                 binding.matchDateEt.setText("$dayOfMonth-${month + 1}-$year")
-            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
+                viewModel.matchDate.set(year, month, dayOfMonth)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
         )
         datePickerDialog.datePicker.minDate = Date().time
         datePickerDialog.show()

@@ -14,7 +14,7 @@ import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.model.Team
 
 
-@Database(entities = [Player::class, Team::class, Match::class], version = 4)
+@Database(entities = [Player::class, Team::class, Match::class], version = 5)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

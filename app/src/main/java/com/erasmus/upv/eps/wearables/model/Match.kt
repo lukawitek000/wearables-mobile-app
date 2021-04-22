@@ -11,7 +11,7 @@ data class Match(
     val id: Long,
     //val guestTeam: Team,
     //val homeTeam: Team,
-    val date: Date,
+    var date: Date,
     val location: String,
     val sport: String,
     val league: String,
