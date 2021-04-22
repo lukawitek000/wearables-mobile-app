@@ -10,8 +10,9 @@ import androidx.fragment.app.viewModels
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreatePlayerBinding
 import com.erasmus.upv.eps.wearables.viewModels.CreatePlayerViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class CreatePlayerFragment : Fragment() {
 
 

@@ -3,10 +3,12 @@ package com.erasmus.upv.eps.wearables.viewModels
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.repositories.PlayerRepository
 import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,6 +32,13 @@ class CreatePlayerViewModel
         player.number = number
         player.position = position
         player.otherInfo = otherInfo
+        savePlayerToDatabase()
+    }
+
+    private fun savePlayerToDatabase() {
+        viewModelScope.launch {
+            repository.savePlayer(player)
+        }
     }
 
 
