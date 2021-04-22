@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.erasmus.upv.eps.wearables.R
@@ -17,7 +18,9 @@ import com.erasmus.upv.eps.wearables.databinding.FragmentCreateMatchBinding
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreatePlayerBinding
 import com.erasmus.upv.eps.wearables.model.Match
 import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
+import com.erasmus.upv.eps.wearables.util.TeamCreated
 import com.erasmus.upv.eps.wearables.viewModels.CreateMatchViewModel
+import com.erasmus.upv.eps.wearables.viewModels.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,7 +29,8 @@ import java.util.*
 class CreateMatchFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateMatchBinding
-    private val viewModel: CreateMatchViewModel by viewModels()
+    private val viewModel: CreateMatchViewModel by activityViewModels()
+   // private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,14 +41,36 @@ class CreateMatchFragment : Fragment() {
         handleDateInput()
         handleTimeInput()
         createMatch()
+        addHomeTeam()
+        addGuestTeam()
+
+        binding.doneCreatingMatchFb.isEnabled = viewModel.areBothTeamsAdded()
+
 
         return binding.root
+    }
+
+    private fun addGuestTeam() {
+        binding.chooseGuestTeamBt.setOnClickListener {
+            viewModel.match = getMatchFromUserInput()
+            val destination = CreateMatchFragmentDirections.actionCreateMatchFragmentToTeamsFragment(TeamCreated.GUEST_TEAM)
+            findNavController().navigate(destination)
+        }
+    }
+
+    private fun addHomeTeam() {
+        binding.chooseHomeTeamBt.setOnClickListener {
+            viewModel.match = getMatchFromUserInput()
+            val destination = CreateMatchFragmentDirections.actionCreateMatchFragmentToTeamsFragment(TeamCreated.HOME_TEAM)
+            findNavController().navigate(destination)
+        }
     }
 
     private fun createMatch() {
         binding.doneCreatingMatchFb.setOnClickListener {
             viewModel.createMatch(getMatchFromUserInput())
             Toast.makeText(requireContext(), "Match created", Toast.LENGTH_SHORT).show()
+            Log.i("CreateMatchFragment", "createMatch: ${viewModel.match} \n- home team ${viewModel.homeTeam} \n -guest team ${viewModel.guestTeam}")
             findNavController().navigateUp()
         }
     }

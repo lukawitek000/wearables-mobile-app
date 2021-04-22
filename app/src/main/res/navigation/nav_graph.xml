@@ -85,12 +85,20 @@
         <action
             android:id="@+id/action_teamsFragment_to_createTeamFragment"
             app:destination="@id/createTeamFragment" />
+        <argument
+            android:name="teamCreated"
+            app:argType="com.erasmus.upv.eps.wearables.util.TeamCreated"
+            android:defaultValue="NONE" />
     </fragment>
     <fragment
         android:id="@+id/createMatchFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.CreateMatchFragment"
         android:label="Create Match"
-        tools:layout="@layout/fragment_create_match" />
+        tools:layout="@layout/fragment_create_match" >
+        <action
+            android:id="@+id/action_createMatchFragment_to_teamsFragment"
+            app:destination="@id/teamsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createTeamFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.CreateTeamFragment"
