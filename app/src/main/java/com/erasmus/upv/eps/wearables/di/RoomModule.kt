@@ -23,7 +23,8 @@ object RoomModule {
             context,
             AppDatabase::class.java,
             "Wearables-Database"
-        ).build()
+        ).fallbackToDestructiveMigration()
+            .build()
     }
 
     @Singleton

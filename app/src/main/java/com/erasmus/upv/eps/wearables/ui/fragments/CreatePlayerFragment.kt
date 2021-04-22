@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreatePlayerBinding
 import com.erasmus.upv.eps.wearables.viewModels.CreatePlayerViewModel
@@ -65,6 +67,8 @@ class CreatePlayerFragment : Fragment() {
                     binding.playerOtherInfoEt.text.toString()
             )
             Log.i("CreatePlayerFragment", "setSavePlayerListener: ${viewModel.player}")
+            findNavController().navigateUp()
+            Toast.makeText(requireContext(), "Player saved", Toast.LENGTH_SHORT).show()
         }
     }
 
