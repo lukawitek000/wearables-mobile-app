@@ -33,10 +33,10 @@ class CreateTeamFragment : Fragment() {
 }
 
 val players = listOf<Player>(
-        Player("1", "Adam", "Football", 1, "GK"),
-        Player("2", "Lukasz", "Football", 22, "GK"),
-        Player("3", "Lewandowski", "Football", 9, "CF"),
-        Player("4", "Robert", "Football", 11, "RM"),
-        Player("5", "Piotr", "Football", 89, "CM"),
-        Player("6", "Dennys", "Football", 99, "CB")
+        Player(1L, "Adam", "Football", 1, "GK"),
+        Player(2L, "Lukasz", "Football", 22, "GK"),
+        Player(3L, "Lewandowski", "Football", 9, "CF"),
+        Player(4L, "Robert", "Football", 11, "RM"),
+        Player(5L, "Piotr", "Football", 89, "CM"),
+        Player(6L, "Dennys", "Football", 99, "CB")
 )

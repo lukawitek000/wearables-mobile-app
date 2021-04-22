@@ -42,18 +42,18 @@ class TeamsFragment : Fragment() {
 
 
 val teams = listOf<Team>(
-        Team("2", "Widzew", listOf(Player("2", "Piotr", "Football", 9, "CF")),
+        Team("2", "Widzew", listOf(Player(2L, "Piotr", "Football", 9, "CF")),
                 "Football", Color.BLUE, "Poland", "Lodz", null, "Other info 2"),
-        Team("2", "LKS", listOf(Player("2", "Piotr", "Football", 9, "CF")),
+        Team("2", "LKS", listOf(Player(2L, "Piotr", "Football", 9, "CF")),
                 "Football", Color.BLUE, "Poland", "Lodz", null, "Other info 2"),
-        Team("2", "Levante", listOf(Player("2", "Piotr", "Football", 9, "CF")),
+        Team("2", "Levante", listOf(Player(2L, "Piotr", "Football", 9, "CF")),
                 "Football", Color.BLUE, "Poland", "Valencia", null, "Other info 2"),
-        Team("2", "Real Madrid", listOf(Player("2", "Piotr", "Football", 9, "CF")),
+        Team("2", "Real Madrid", listOf(Player(2L, "Piotr", "Football", 9, "CF")),
                 "Football", Color.BLUE, "Poland", "Madrid", null, "Other info 2"),
-        Team("2", "Chelsea", listOf(Player("2", "Piotr", "Football", 9, "CF")),
+        Team("2", "Chelsea", listOf(Player(2L, "Piotr", "Football", 9, "CF")),
                 "Football", Color.BLUE, "Poland", "London", null, "Other info 2"),
-        Team("2", "Lech Poznan", listOf(Player("2", "Piotr", "Football", 9, "CF")),
+        Team("2", "Lech Poznan", listOf(Player(2L, "Piotr", "Football", 9, "CF")),
                 "Football", Color.BLUE, "Poland", "Poznan", null, "Other info 2"),
-        Team("2", "PSG", listOf(Player("2", "Piotr", "Football", 9, "CF")),
+        Team("2", "PSG", listOf(Player(2L, "Piotr", "Football", 9, "CF")),
                 "Football", Color.BLUE, "Poland", "Paris", null, "Other info 2")
 )
