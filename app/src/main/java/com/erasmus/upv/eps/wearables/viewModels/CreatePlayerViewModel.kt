@@ -1,9 +1,20 @@
 package com.erasmus.upv.eps.wearables.viewModels
 
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.erasmus.upv.eps.wearables.model.Player
+import com.erasmus.upv.eps.wearables.repositories.PlayerRepository
+import dagger.assisted.Assisted
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class CreatePlayerViewModel : ViewModel() {
+@HiltViewModel
+class CreatePlayerViewModel
+@Inject constructor(
+        private val repository: PlayerRepository,
+        private val savedStateHandle: SavedStateHandle
+    ): ViewModel() {
 
 
     val player = Player(0L, "", "", 0, "")

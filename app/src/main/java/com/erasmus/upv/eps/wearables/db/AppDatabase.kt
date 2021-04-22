@@ -12,15 +12,4 @@ import com.erasmus.upv.eps.wearables.model.Player
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playerDao(): PlayerDao
-
-    companion object{
-        fun createAppDatabase(context: Context): AppDatabase{
-            return Room.databaseBuilder(
-                    context,
-                    AppDatabase::class.java,
-                    "Wearables-Database"
-            ).build()
-        }
-    }
-
 }
