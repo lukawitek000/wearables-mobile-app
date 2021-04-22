@@ -3,6 +3,7 @@ package com.erasmus.upv.eps.wearables.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalDate
+import java.util.*
 
 @Entity
 data class Match(
@@ -10,8 +11,7 @@ data class Match(
     val id: Long,
     //val guestTeam: Team,
     //val homeTeam: Team,
-    val date: String,
-    val time: String,
+    val date: Date,
     val location: String,
     val sport: String,
     val league: String,
