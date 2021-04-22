@@ -16,8 +16,10 @@ import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreateMatchBinding
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreatePlayerBinding
 import com.erasmus.upv.eps.wearables.model.Match
+import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
 import com.erasmus.upv.eps.wearables.viewModels.CreateMatchViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -83,8 +85,8 @@ class CreateMatchFragment : Fragment() {
         val timePickerDialog = TimePickerDialog(
             requireContext(),
             TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-                binding.matchTimeEt.setText("$hourOfDay:$minute")
                 setMatchTime(hourOfDay, minute)
+                binding.matchTimeEt.setText(DateTimeFormatter.displayTime(viewModel.matchDate.timeInMillis))
             },
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
@@ -109,8 +111,8 @@ class CreateMatchFragment : Fragment() {
         val datePickerDialog = DatePickerDialog(
             requireContext(),
             DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                binding.matchDateEt.setText("$dayOfMonth-${month + 1}-$year")
                 viewModel.matchDate.set(year, month, dayOfMonth)
+                binding.matchDateEt.setText(DateTimeFormatter.displayDate(viewModel.matchDate.timeInMillis))
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),

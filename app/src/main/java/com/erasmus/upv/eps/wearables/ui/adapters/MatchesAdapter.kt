@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.databinding.ItemViewMatchBinding
 import com.erasmus.upv.eps.wearables.model.Match
+import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,7 +37,7 @@ class MatchesAdapter(private val onClick: (match: Match) -> Unit) : ListAdapter<
         val monthDate = SimpleDateFormat("MMM")
         val monthName: String = monthDate.format(c.time)
         holder.binding.monthNameTv.text = monthName
-        holder.binding.matchTimeTv.text = "${c.get(Calendar.HOUR_OF_DAY)}:${c.get(Calendar.MINUTE)}"
+        holder.binding.matchTimeTv.text = DateTimeFormatter.displayTime(c.timeInMillis)
         holder.itemView.setOnClickListener { onClick.invoke(getItem(position)) }
     }
 

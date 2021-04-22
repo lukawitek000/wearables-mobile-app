@@ -25,6 +25,6 @@ class CreateMatchViewModel
             repository.insertMatch(match)
         }
     }
-    
+
 
 }
