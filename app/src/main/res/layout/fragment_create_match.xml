@@ -218,13 +218,13 @@
         android:text="Choose home team"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/select_home_team_color_hsv" />
+        app:layout_constraintTop_toBottomOf="@+id/home_team_selected" />
 
     <TextView
         android:id="@+id/label_guest_team_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Guest Team"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/choose_home_team_bt" />
@@ -234,7 +234,6 @@
         android:id="@+id/select_guest_team_color_hsv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/label_guest_team_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/label_guest_team_tv"
         app:layout_constraintTop_toTopOf="@+id/label_guest_team_tv">
@@ -266,15 +265,39 @@
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
+
+    <include
+        android:id="@+id/home_team_selected"
+        layout="@layout/item_view_team"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_home_team_tv" />
+
+    <include
+        android:id="@+id/guest_team_selected"
+        layout="@layout/item_view_team"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/select_guest_team_color_hsv" />
+
     <Button
         android:id="@+id/choose_guest_team_bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Choose guest team"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/select_guest_team_color_hsv" />
+        app:layout_constraintTop_toBottomOf="@+id/guest_team_selected" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/done_creating_match_fb"

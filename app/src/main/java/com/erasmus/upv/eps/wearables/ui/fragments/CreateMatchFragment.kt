@@ -16,7 +16,9 @@ import androidx.navigation.fragment.findNavController
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreateMatchBinding
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreatePlayerBinding
+import com.erasmus.upv.eps.wearables.databinding.ItemViewTeamBinding
 import com.erasmus.upv.eps.wearables.model.Match
+import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
 import com.erasmus.upv.eps.wearables.util.TeamCreated
 import com.erasmus.upv.eps.wearables.viewModels.CreateMatchViewModel
@@ -45,10 +47,22 @@ class CreateMatchFragment : Fragment() {
         addGuestTeam()
 
         binding.doneCreatingMatchFb.isEnabled = viewModel.areBothTeamsAdded()
-
+        populateTeamLayout(viewModel.homeTeam, binding.homeTeamSelected)
+        populateTeamLayout(viewModel.guestTeam, binding.guestTeamSelected)
 
         return binding.root
     }
+
+    private fun populateTeamLayout(team: Team?, teamSelectedLayout: ItemViewTeamBinding) {
+        if(team == null){
+            teamSelectedLayout.itemViewTeamLayout.visibility = View.GONE
+            return
+        }
+        teamSelectedLayout.itemViewTeamLayout.visibility = View.VISIBLE
+        teamSelectedLayout.teamNameAdapterTv.text = team.name
+        teamSelectedLayout.teamCityAdapterTv.text = team.city
+    }
+
 
     private fun addGuestTeam() {
         binding.chooseGuestTeamBt.setOnClickListener {
@@ -148,5 +162,6 @@ class CreateMatchFragment : Fragment() {
         datePickerDialog.show()
 
     }
+
 
 }
