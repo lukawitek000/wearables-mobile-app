@@ -5,16 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreateTeamBinding
 import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.ui.adapters.PlayersShortAdapter
+import com.erasmus.upv.eps.wearables.viewModels.CreateTeamViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class CreateTeamFragment : Fragment() {
 
 
     private lateinit var binding: FragmentCreateTeamBinding
+    private val viewModel: CreateTeamViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
