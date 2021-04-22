@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wearables">
         <service android:name=".service.BLEConnectionForegroundService"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
