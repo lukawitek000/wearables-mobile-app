@@ -56,8 +56,10 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/player_name_et"
+                android:inputType="text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,7 +74,8 @@
                 android:id="@+id/player_number_et"
                 android:inputType="number"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,7 +90,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/player_position_et"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:imeOptions="actionNext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,7 +106,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/player_other_info_et"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:imeOptions="actionDone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
