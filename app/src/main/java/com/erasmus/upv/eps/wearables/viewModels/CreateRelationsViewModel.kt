@@ -8,6 +8,7 @@ import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.repositories.MatchRepository
 import com.erasmus.upv.eps.wearables.repositories.PlayerRepository
+import com.erasmus.upv.eps.wearables.util.TeamCreated
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.*
@@ -24,7 +25,8 @@ class CreateRelationsViewModel
 
     var isCreatingTeam = false
     val teamPlayers = mutableListOf<Player>()
-    
+    var whichTeamIsCreated = TeamCreated.NONE
+
 
     fun areBothTeamsAdded(): Boolean {
         return (homeTeam != null && guestTeam != null)

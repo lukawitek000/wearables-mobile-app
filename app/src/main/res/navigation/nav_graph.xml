@@ -92,10 +92,6 @@
         <action
             android:id="@+id/action_teamsFragment_to_createTeamFragment"
             app:destination="@id/createTeamFragment" />
-        <argument
-            android:name="teamCreated"
-            app:argType="com.erasmus.upv.eps.wearables.util.TeamCreated"
-            android:defaultValue="NONE" />
         <action
             android:id="@+id/action_teamsFragment_to_teamInfoFragment"
             app:destination="@id/teamInfoFragment" />

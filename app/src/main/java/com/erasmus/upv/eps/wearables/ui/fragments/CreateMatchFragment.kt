@@ -69,15 +69,15 @@ class CreateMatchFragment : Fragment() {
 
     private fun addGuestTeam() {
         binding.chooseGuestTeamBt.setOnClickListener {
-            val destination = CreateMatchFragmentDirections.actionCreateMatchFragmentToTeamsFragment(TeamCreated.GUEST_TEAM)
-            findNavController().navigate(destination)
+            sharedViewModel.whichTeamIsCreated = TeamCreated.GUEST_TEAM
+            findNavController().navigate(R.id.action_createMatchFragment_to_teamsFragment)
         }
     }
 
     private fun addHomeTeam() {
         binding.chooseHomeTeamBt.setOnClickListener {
-            val destination = CreateMatchFragmentDirections.actionCreateMatchFragmentToTeamsFragment(TeamCreated.HOME_TEAM)
-            findNavController().navigate(destination)
+            sharedViewModel.whichTeamIsCreated = TeamCreated.HOME_TEAM
+            findNavController().navigate(R.id.action_createMatchFragment_to_teamsFragment)
         }
     }
 

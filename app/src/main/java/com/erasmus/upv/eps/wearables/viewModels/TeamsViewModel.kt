@@ -16,8 +16,6 @@ class TeamsViewModel
     private val repository: TeamRepository
 ): ViewModel(){
 
-    var teamCreated = TeamCreated.NONE
-
     fun getAllTeams(): LiveData<List<Team>>{
         return repository.allTeams.asLiveData()
     }

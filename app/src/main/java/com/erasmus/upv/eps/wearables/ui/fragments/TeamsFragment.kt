@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentTeamsBinding
+import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.ui.adapters.TeamsAdapter
 import com.erasmus.upv.eps.wearables.util.TeamCreated
 import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
@@ -28,7 +29,7 @@ class TeamsFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
 
         binding = FragmentTeamsBinding.inflate(inflater, container, false)
 
@@ -38,12 +39,6 @@ class TeamsFragment : Fragment() {
 
         setUpTeamsRecyclerView()
         loadDataFromDb()
-
-        if(arguments != null){
-            val args = TeamsFragmentArgs.fromBundle(requireArguments())
-            Toast.makeText(requireContext() ,"args ${args.teamCreated}", Toast.LENGTH_SHORT).show()
-            viewModel.teamCreated = args.teamCreated
-        }
 
         return binding.root
     }
@@ -56,25 +51,30 @@ class TeamsFragment : Fragment() {
 
     private fun setUpTeamsRecyclerView() {
         val rv = binding.teamsRv
-        adapter = TeamsAdapter(onClick = {
-            if(viewModel.teamCreated == TeamCreated.NONE){
-                return@TeamsAdapter
-            }
-            if(viewModel.teamCreated == TeamCreated.HOME_TEAM){
-                sharedViewModel.homeTeam = it
-                Toast.makeText(requireContext(), "Home team selected", Toast.LENGTH_SHORT).show()
-            }else{
-                sharedViewModel.guestTeam = it
-                Toast.makeText(requireContext(), "Guest team selected", Toast.LENGTH_SHORT).show()
-            }
-            findNavController().navigateUp()
-        }, onInfoClick ={
-            val direction = TeamsFragmentDirections.actionTeamsFragmentToTeamInfoFragment(it.teamId)
-            findNavController().navigate(direction)
-        })
+        adapter = TeamsAdapter(onClick = this::selectTeamListener, onInfoClick = this::teamInfoClickListener)
         rv.adapter = adapter
         rv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
+
+    private fun selectTeamListener(team: Team){
+        if(sharedViewModel.whichTeamIsCreated == TeamCreated.NONE){
+            return
+        }
+        if(sharedViewModel.whichTeamIsCreated == TeamCreated.HOME_TEAM){
+            sharedViewModel.homeTeam = team
+            Toast.makeText(requireContext(), "Home team selected", Toast.LENGTH_SHORT).show()
+        }else{
+            sharedViewModel.guestTeam = team
+            Toast.makeText(requireContext(), "Guest team selected", Toast.LENGTH_SHORT).show()
+        }
+        findNavController().navigateUp()
+    }
+
+    private fun teamInfoClickListener(team: Team){
+        val direction = TeamsFragmentDirections.actionTeamsFragmentToTeamInfoFragment(team.teamId)
+        findNavController().navigate(direction)
+    }
+
 
 }
