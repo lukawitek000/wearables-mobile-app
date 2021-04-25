@@ -1,12 +1,10 @@
 package com.erasmus.upv.eps.wearables.viewModels
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.repositories.PlayerRepository
-import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +17,7 @@ class CreatePlayerViewModel
     ): ViewModel() {
 
 
-    val player = Player(0L, "", "", 0, "")
+    val player = Player(0L, 0L, "", "", 0, "")
 
     fun setPlayersSport(sport: String){
         player.sport = sport
@@ -27,7 +25,7 @@ class CreatePlayerViewModel
 
 
     fun createPlayer(name: String, number: Int, position: String, otherInfo: String){
-        player.id = 0L
+        player.playerId = 0L
         player.name = name
         player.number = number
         player.position = position

@@ -1,10 +1,8 @@
 package com.erasmus.upv.eps.wearables.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.erasmus.upv.eps.wearables.model.Team
+import com.erasmus.upv.eps.wearables.model.TeamWithPlayers
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,5 +14,9 @@ interface TeamDao {
 
     @Query("SELECT * FROM Team")
     fun getAllTeams(): Flow<List<Team>>
+
+    @Transaction
+    @Query("SELECT * FROM Team WHERE teamId == :teamId")
+    fun getTeamWithPlayers(teamId: Long) : TeamWithPlayers
 
 }

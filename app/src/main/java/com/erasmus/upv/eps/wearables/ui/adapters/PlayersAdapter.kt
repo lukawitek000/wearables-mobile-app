@@ -35,7 +35,7 @@ class PlayersAdapter: ListAdapter<Player, PlayersAdapter.PlayersViewHolder>(Play
         }
 
         override fun areContentsTheSame(oldItem: Player, newItem: Player): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.playerId == newItem.playerId
         }
 
     }

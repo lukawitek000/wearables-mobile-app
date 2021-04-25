@@ -44,27 +44,27 @@ class SelectPlayerDialogFragment : BottomSheetDialogFragment() {
 
 private val players = listOf<Player>(
         Player(
-                1L, "Luke", "Football", 1, "Gk"
+                1L, 1L,"Luke", "Football", 1, "Gk"
         ),
         Player(
-                2L, "Piotr", "Football", 12, "Gk"
+                2L,1L, "Piotr", "Football", 12, "Gk"
         ),
         Player(
-                3L, "qweqwe", "Football", 120, "Gk"
+                3L, 1L,"qweqwe", "Football", 120, "Gk"
         ),
         Player(
-                3L, "ertg", "Football", 1200, "Gk"
+                3L, 1L,"ertg", "Football", 1200, "Gk"
         ),
         Player(
-                3L, "dsfg", "Football", 12000, "Gk"
+                3L, 1L,"dsfg", "Football", 12000, "Gk"
         ),
         Player(
-                3L, "sdhf", "Football", 120000, "Gk"
+                3L, 1L,"sdhf", "Football", 120000, "Gk"
         ),
         Player(
-                3L, "dghs", "Football", 1200000, "Gk"
+                3L, 1L,"dghs", "Football", 1200000, "Gk"
         ),
         Player(
-                3L, "xcv", "Football", 12000000, "Gk"
+                3L, 1L,"xcv", "Football", 12000000, "Gk"
         ),
 )
