@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.erasmus.upv.eps.wearables.model.Match
+import com.erasmus.upv.eps.wearables.model.MatchWithTeams
 import kotlinx.coroutines.flow.Flow
 
 
@@ -18,7 +20,11 @@ interface MatchDao {
     fun getAllMatches(): Flow<List<Match>>
 
 
-    @Query("SELECT * FROM `Match` WHERE :id == id")
+    @Query("SELECT * FROM `Match` WHERE :id == matchId")
     fun getMatchById(id: Long): LiveData<Match>
+
+    @Transaction
+    @Query("SELECT * FROM `Match` WHERE :id == matchId")
+    fun getMatchWithTeams(id: Long): LiveData<MatchWithTeams>
 
 }

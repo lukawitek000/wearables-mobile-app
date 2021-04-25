@@ -1,6 +1,5 @@
 package com.erasmus.upv.eps.wearables.ui.fragments
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,12 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentMatchesBinding
 import com.erasmus.upv.eps.wearables.model.Match
-import com.erasmus.upv.eps.wearables.model.Player
-import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.ui.adapters.MatchesAdapter
 import com.erasmus.upv.eps.wearables.viewModels.MatchesViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDate
 
 @AndroidEntryPoint
 class MatchesFragment : Fragment() {
@@ -75,7 +71,7 @@ class MatchesFragment : Fragment() {
             handleClickOnMatchesRecyclerView(it)
         }, {
             Toast.makeText(requireContext(), "Show match info", Toast.LENGTH_SHORT).show()
-            val destination = MatchesViewPagerFragmentDirections.actionMatchesFragmentToMatchInfoFragment(matchId = it.id)
+            val destination = MatchesViewPagerFragmentDirections.actionMatchesFragmentToMatchInfoFragment(matchId = it.matchId)
             findNavController().navigate(destination)
         })
         binding.matchesRv.adapter = matchesAdapter
@@ -94,7 +90,7 @@ class MatchesFragment : Fragment() {
 
     private fun buildAlertDialog(match: Match): AlertDialog {
         return AlertDialog.Builder(requireContext())
-            .setTitle("Do you want to start recording statistics for the match ${match.id}?")
+            .setTitle("Do you want to start recording statistics for the match ${match.matchId}?")
             .setPositiveButton("Yes"
             ) { _, _ ->
                 findNavController().navigate(R.id.action_matchesFragment_to_scanningBluetoothFragment)

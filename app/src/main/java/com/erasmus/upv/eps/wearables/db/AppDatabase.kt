@@ -10,11 +10,12 @@ import com.erasmus.upv.eps.wearables.db.dao.PlayerDao
 import com.erasmus.upv.eps.wearables.db.dao.TeamDao
 import com.erasmus.upv.eps.wearables.db.util.Converters
 import com.erasmus.upv.eps.wearables.model.Match
+import com.erasmus.upv.eps.wearables.model.MatchTeamCrossRef
 import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.model.Team
 
 
-@Database(entities = [Player::class, Team::class, Match::class], version = 5)
+@Database(entities = [Player::class, Team::class, Match::class, MatchTeamCrossRef::class], version = 6, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

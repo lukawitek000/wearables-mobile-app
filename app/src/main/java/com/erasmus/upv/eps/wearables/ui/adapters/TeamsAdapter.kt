@@ -39,7 +39,7 @@ class TeamsAdapter(private val onClick: (team: Team) -> Unit) : ListAdapter<Team
         }
 
         override fun areContentsTheSame(oldItem: Team, newItem: Team): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.teamId == newItem.teamId
         }
 
     }

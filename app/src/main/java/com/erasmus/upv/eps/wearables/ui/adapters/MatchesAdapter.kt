@@ -54,7 +54,7 @@ class MatchesAdapter(private val onClick: (match: Match) -> Unit,
         }
 
         override fun areContentsTheSame(oldItem: Match, newItem: Match): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.matchId == newItem.matchId
         }
     }
 
