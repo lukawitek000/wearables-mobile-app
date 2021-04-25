@@ -18,8 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateMatchViewModel
-    @Inject constructor(private val repository: MatchRepository,
-    private val teamRepository: TeamRepository): ViewModel() {
+    @Inject constructor(private val repository: MatchRepository): ViewModel() {
 
 
     var matchDate: Calendar = Calendar.getInstance()
@@ -28,21 +27,13 @@ class CreateMatchViewModel
     var homeTeam: Team? = null
     var guestTeam: Team? = null
 
-    val matchId = MutableLiveData<Long>()
-    val teamsIds = MutableLiveData<List<Long>>()
-    //val guestTeamId = MutableLiveData<Long>()
 
     fun createMatch(match: Match){
         Log.i("CreateMatchViewModel", "createMatch: $match")
         viewModelScope.launch {
-            match.date = Date(matchDate.timeInMillis)
-//            val m = async {  matchId.postValue(repository.insertMatch(match)) }
-//            val t = async { createTeams() }
-//            m.await()
-//            t.await()
-            matchId.postValue(repository.insertMatch(match))
-            createTeams()
-            Log.i("CreateMatchViewModel", "createMatch: ${matchId.value} ${teamsIds.value} ${homeTeam?.teamId} ${guestTeam?.teamId}")
+            this@CreateMatchViewModel.match = match
+            this@CreateMatchViewModel.match!!.date = Date(matchDate.timeInMillis)
+            this@CreateMatchViewModel.match!!.matchId = repository.insertMatch(this@CreateMatchViewModel.match!!)
             createMatchTeamCrossRef()
         }
     }
@@ -51,28 +42,11 @@ class CreateMatchViewModel
         return (homeTeam != null && guestTeam != null)
     }
 
-    suspend fun createMatchTeamCrossRef(){
-        //viewModelScope.launch {
-            if(match != null && homeTeam != null && guestTeam != null) {
-                repository.insertMatchTeamCrossRef(matchId.value!!, homeTeam!!.teamId)
-                repository.insertMatchTeamCrossRef(matchId.value!!, guestTeam!!.teamId)
-            }
-        //}
-    }
-
-    suspend fun createTeams() {
-        //viewModelScope.launch {
-            var homeTeamId = 0L
-            var guestTeamId = 0L
-            if(homeTeam != null){
-               homeTeamId  = teamRepository.saveTeam(homeTeam!!)
-            }
-            if(guestTeam != null){
-                guestTeamId =  teamRepository.saveTeam(guestTeam!!)
-            }
-            teamsIds.postValue(listOf(homeTeamId, guestTeamId))
-        //}
-
+    private suspend fun createMatchTeamCrossRef(){
+        if(match != null && homeTeam != null && guestTeam != null) {
+            repository.insertMatchTeamCrossRef(match!!.matchId, homeTeam!!.teamId)
+            repository.insertMatchTeamCrossRef(match!!.matchId, guestTeam!!.teamId)
+        }
     }
 
 
