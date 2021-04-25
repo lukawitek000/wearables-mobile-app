@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreateTeamBinding
-import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.ui.adapters.PlayersShortAdapter
 import com.erasmus.upv.eps.wearables.viewModels.CreateMatchViewModel
@@ -35,7 +34,7 @@ class CreateTeamFragment : Fragment() {
     ): View {
         binding = FragmentCreateTeamBinding.inflate(inflater, container, false)
 
-        setUpTeamPlayersRecycelerView()
+        setUpTeamPlayersRecyclerView()
         createTeam()
         addPlayer()
         return binding.root
@@ -52,9 +51,7 @@ class CreateTeamFragment : Fragment() {
         updatePlayers()
         binding.saveTeamBt.setOnClickListener {
             viewModel.saveTeam(getUserInput())
-            Toast.makeText(requireContext(), "Team saved", Toast.LENGTH_SHORT).show()
-            Log.i("CreateTeamFragment", "createTeam: ${sharedViewModel.teamPlayers}")
-            //findNavController().navigateUp()
+            Toast.makeText(requireContext(), "Team created", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -62,6 +59,7 @@ class CreateTeamFragment : Fragment() {
         viewModel.teamId.observe(viewLifecycleOwner){
             sharedViewModel.updateTeamOfPlayers(it)
             findNavController().navigateUp()
+            sharedViewModel.teamPlayers.clear()
         }
     }
 
@@ -83,21 +81,12 @@ class CreateTeamFragment : Fragment() {
         else -> "Basketball"
     }
 
-    private fun setUpTeamPlayersRecycelerView() {
+    private fun setUpTeamPlayersRecyclerView() {
         val recyclerView = binding.teamPlayersRv
-        recyclerView.adapter = PlayersShortAdapter(players)
+        recyclerView.adapter = PlayersShortAdapter(sharedViewModel.teamPlayers)
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
 
 }
-
-val players = listOf<Player>(
-        Player(1L, 1L,"Adam", "Football", 1, "GK"),
-        Player(2L, 1L,"Lukasz", "Football", 22, "GK"),
-        Player(3L, 1L,"Lewandowski", "Football", 9, "CF"),
-        Player(4L, 1L,"Robert", "Football", 11, "RM"),
-        Player(5L, 1L,"Piotr", "Football", 89, "CM"),
-        Player(6L, 1L,"Dennys", "Football", 99, "CB")
-)
