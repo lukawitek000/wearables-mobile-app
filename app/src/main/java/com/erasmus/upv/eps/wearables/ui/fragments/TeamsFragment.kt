@@ -14,7 +14,7 @@ import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentTeamsBinding
 import com.erasmus.upv.eps.wearables.ui.adapters.TeamsAdapter
 import com.erasmus.upv.eps.wearables.util.TeamCreated
-import com.erasmus.upv.eps.wearables.viewModels.CreateMatchViewModel
+import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
 import com.erasmus.upv.eps.wearables.viewModels.TeamsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +24,7 @@ class TeamsFragment : Fragment() {
     private lateinit var binding: FragmentTeamsBinding
     private lateinit var adapter: TeamsAdapter
     private val viewModel: TeamsViewModel by viewModels()
-    private val sharedViewModel: CreateMatchViewModel by activityViewModels()
+    private val sharedViewModel: CreateRelationsViewModel by activityViewModels()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

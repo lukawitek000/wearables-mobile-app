@@ -2,7 +2,6 @@ package com.erasmus.upv.eps.wearables.ui.fragments
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,7 @@ import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreateTeamBinding
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.ui.adapters.PlayersShortAdapter
-import com.erasmus.upv.eps.wearables.viewModels.CreateMatchViewModel
+import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
 import com.erasmus.upv.eps.wearables.viewModels.CreateTeamViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +25,7 @@ class CreateTeamFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateTeamBinding
     private val viewModel: CreateTeamViewModel by viewModels()
-    private val sharedViewModel: CreateMatchViewModel by activityViewModels()
+    private val sharedViewModel: CreateRelationsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,24 +16,23 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreateMatchBinding
-import com.erasmus.upv.eps.wearables.databinding.FragmentCreatePlayerBinding
 import com.erasmus.upv.eps.wearables.databinding.ItemViewTeamBinding
 import com.erasmus.upv.eps.wearables.model.Match
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
 import com.erasmus.upv.eps.wearables.util.TeamCreated
 import com.erasmus.upv.eps.wearables.viewModels.CreateMatchViewModel
-import com.erasmus.upv.eps.wearables.viewModels.SharedViewModel
+import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
 class CreateMatchFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateMatchBinding
-    private val viewModel: CreateMatchViewModel by activityViewModels()
-   // private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val sharedViewModel: CreateRelationsViewModel by activityViewModels()
+
+    private val viewModel: CreateMatchViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,15 +43,18 @@ class CreateMatchFragment : Fragment() {
         handleDateInput()
         handleTimeInput()
         createMatch()
+        observeCreatedMatchId()
         addHomeTeam()
         addGuestTeam()
 
-        binding.doneCreatingMatchFb.isEnabled = viewModel.areBothTeamsAdded()
-        populateTeamLayout(viewModel.homeTeam, binding.homeTeamSelected)
-        populateTeamLayout(viewModel.guestTeam, binding.guestTeamSelected)
+        binding.doneCreatingMatchFb.isEnabled = sharedViewModel.areBothTeamsAdded()
+        populateTeamLayout(sharedViewModel.homeTeam, binding.homeTeamSelected)
+        populateTeamLayout(sharedViewModel.guestTeam, binding.guestTeamSelected)
 
         return binding.root
     }
+
+
 
     private fun populateTeamLayout(team: Team?, teamSelectedLayout: ItemViewTeamBinding) {
         if(team == null){
@@ -66,7 +69,6 @@ class CreateMatchFragment : Fragment() {
 
     private fun addGuestTeam() {
         binding.chooseGuestTeamBt.setOnClickListener {
-            viewModel.match = getMatchFromUserInput()
             val destination = CreateMatchFragmentDirections.actionCreateMatchFragmentToTeamsFragment(TeamCreated.GUEST_TEAM)
             findNavController().navigate(destination)
         }
@@ -74,7 +76,6 @@ class CreateMatchFragment : Fragment() {
 
     private fun addHomeTeam() {
         binding.chooseHomeTeamBt.setOnClickListener {
-            viewModel.match = getMatchFromUserInput()
             val destination = CreateMatchFragmentDirections.actionCreateMatchFragmentToTeamsFragment(TeamCreated.HOME_TEAM)
             findNavController().navigate(destination)
         }
@@ -82,22 +83,24 @@ class CreateMatchFragment : Fragment() {
 
     private fun createMatch() {
         binding.doneCreatingMatchFb.setOnClickListener {
-            viewModel.createMatch(getMatchFromUserInput())
+            getMatchFromUserInput()
+            viewModel.insertMatch()
+        }
+    }
+
+    private fun observeCreatedMatchId() {
+        viewModel.matchId.observe(viewLifecycleOwner){
+            sharedViewModel.createMatchTeamCrossRef(it)
             Toast.makeText(requireContext(), "Match created", Toast.LENGTH_SHORT).show()
-            Log.i("CreateMatchFragment", "createMatch: ${viewModel.match} \n- home team ${viewModel.homeTeam} \n -guest team ${viewModel.guestTeam}")
             findNavController().navigateUp()
         }
     }
 
-    private fun getMatchFromUserInput(): Match {
-        return Match(
-            0L,
-            Date(),
-            binding.matchLocationEt.text.toString(),
-            getSelectedSport(),
-            binding.matchLeagueEt.text.toString(),
-            binding.matchDetailsEt.text.toString()
-        )
+    private fun getMatchFromUserInput() {
+        viewModel.match.location = binding.matchLocationEt.text.toString()
+        viewModel.match.sport = getSelectedSport()
+        viewModel.match.league = binding.matchLeagueEt.text.toString()
+        viewModel.match.otherDetails = binding.matchDetailsEt.text.toString()
     }
 
     private fun getSelectedSport(): String  = when(binding.sportRadioGroup.checkedRadioButtonId){
@@ -124,7 +127,7 @@ class CreateMatchFragment : Fragment() {
         val calendar = Calendar.getInstance()
         val timePickerDialog = TimePickerDialog(
             requireContext(),
-            TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+            TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                 setMatchTime(hourOfDay, minute)
                 binding.matchTimeEt.setText(DateTimeFormatter.displayTime(viewModel.matchDate.timeInMillis))
             },

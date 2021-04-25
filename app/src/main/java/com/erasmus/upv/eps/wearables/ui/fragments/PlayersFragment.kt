@@ -12,9 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentPlayersBinding
 import com.erasmus.upv.eps.wearables.ui.adapters.PlayersAdapter
-import com.erasmus.upv.eps.wearables.viewModels.CreateMatchViewModel
+import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
 import com.erasmus.upv.eps.wearables.viewModels.PlayersViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +23,7 @@ class PlayersFragment : Fragment() {
     private val viewModel: PlayersViewModel by viewModels()
     private lateinit var playersAdapter: PlayersAdapter
 
-    private val sharedViewModel: CreateMatchViewModel by activityViewModels()
+    private val sharedViewModel: CreateRelationsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
