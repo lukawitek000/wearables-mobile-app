@@ -81,11 +81,26 @@ class CreateMatchFragment : Fragment() {
     }
 
     private fun createMatch() {
+        setObserversForMatchIdAndTeamsId()
         binding.doneCreatingMatchFb.setOnClickListener {
             viewModel.createMatch(getMatchFromUserInput())
+            //viewModel.createTeams()
             Toast.makeText(requireContext(), "Match created", Toast.LENGTH_SHORT).show()
             Log.i("CreateMatchFragment", "createMatch: ${viewModel.match} \n- home team ${viewModel.homeTeam} \n -guest team ${viewModel.guestTeam}")
+            //viewModel.createMatchTeamCrossRef()
             findNavController().navigateUp()
+        }
+    }
+
+    private fun setObserversForMatchIdAndTeamsId() {
+        viewModel.matchId.observe(viewLifecycleOwner){
+            Log.i("CreateMatchFragment", "setObserversForMatchIdAndTeamsId:  match id observer ${viewModel.teamsIds.value} ${viewModel.matchId.value}")
+            //viewModel.createTeams()
+        }
+        viewModel.teamsIds.observe(viewLifecycleOwner){
+            Log.i("CreateMatchFragment", "setObserversForMatchIdAndTeamsId:  teams ids observer ${viewModel.teamsIds.value} ${viewModel.matchId.value}")
+            //viewModel.createMatchTeamCrossRef()
+
         }
     }
 

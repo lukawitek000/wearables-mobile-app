@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.erasmus.upv.eps.wearables.model.Match
+import com.erasmus.upv.eps.wearables.model.MatchWithTeams
 import com.erasmus.upv.eps.wearables.repositories.MatchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -24,8 +25,8 @@ class MatchesViewModel
         return repository.allMatches.asLiveData()
     }
 
-    fun getInfoAboutTheMatch(id: Long): LiveData<Match>{
-        return repository.getMatchById(id)
+    fun getInfoAboutTheMatch(id: Long): LiveData<MatchWithTeams>{
+        return repository.getMatchAndTeamsById(id)
     }
 
 

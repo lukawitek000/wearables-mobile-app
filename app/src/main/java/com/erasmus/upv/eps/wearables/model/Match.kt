@@ -8,7 +8,7 @@ import java.util.*
 @Entity
 data class Match(
     @PrimaryKey(autoGenerate = true)
-    val matchId: Long,
+    var matchId: Long,
     //val guestTeam: Team,
     //val homeTeam: Team,
     var date: Date,

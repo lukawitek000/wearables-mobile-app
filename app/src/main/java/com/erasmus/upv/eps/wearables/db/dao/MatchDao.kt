@@ -1,11 +1,9 @@
 package com.erasmus.upv.eps.wearables.db.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.erasmus.upv.eps.wearables.model.Match
+import com.erasmus.upv.eps.wearables.model.MatchTeamCrossRef
 import com.erasmus.upv.eps.wearables.model.MatchWithTeams
 import kotlinx.coroutines.flow.Flow
 
@@ -13,8 +11,12 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MatchDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMatch(match: Match): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMatchTeamCrossRef(matchTeamCrossRef: MatchTeamCrossRef): Long
+
 
     @Query("SELECT * FROM `Match`")
     fun getAllMatches(): Flow<List<Match>>

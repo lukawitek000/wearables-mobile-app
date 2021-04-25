@@ -9,8 +9,8 @@ class TeamRepository (
     private val teamDao: TeamDao
         ) {
 
-    suspend fun saveTeam(team: Team){
-        withContext(Dispatchers.IO){
+    suspend fun saveTeam(team: Team): Long{
+        return withContext(Dispatchers.IO){
             teamDao.insertTeam(team)
         }
     }
