@@ -1,5 +1,6 @@
 package com.erasmus.upv.eps.wearables.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -15,5 +16,9 @@ interface MatchDao {
 
     @Query("SELECT * FROM `Match`")
     fun getAllMatches(): Flow<List<Match>>
+
+
+    @Query("SELECT * FROM `Match` WHERE :id == id")
+    fun getMatchById(id: Long): LiveData<Match>
 
 }

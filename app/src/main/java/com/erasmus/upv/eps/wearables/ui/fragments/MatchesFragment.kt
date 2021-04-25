@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -70,9 +71,13 @@ class MatchesFragment : Fragment() {
 
     private fun setUpMatchesRecyclerView() {
         binding.matchesRv.layoutManager = LinearLayoutManager(requireContext())
-        matchesAdapter = MatchesAdapter() {
+        matchesAdapter = MatchesAdapter( {
             handleClickOnMatchesRecyclerView(it)
-        }
+        }, {
+            Toast.makeText(requireContext(), "Show match info", Toast.LENGTH_SHORT).show()
+            val destination = MatchesViewPagerFragmentDirections.actionMatchesFragmentToMatchInfoFragment(matchId = it.id)
+            findNavController().navigate(destination)
+        })
         binding.matchesRv.adapter = matchesAdapter
     }
 

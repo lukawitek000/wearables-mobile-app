@@ -11,7 +11,8 @@ import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MatchesAdapter(private val onClick: (match: Match) -> Unit) : ListAdapter<Match, MatchesAdapter.MatchesViewHolder>(
+class MatchesAdapter(private val onClick: (match: Match) -> Unit,
+                    private val onClickShowMatchInfo: (match: Match) -> Unit) : ListAdapter<Match, MatchesAdapter.MatchesViewHolder>(
     MatchesComparator()
 ) {
 
@@ -39,6 +40,7 @@ class MatchesAdapter(private val onClick: (match: Match) -> Unit) : ListAdapter<
         holder.binding.monthNameTv.text = monthName
         holder.binding.matchTimeTv.text = DateTimeFormatter.displayTime(c.timeInMillis)
         holder.itemView.setOnClickListener { onClick.invoke(getItem(position)) }
+        holder.binding.matchInfoIv.setOnClickListener { onClickShowMatchInfo.invoke(getItem(position)) }
     }
 
     inner class MatchesViewHolder(val binding: ItemViewMatchBinding): RecyclerView.ViewHolder(

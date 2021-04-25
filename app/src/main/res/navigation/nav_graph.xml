@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_matchesFragment_to_scanningBluetoothFragment"
             app:destination="@id/scanningBluetoothFragment" />
+        <action
+            android:id="@+id/action_matchesFragment_to_matchInfoFragment"
+            app:destination="@id/matchInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/tutorialFragment"
@@ -128,4 +131,14 @@
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.CurrentMatchFragment"
         android:label="Current Match"
         tools:layout="@layout/fragment_current_match" />
+    <fragment
+        android:id="@+id/matchInfoFragment"
+        android:name="com.erasmus.upv.eps.wearables.ui.fragments.MatchInfoFragment"
+        android:label="fragment_match_info"
+        tools:layout="@layout/fragment_match_info" >
+        <argument
+            android:name="matchId"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
 </navigation>

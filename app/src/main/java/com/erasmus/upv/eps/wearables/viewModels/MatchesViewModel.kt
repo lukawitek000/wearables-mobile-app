@@ -24,4 +24,9 @@ class MatchesViewModel
         return repository.allMatches.asLiveData()
     }
 
+    fun getInfoAboutTheMatch(id: Long): LiveData<Match>{
+        return repository.getMatchById(id)
+    }
+
+
 }
