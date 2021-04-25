@@ -56,7 +56,7 @@ class TeamsFragment : Fragment() {
 
     private fun setUpTeamsRecyclerView() {
         val rv = binding.teamsRv
-        adapter = TeamsAdapter(){
+        adapter = TeamsAdapter(onClick = {
             if(viewModel.teamCreated == TeamCreated.NONE){
                 return@TeamsAdapter
             }
@@ -68,7 +68,10 @@ class TeamsFragment : Fragment() {
                 Toast.makeText(requireContext(), "Guest team selected", Toast.LENGTH_SHORT).show()
             }
             findNavController().navigateUp()
-        }
+        }, onInfoClick ={
+            val direction = TeamsFragmentDirections.actionTeamsFragmentToTeamInfoFragment(it.teamId)
+            findNavController().navigate(direction)
+        })
         rv.adapter = adapter
         rv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

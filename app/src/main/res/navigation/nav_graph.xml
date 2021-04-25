@@ -96,6 +96,9 @@
             android:name="teamCreated"
             app:argType="com.erasmus.upv.eps.wearables.util.TeamCreated"
             android:defaultValue="NONE" />
+        <action
+            android:id="@+id/action_teamsFragment_to_teamInfoFragment"
+            app:destination="@id/teamInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/createMatchFragment"
@@ -146,6 +149,16 @@
         tools:layout="@layout/fragment_match_info" >
         <argument
             android:name="matchId"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
+    <fragment
+        android:id="@+id/teamInfoFragment"
+        android:name="com.erasmus.upv.eps.wearables.ui.fragments.TeamInfoFragment"
+        android:label="fragment_team_info"
+        tools:layout="@layout/fragment_team_info" >
+        <argument
+            android:name="teamId"
             app:argType="long"
             android:defaultValue="0L" />
     </fragment>

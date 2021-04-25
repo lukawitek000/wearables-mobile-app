@@ -1,5 +1,6 @@
 package com.erasmus.upv.eps.wearables.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.model.TeamWithPlayers
@@ -17,6 +18,6 @@ interface TeamDao {
 
     @Transaction
     @Query("SELECT * FROM Team WHERE teamId == :teamId")
-    fun getTeamWithPlayers(teamId: Long) : TeamWithPlayers
+    fun getTeamWithPlayers(teamId: Long) : LiveData<TeamWithPlayers>
 
 }
