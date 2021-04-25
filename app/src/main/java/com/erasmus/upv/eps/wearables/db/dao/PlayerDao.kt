@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.erasmus.upv.eps.wearables.model.Player
 import kotlinx.coroutines.flow.Flow
 
@@ -18,4 +19,7 @@ interface PlayerDao {
 
     @Query("SELECT * FROM Player")
     fun getAllPlayers(): Flow<List<Player>>
+
+    @Update
+    fun updatePlayer(player: Player)
 }

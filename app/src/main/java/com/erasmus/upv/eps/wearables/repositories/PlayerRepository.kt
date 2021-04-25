@@ -22,6 +22,12 @@ class PlayerRepository
         }
     }
 
+    suspend fun updatePlayer(player: Player) {
+        withContext(Dispatchers.IO){
+            playerDao.updatePlayer(player)
+        }
+    }
+
 
     val allPlayers : Flow<List<Player>> = playerDao.getAllPlayers()
 

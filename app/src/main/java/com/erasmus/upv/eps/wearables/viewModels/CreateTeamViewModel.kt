@@ -1,6 +1,7 @@
 package com.erasmus.upv.eps.wearables.viewModels
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erasmus.upv.eps.wearables.model.Team
@@ -15,11 +16,12 @@ class CreateTeamViewModel
     private val repository: TeamRepository
 ) : ViewModel(){
 
+    val teamId = MutableLiveData<Long>()
 
     fun saveTeam(team: Team) {
         Log.i("CreateTeamViewModel", "saveTeam: $team ")
         viewModelScope.launch {
-            repository.saveTeam(team)
+             teamId.value = repository.saveTeam(team)
         }
     }
 

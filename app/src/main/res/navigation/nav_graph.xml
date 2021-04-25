@@ -79,6 +79,10 @@
         <action
             android:id="@+id/action_playersFragment_to_createPlayerFragment"
             app:destination="@id/createPlayerFragment" />
+        <argument
+            android:name="isCreatingTeam"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/teamsFragment"
@@ -106,7 +110,11 @@
         android:id="@+id/createTeamFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.CreateTeamFragment"
         android:label="Create Team"
-        tools:layout="@layout/fragment_create_team" />
+        tools:layout="@layout/fragment_create_team" >
+        <action
+            android:id="@+id/action_createTeamFragment_to_playersFragment"
+            app:destination="@id/playersFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createPlayerFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.CreatePlayerFragment"

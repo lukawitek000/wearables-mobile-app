@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erasmus.upv.eps.wearables.model.Match
+import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.repositories.MatchRepository
+import com.erasmus.upv.eps.wearables.repositories.PlayerRepository
 import com.erasmus.upv.eps.wearables.repositories.TeamRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -18,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateMatchViewModel
-    @Inject constructor(private val repository: MatchRepository): ViewModel() {
+    @Inject constructor(private val repository: MatchRepository,
+    private val playerRepository: PlayerRepository): ViewModel() {
 
 
     var matchDate: Calendar = Calendar.getInstance()
@@ -26,6 +29,9 @@ class CreateMatchViewModel
     var match: Match? = null
     var homeTeam: Team? = null
     var guestTeam: Team? = null
+
+    var isCreatingTeam = false
+    val teamPlayers = mutableListOf<Player>()
 
 
     fun createMatch(match: Match){
@@ -46,6 +52,15 @@ class CreateMatchViewModel
         if(match != null && homeTeam != null && guestTeam != null) {
             repository.insertMatchTeamCrossRef(match!!.matchId, homeTeam!!.teamId)
             repository.insertMatchTeamCrossRef(match!!.matchId, guestTeam!!.teamId)
+        }
+    }
+
+    fun updateTeamOfPlayers(teamId: Long) {
+        viewModelScope.launch {
+            teamPlayers.forEach {
+                it.teamOfPlayerId = teamId
+                playerRepository.updatePlayer(it)
+            }
         }
     }
 
