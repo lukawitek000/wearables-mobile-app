@@ -78,12 +78,21 @@ class MainActivity : AppCompatActivity() {
     private fun controlBottomNavigationVisibility(){
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.splashScreenFragment -> bottomNavigation.visibility = View.GONE
-                R.id.tutorialFragment -> bottomNavigation.visibility = View.GONE
-                else -> bottomNavigation.visibility = View.VISIBLE
+                R.id.splashScreenFragment -> setBottomNavigationVisibility(View.GONE)
+                R.id.tutorialFragment -> setBottomNavigationVisibility(View.GONE)
+                R.id.createMatchFragment -> setBottomNavigationVisibility(View.GONE)
+                R.id.createTeamFragment -> setBottomNavigationVisibility(View.GONE)
+                R.id.createPlayerFragment -> setBottomNavigationVisibility(View.GONE)
+                else -> setBottomNavigationVisibility(View.VISIBLE)
             }
         }
     }
+
+
+    fun setBottomNavigationVisibility(visibility: Int){
+        bottomNavigation.visibility = visibility
+    }
+
 
 
     override fun onSupportNavigateUp(): Boolean {

@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentTeamsBinding
 import com.erasmus.upv.eps.wearables.model.Team
@@ -40,7 +41,17 @@ class TeamsFragment : Fragment() {
         setUpTeamsRecyclerView()
         loadDataFromDb()
 
+        changeVisibilityOfBottomMenu()
+
         return binding.root
+    }
+
+    private fun changeVisibilityOfBottomMenu() {
+        if(sharedViewModel.whichTeamIsCreated == TeamCreated.NONE){
+            (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
+        }else{
+            (activity as MainActivity).setBottomNavigationVisibility(View.GONE)
+        }
     }
 
     private fun loadDataFromDb() {

@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -51,9 +53,18 @@ class CreateMatchFragment : Fragment() {
         populateTeamLayout(sharedViewModel.homeTeam, binding.homeTeamSelected)
         populateTeamLayout(sharedViewModel.guestTeam, binding.guestTeamSelected)
 
+        customBackPress()
+
         return binding.root
     }
 
+    private fun customBackPress() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
+            sharedViewModel.whichTeamIsCreated = TeamCreated.NONE
+            Toast.makeText(requireContext(), "Back pressed", Toast.LENGTH_SHORT).show()
+            findNavController().navigateUp()
+        }
+    }
 
 
     private fun populateTeamLayout(team: Team?, teamSelectedLayout: ItemViewTeamBinding) {

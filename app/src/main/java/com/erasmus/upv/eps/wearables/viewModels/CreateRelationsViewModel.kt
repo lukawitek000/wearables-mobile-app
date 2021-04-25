@@ -39,6 +39,7 @@ class CreateRelationsViewModel
                 repository.insertMatchTeamCrossRef(matchId, guestTeam!!.teamId)
                 homeTeam = null
                 guestTeam = null
+                whichTeamIsCreated = TeamCreated.NONE
             }
         }
     }
