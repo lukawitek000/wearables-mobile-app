@@ -1,10 +1,7 @@
 package com.erasmus.upv.eps.wearables.db.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.erasmus.upv.eps.wearables.model.Player
 import kotlinx.coroutines.flow.Flow
 
@@ -22,4 +19,7 @@ interface PlayerDao {
 
     @Update
     fun updatePlayer(player: Player)
+
+    @Delete
+    fun deletePlayer(player: Player)
 }

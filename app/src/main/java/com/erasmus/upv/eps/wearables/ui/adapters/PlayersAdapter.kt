@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.databinding.ItemViewPlayerBinding
 import com.erasmus.upv.eps.wearables.model.Player
 
-class PlayersAdapter(val onClick: (player: Player) -> Unit): ListAdapter<Player, PlayersAdapter.PlayersViewHolder>(PlayersComparator()) {
+class PlayersAdapter(
+    private val onClick: (player: Player) -> Unit,
+    private val onClickDeletePlayer: (player: Player) -> Unit): ListAdapter<Player, PlayersAdapter.PlayersViewHolder>(PlayersComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayersViewHolder {
         return PlayersViewHolder(
@@ -24,6 +26,9 @@ class PlayersAdapter(val onClick: (player: Player) -> Unit): ListAdapter<Player,
         holder.binding.playerNameAdapterTv.text = getItem(position).name
         holder.itemView.setOnClickListener {
             onClick.invoke(getItem(position))
+        }
+        holder.binding.deletePlayerForeverIv.setOnClickListener {
+            onClickDeletePlayer.invoke(getItem(position))
         }
     }
 

@@ -28,6 +28,12 @@ class PlayerRepository
         }
     }
 
+    suspend fun deletePlayer(player: Player) {
+        withContext(Dispatchers.IO){
+            playerDao.deletePlayer(player)
+        }
+    }
+
 
     val allPlayers : Flow<List<Player>> = playerDao.getAllPlayers()
 

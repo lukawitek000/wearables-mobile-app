@@ -78,15 +78,22 @@ class PlayersFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         val rv = binding.playersRv
-        playersAdapter = PlayersAdapter(){
-            if(sharedViewModel.isCreatingTeam) {
-                sharedViewModel.teamPlayers.add(it)
-                findNavController().navigateUp()
-            }
-        }
+        playersAdapter = PlayersAdapter(onClick = this::addPlayerToTheTeam, onClickDeletePlayer = this::deletePlayer)
         rv.adapter = playersAdapter
         rv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+    }
+
+
+    private fun addPlayerToTheTeam(player: Player){
+        if(sharedViewModel.isCreatingTeam) {
+            sharedViewModel.teamPlayers.add(player)
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun deletePlayer(player: Player){
+        viewModel.deletePlayer(player)
     }
 
 
