@@ -34,6 +34,10 @@ class PlayerRepository
         }
     }
 
+    fun getPlayerById(id: Long): LiveData<Player> {
+        return playerDao.getPlayerById(id)
+    }
+
 
     val allPlayers : Flow<List<Player>> = playerDao.getAllPlayers()
 

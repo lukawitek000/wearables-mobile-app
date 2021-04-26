@@ -16,6 +16,13 @@ class PlayersViewModel
     private val repository: PlayerRepository
 ) : ViewModel(){
 
+    var playerInfo: Player? = null
+
+    fun getDetailsAboutPlayer(id: Long): LiveData<Player>{
+        return repository.getPlayerById(id)
+    }
+
+
     fun getAllPlayers(): LiveData<List<Player>>{
         return repository.allPlayers.asLiveData()
     }

@@ -22,4 +22,7 @@ interface PlayerDao {
 
     @Delete
     fun deletePlayer(player: Player)
+
+    @Query("SELECT * FROM Player WHERE playerId == :id")
+    fun getPlayerById(id: Long): LiveData<Player>
 }
