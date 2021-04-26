@@ -27,5 +27,5 @@ interface PlayerDao {
     fun getPlayerById(id: Long): LiveData<Player>
 
     @Query("UPDATE Player SET teamOfPlayerId = 0 WHERE teamOfPlayerId == :teamId ")
-    fun updatePlayersFromDeletedTeam(teamId: Long)
+    fun updatePlayersTeamIdFromTeam(teamId: Long)
 }

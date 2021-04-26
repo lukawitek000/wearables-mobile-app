@@ -23,4 +23,7 @@ interface TeamDao {
     @Query("DELETE FROM TEAM WHERE teamId == :teamId")
     fun deleteTeamById(teamId: Long)
 
+    @Update
+    fun updateTeam(team: Team)
+
 }

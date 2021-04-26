@@ -2,6 +2,7 @@ package com.erasmus.upv.eps.wearables.ui.fragments
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,7 @@ class CreateTeamFragment : Fragment() {
     private lateinit var binding: FragmentCreateTeamBinding
     private val viewModel: CreateTeamViewModel by viewModels()
     private val sharedViewModel: CreateRelationsViewModel by activityViewModels()
+    private lateinit var adapter: PlayersShortAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,10 +37,50 @@ class CreateTeamFragment : Fragment() {
         binding = FragmentCreateTeamBinding.inflate(inflater, container, false)
 
         setUpTeamPlayersRecyclerView()
+        receiveSafeArgs()
         createTeam()
         addPlayer()
         handleBackPress()
         return binding.root
+    }
+
+    private fun receiveSafeArgs() {
+        if(arguments != null){
+            val args = CreateTeamFragmentArgs.fromBundle(requireArguments())
+            if(args.teamId > 0L) {
+                viewModel.receivedTeamId = args.teamId
+                viewModel.getTeamWithPlayersById(viewModel.receivedTeamId).observe(viewLifecycleOwner) {
+                    viewModel.teamWithPlayers = it
+                    sharedViewModel.teamPlayers.addAll(viewModel.teamWithPlayers.players)
+                    Log.i("CreateTeamFragment", "receiveSafeArgs: ${sharedViewModel.teamPlayers}")
+                    Log.i("CreateTeamFragment", "receiveSafeArgs: ${it}")
+                    adapter.submitList(sharedViewModel.teamPlayers)
+                    populateInputs()
+                    changeButtonText()
+                }
+            }
+        }
+    }
+
+    private fun changeButtonText() {
+        binding.saveTeamBt.text = "Update"
+    }
+
+    private fun populateInputs() {
+        setPlayerSport()
+        binding.teamNameEt.setText(viewModel.teamWithPlayers!!.team.name)
+        binding.teamCountryEt.setText(viewModel.teamWithPlayers!!.team.country)
+        binding.teamCityEt.setText(viewModel.teamWithPlayers!!.team.city)
+        binding.teamInfoEt.setText(viewModel.teamWithPlayers!!.team.others)
+        adapter.submitList(sharedViewModel.teamPlayers)
+    }
+
+    private fun setPlayerSport(): Int {
+        return when(viewModel.teamWithPlayers!!.team.sport){
+            "Football" -> R.id.football_radio_button
+            "Basketball" -> R.id.basketball_radio_button
+            else -> R.id.handball_radio_button
+        }
     }
 
 
@@ -60,8 +102,13 @@ class CreateTeamFragment : Fragment() {
     private fun createTeam() {
         updatePlayers()
         binding.saveTeamBt.setOnClickListener {
-            viewModel.saveTeam(getUserInput())
-            Toast.makeText(requireContext(), "Team created", Toast.LENGTH_SHORT).show()
+            if(viewModel.receivedTeamId == 0L) {
+                viewModel.saveTeam(getUserInput())
+                Toast.makeText(requireContext(), "Team created", Toast.LENGTH_SHORT).show()
+            }else{
+                viewModel.updateTeam(getUserInput())
+                sharedViewModel.updateTeamOfPlayers(viewModel.receivedTeamId)
+            }
         }
     }
 
@@ -69,7 +116,7 @@ class CreateTeamFragment : Fragment() {
         viewModel.teamId.observe(viewLifecycleOwner){
             sharedViewModel.updateTeamOfPlayers(it)
             findNavController().navigateUp()
-            sharedViewModel.teamPlayers.clear()
+          //  sharedViewModel.teamPlayers.clear()
             sharedViewModel.isCreatingTeam = false
         }
     }
@@ -94,8 +141,11 @@ class CreateTeamFragment : Fragment() {
 
     private fun setUpTeamPlayersRecyclerView() {
         val recyclerView = binding.teamPlayersRv
-        recyclerView.adapter = PlayersShortAdapter(sharedViewModel.teamPlayers)
-        recyclerView.layoutManager =
+        adapter = PlayersShortAdapter()
+        adapter.submitList(sharedViewModel.teamPlayers)
+        Log.i("CreateTeamFragment", "setUpTeamPlayersRecyclerView: ${sharedViewModel.teamPlayers}")
+        recyclerView.adapter = adapter
+                recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 

@@ -24,8 +24,17 @@ class TeamInfoFragment : Fragment() {
 
         receiveSafeArgs()
         handleDeleteButton()
-        binding.deleteTeamBt.visibility = View.GONE
+        binding.deleteTeamBt.visibility = View.GONE // TODO handle match effected by deleting team
+
+        handleUpdateButton()
         return binding.root
+    }
+
+    private fun handleUpdateButton() {
+        binding.updateTeamBt.setOnClickListener {
+            val directions = TeamInfoFragmentDirections.actionTeamInfoFragmentToCreateTeamFragment(viewModel.teamId)
+            findNavController().navigate(directions)
+        }
     }
 
     private fun handleDeleteButton() {

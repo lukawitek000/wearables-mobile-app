@@ -48,7 +48,7 @@ class CreatePlayerFragment : Fragment() {
                     changeButtonText()
                 }
             } else {
-                findNavController().navigateUp()
+               // findNavController().navigateUp()
             }
         }
     }

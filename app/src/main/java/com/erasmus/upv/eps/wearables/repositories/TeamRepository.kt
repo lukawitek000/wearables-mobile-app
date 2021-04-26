@@ -26,7 +26,13 @@ class TeamRepository (
     suspend fun deleteTeamById(teamId: Long) {
         withContext(Dispatchers.IO) {
             teamDao.deleteTeamById(teamId)
-            playerDao.updatePlayersFromDeletedTeam(teamId)
+            playerDao.updatePlayersTeamIdFromTeam(teamId)
+        }
+    }
+
+    suspend fun updateTeam(team: Team) {
+        withContext(Dispatchers.IO){
+            teamDao.updateTeam(team)
         }
     }
 

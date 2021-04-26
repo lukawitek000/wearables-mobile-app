@@ -46,8 +46,10 @@ class CreateRelationsViewModel
         viewModelScope.launch {
             teamPlayers.forEach {
                 it.teamOfPlayerId = teamId
+                playerRepository.updatePlayersTeamIdFromTeam(teamId)
                 playerRepository.updatePlayer(it)
             }
+            teamPlayers.clear()
         }
     }
 

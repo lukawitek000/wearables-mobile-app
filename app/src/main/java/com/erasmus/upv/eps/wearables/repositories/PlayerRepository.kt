@@ -38,6 +38,12 @@ class PlayerRepository
         return playerDao.getPlayerById(id)
     }
 
+    suspend fun updatePlayersTeamIdFromTeam(teamId: Long){
+        withContext(Dispatchers.IO){
+            playerDao.updatePlayersTeamIdFromTeam(teamId)
+        }
+    }
+
 
     val allPlayers : Flow<List<Player>> = playerDao.getAllPlayers()
 

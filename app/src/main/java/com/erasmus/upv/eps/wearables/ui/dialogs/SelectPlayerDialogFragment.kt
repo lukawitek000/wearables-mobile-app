@@ -31,11 +31,13 @@ class SelectPlayerDialogFragment : BottomSheetDialogFragment() {
 
         val rv = binding.selectPlayerRv
         rv.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
-        rv.adapter = PlayersShortAdapter(players){
+        val adapter = PlayersShortAdapter(){
             Toast.makeText(requireContext(), "Selected ${it.name} player", Toast.LENGTH_SHORT).show()
             dismiss()
         }
 
+        adapter.submitList(players)
+        rv.adapter = adapter
         return binding.root
     }
 
