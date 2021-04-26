@@ -24,6 +24,7 @@ class TeamInfoFragment : Fragment() {
 
         receiveSafeArgs()
         handleDeleteButton()
+        binding.deleteTeamBt.visibility = View.GONE
         return binding.root
     }
 
