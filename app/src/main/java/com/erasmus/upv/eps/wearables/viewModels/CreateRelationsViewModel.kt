@@ -37,9 +37,7 @@ class CreateRelationsViewModel
             if (matchId >= 0L && homeTeam != null && guestTeam != null) {
                 repository.insertMatchTeamCrossRef(matchId, homeTeam!!.teamId)
                 repository.insertMatchTeamCrossRef(matchId, guestTeam!!.teamId)
-                homeTeam = null
-                guestTeam = null
-                whichTeamIsCreated = TeamCreated.NONE
+                clearTeams()
             }
         }
     }
@@ -53,6 +51,11 @@ class CreateRelationsViewModel
         }
     }
 
+    fun clearTeams() {
+        homeTeam = null
+        guestTeam = null
+        whichTeamIsCreated = TeamCreated.NONE
+    }
 
 
 }

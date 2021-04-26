@@ -56,9 +56,16 @@ class TeamsFragment : Fragment() {
 
     private fun loadDataFromDb() {
         viewModel.getAllTeams().observe(viewLifecycleOwner){
-            adapter.submitList(it)
+            adapter.submitList(filterTeams(it))
         }
     }
+
+    private fun filterTeams(teams: List<Team>): List<Team> {
+        return teams.filter {
+            it.teamId != sharedViewModel.guestTeam?.teamId && it.teamId != sharedViewModel.homeTeam?.teamId
+        }
+    }
+
 
     private fun setUpTeamsRecyclerView() {
         val rv = binding.teamsRv

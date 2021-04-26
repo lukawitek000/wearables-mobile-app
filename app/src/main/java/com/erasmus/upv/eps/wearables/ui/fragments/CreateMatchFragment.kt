@@ -60,7 +60,7 @@ class CreateMatchFragment : Fragment() {
 
     private fun customBackPress() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
-            sharedViewModel.whichTeamIsCreated = TeamCreated.NONE
+            sharedViewModel.clearTeams()
             Toast.makeText(requireContext(), "Back pressed", Toast.LENGTH_SHORT).show()
             findNavController().navigateUp()
         }
