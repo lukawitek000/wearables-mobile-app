@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.erasmus.upv.eps.wearables.R
+import androidx.navigation.fragment.findNavController
 import com.erasmus.upv.eps.wearables.databinding.FragmentTeamInfoBinding
 import com.erasmus.upv.eps.wearables.viewModels.TeamsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,11 +22,24 @@ class TeamInfoFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         binding = FragmentTeamInfoBinding.inflate(inflater, container, false)
 
-        if(arguments != null){
+        receiveSafeArgs()
+        handleDeleteButton()
+        return binding.root
+    }
+
+    private fun handleDeleteButton() {
+        binding.deleteTeamBt.setOnClickListener {
+            viewModel.deleteTeamById(viewModel.teamId)
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun receiveSafeArgs() {
+        if (arguments != null) {
             val args = TeamInfoFragmentArgs.fromBundle(requireArguments())
+            viewModel.teamId = args.teamId
             setTextToTeamDetailsRawData(args)
         }
-        return binding.root
     }
 
     private fun setTextToTeamDetailsRawData(args: TeamInfoFragmentArgs) {

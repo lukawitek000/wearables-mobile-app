@@ -20,4 +20,7 @@ interface TeamDao {
     @Query("SELECT * FROM Team WHERE teamId == :teamId")
     fun getTeamWithPlayers(teamId: Long) : LiveData<TeamWithPlayers>
 
+    @Query("DELETE FROM TEAM WHERE teamId == :teamId")
+    fun deleteTeamById(teamId: Long)
+
 }

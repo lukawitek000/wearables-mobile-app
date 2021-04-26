@@ -27,8 +27,8 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideTeamRepository(teamDao: TeamDao): TeamRepository {
-        return TeamRepository(teamDao)
+    fun provideTeamRepository(teamDao: TeamDao, playerDao: PlayerDao): TeamRepository {
+        return TeamRepository(teamDao, playerDao)
     }
 
     @Singleton
