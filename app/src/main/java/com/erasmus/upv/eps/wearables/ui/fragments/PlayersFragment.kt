@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentPlayersBinding
+import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.ui.adapters.PlayersAdapter
 import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
 import com.erasmus.upv.eps.wearables.viewModels.PlayersViewModel
@@ -59,9 +60,20 @@ class PlayersFragment : Fragment() {
 
     private fun listenToDbChanges() {
         viewModel.getAllPlayers().observe(viewLifecycleOwner){
-            playersAdapter.submitList(it)
+            playersAdapter.submitList(
+                filterPlayers(it)
+            )
         }
     }
+
+    private fun filterPlayers(players: List<Player>): List<Player>{
+        return if(sharedViewModel.isCreatingTeam) {
+            viewModel.filterPlayers(players, sharedViewModel.teamPlayers)
+        } else {
+            players
+        }
+    }
+
 
 
     private fun setUpRecyclerView() {

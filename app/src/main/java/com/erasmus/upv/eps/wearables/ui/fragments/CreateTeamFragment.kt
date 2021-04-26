@@ -45,6 +45,7 @@ class CreateTeamFragment : Fragment() {
     private fun handleBackPress() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
             sharedViewModel.isCreatingTeam = false
+            sharedViewModel.teamPlayers.clear()
             findNavController().navigateUp()
         }
     }

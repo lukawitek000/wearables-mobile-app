@@ -19,4 +19,11 @@ class PlayersViewModel
     }
 
 
+
+    fun filterPlayers(players: List<Player>, alreadyAddedPlayers: List<Player>): List<Player>{
+        return players.filter { player ->
+            player.teamOfPlayerId == 0L && !alreadyAddedPlayers.any {  player.playerId == it.playerId }
+        }
+    }
+
 }
