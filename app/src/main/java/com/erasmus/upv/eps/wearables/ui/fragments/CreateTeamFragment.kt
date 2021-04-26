@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -36,7 +37,16 @@ class CreateTeamFragment : Fragment() {
         setUpTeamPlayersRecyclerView()
         createTeam()
         addPlayer()
+        handleBackPress()
         return binding.root
+    }
+
+
+    private fun handleBackPress() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
+            sharedViewModel.isCreatingTeam = false
+            findNavController().navigateUp()
+        }
     }
 
     private fun addPlayer() {
@@ -59,6 +69,7 @@ class CreateTeamFragment : Fragment() {
             sharedViewModel.updateTeamOfPlayers(it)
             findNavController().navigateUp()
             sharedViewModel.teamPlayers.clear()
+            sharedViewModel.isCreatingTeam = false
         }
     }
 

@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentPlayersBinding
 import com.erasmus.upv.eps.wearables.ui.adapters.PlayersAdapter
@@ -39,11 +41,20 @@ class PlayersFragment : Fragment() {
             val args = PlayersFragmentArgs.fromBundle(requireArguments())
             sharedViewModel.isCreatingTeam = args.isCreatingTeam
         }
-
+        changeVisibilityOfBottomMenu()
         setUpRecyclerView()
         listenToDbChanges()
 
         return binding.root
+    }
+
+
+    private fun changeVisibilityOfBottomMenu() {
+        if(sharedViewModel.isCreatingTeam){
+            (activity as MainActivity).setBottomNavigationVisibility(View.GONE)
+        }else{
+            (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
+        }
     }
 
     private fun listenToDbChanges() {
