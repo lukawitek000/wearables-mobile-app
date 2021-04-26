@@ -1,5 +1,6 @@
 package com.erasmus.upv.eps.wearables.viewModels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,25 +18,40 @@ class CreatePlayerViewModel
     ): ViewModel() {
 
 
-    val player = Player(0L, 0L, "", "", 0, "")
+    var player = Player(0L, 0L, "", "", 0, "")
 
     fun setPlayersSport(sport: String){
         player.sport = sport
     }
 
+    fun getPlayerById(id: Long): LiveData<Player>{
+        return repository.getPlayerById(id)
+    }
+
 
     fun createPlayer(name: String, number: Int, position: String, otherInfo: String){
         player.playerId = 0L
+        setPlayerProperties(name, number, position, otherInfo)
+        savePlayerToDatabase()
+    }
+
+    private fun setPlayerProperties(name: String, number: Int, position: String, otherInfo: String) {
         player.name = name
         player.number = number
         player.position = position
         player.otherInfo = otherInfo
-        savePlayerToDatabase()
     }
 
     private fun savePlayerToDatabase() {
         viewModelScope.launch {
             repository.savePlayer(player)
+        }
+    }
+
+    fun updatePlayer(name: String, playerNumber: Int, position: String, otherInfo: String) {
+        viewModelScope.launch {
+            setPlayerProperties(name, playerNumber, position, otherInfo)
+            repository.updatePlayer(player)
         }
     }
 

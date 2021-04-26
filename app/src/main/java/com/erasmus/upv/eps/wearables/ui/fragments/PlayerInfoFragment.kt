@@ -29,6 +29,7 @@ class PlayerInfoFragment : Fragment() {
         if(arguments != null){
             val args = PlayerInfoFragmentArgs.fromBundle(requireArguments())
             if(args.playerId > 0L) {
+                viewModel.playerId = args.playerId
                 viewModel.getDetailsAboutPlayer(args.playerId).observe(viewLifecycleOwner) {
                     binding.playerInfoTv.text = it.toString()
                     viewModel.playerInfo = it
@@ -39,8 +40,16 @@ class PlayerInfoFragment : Fragment() {
             }
         }
         handleDeleteButton()
+        handleUpdateButton()
 
         return binding.root
+    }
+
+    private fun handleUpdateButton() {
+        binding.updatePlayerBt.setOnClickListener {
+            val directions = PlayerInfoFragmentDirections.actionPlayerInfoFragmentToCreatePlayerFragment(viewModel.playerId)
+            findNavController().navigate(directions)
+        }
     }
 
     private fun areButtonsEnable(isEnabled: Boolean) {

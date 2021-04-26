@@ -32,9 +32,45 @@ class CreatePlayerFragment : Fragment() {
         )
 
         getUserInput()
+        receiveSafeArgs()
 
 
         return binding.root
+    }
+
+    private fun receiveSafeArgs() {
+        if (arguments != null) {
+            val args = CreatePlayerFragmentArgs.fromBundle(requireArguments())
+            if (args.playerId > 0L) {
+                viewModel.getPlayerById(args.playerId).observe(viewLifecycleOwner) {
+                    viewModel.player = it
+                    populateInputs()
+                    changeButtonText()
+                }
+            } else {
+                findNavController().navigateUp()
+            }
+        }
+    }
+
+    private fun changeButtonText() {
+        binding.savePlayerBt.text = "Update"
+    }
+
+    private fun populateInputs() {
+        binding.sportRadioGroup.check(setPlayerSport())
+        binding.playerNameEt.setText(viewModel.player.name)
+        binding.playerNumberEt.setText(viewModel.player.number.toString())
+        binding.playerPositionEt.setText(viewModel.player.position)
+        binding.playerOtherInfoEt.setText(viewModel.player.otherInfo)
+    }
+
+    private fun setPlayerSport(): Int {
+        return when(viewModel.player.sport){
+            "Football" -> R.id.football_radio_button
+            "Basketball" -> R.id.basketball_radio_button
+            else -> R.id.handball_radio_button
+        }
     }
 
     private fun getUserInput() {
@@ -60,16 +96,34 @@ class CreatePlayerFragment : Fragment() {
 
     private fun setSavePlayerListener(){
         binding.savePlayerBt.setOnClickListener {
-            viewModel.createPlayer(
-                    binding.playerNameEt.text.toString(),
-                    getPlayerNumber(),
-                    binding.playerPositionEt.text.toString(),
-                    binding.playerOtherInfoEt.text.toString()
-            )
-            Log.i("CreatePlayerFragment", "setSavePlayerListener: ${viewModel.player}")
+            if(viewModel.player.playerId == 0L){
+                savePlayer()
+            }else{
+                updatePlayer()
+            }
+
             findNavController().navigateUp()
-            Toast.makeText(requireContext(), "Player saved", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun updatePlayer() {
+        viewModel.updatePlayer(
+                binding.playerNameEt.text.toString(),
+                getPlayerNumber(),
+                binding.playerPositionEt.text.toString(),
+                binding.playerOtherInfoEt.text.toString()
+        )
+    }
+
+    private fun savePlayer() {
+        viewModel.createPlayer(
+                binding.playerNameEt.text.toString(),
+                getPlayerNumber(),
+                binding.playerPositionEt.text.toString(),
+                binding.playerOtherInfoEt.text.toString()
+        )
+        Log.i("CreatePlayerFragment", "setSavePlayerListener: ${viewModel.player}")
+        Toast.makeText(requireContext(), "Player saved", Toast.LENGTH_SHORT).show()
     }
 
     private fun getPlayerNumber(): Int {

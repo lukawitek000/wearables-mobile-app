@@ -121,7 +121,12 @@
         android:id="@+id/createPlayerFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.CreatePlayerFragment"
         android:label="Create Player"
-        tools:layout="@layout/fragment_create_player" />
+        tools:layout="@layout/fragment_create_player" >
+        <argument
+            android:name="playerId"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
     <fragment
         android:id="@+id/matchStatisticsFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.MatchStatisticsFragment"
@@ -170,5 +175,8 @@
             android:name="playerId"
             app:argType="long"
             android:defaultValue="0L" />
+        <action
+            android:id="@+id/action_playerInfoFragment_to_createPlayerFragment"
+            app:destination="@id/createPlayerFragment" />
     </fragment>
 </navigation>

@@ -17,6 +17,7 @@ class PlayersViewModel
 ) : ViewModel(){
 
     var playerInfo: Player? = null
+    var playerId: Long = 0L
 
     fun getDetailsAboutPlayer(id: Long): LiveData<Player>{
         return repository.getPlayerById(id)
