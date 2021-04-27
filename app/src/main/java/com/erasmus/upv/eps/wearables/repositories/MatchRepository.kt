@@ -39,5 +39,17 @@ class MatchRepository
         return matchDao.getMatchWithTeams(id)
     }
 
+    suspend fun deleteMatchById(matchId: Long) {
+        withContext(Dispatchers.IO){
+            matchDao.deleteMatchById(matchId)
+        }
+    }
+
+    suspend fun deleteMatchTeamCrossRefByMatchId(matchId: Long) {
+        withContext(Dispatchers.IO){
+            matchDao.deleteMatchTeamCrossRefByMatchId(matchId)
+        }
+    }
+
 
 }

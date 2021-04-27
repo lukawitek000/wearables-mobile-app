@@ -29,4 +29,10 @@ interface MatchDao {
     @Query("SELECT * FROM `Match` WHERE :id == matchId")
     fun getMatchWithTeams(id: Long): LiveData<MatchWithTeams>
 
+    @Query("DELETE FROM `Match` WHERE matchId == :matchId")
+    fun deleteMatchById(matchId: Long)
+
+    @Query("DELETE FROM MatchTeamCrossRef WHERE matchId == :matchId")
+    fun deleteMatchTeamCrossRefByMatchId(matchId: Long)
+
 }
