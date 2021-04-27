@@ -1,9 +1,6 @@
 package com.erasmus.upv.eps.wearables.repositories
 
-import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
-import com.erasmus.upv.eps.wearables.db.AppDatabase
 import com.erasmus.upv.eps.wearables.db.dao.PlayerDao
 import com.erasmus.upv.eps.wearables.model.Player
 import kotlinx.coroutines.Dispatchers
@@ -38,9 +35,10 @@ class PlayerRepository
         return playerDao.getPlayerById(id)
     }
 
-    suspend fun updatePlayersTeamIdFromTeam(teamId: Long){
+
+    suspend fun resetTeamOfThePlayer(playerId: Long) {
         withContext(Dispatchers.IO){
-            playerDao.updatePlayersTeamIdFromTeam(teamId)
+            playerDao.resetTeamOfThePlayerByPlayerId(playerId)
         }
     }
 

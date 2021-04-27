@@ -26,6 +26,10 @@ interface PlayerDao {
     @Query("SELECT * FROM Player WHERE playerId == :id")
     fun getPlayerById(id: Long): LiveData<Player>
 
-    @Query("UPDATE Player SET teamOfPlayerId = 0 WHERE teamOfPlayerId == :teamId ")
-    fun updatePlayersTeamIdFromTeam(teamId: Long)
+    @Query("UPDATE Player SET teamOfPlayerId = :defaultValue WHERE teamOfPlayerId == :teamId ")
+    fun resetTeamOfPlayerIdByTeamId(teamId: Long, defaultValue: Long = 0L)
+
+
+    @Query("UPDATE PLAYER SET teamOfPlayerId = 0 WHERE playerId == :playerId")
+    fun resetTeamOfThePlayerByPlayerId(playerId: Long)
 }

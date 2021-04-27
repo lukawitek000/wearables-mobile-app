@@ -1,9 +1,7 @@
 package com.erasmus.upv.eps.wearables.viewModels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.erasmus.upv.eps.wearables.model.Match
 import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.repositories.MatchRepository
@@ -11,7 +9,6 @@ import com.erasmus.upv.eps.wearables.repositories.PlayerRepository
 import com.erasmus.upv.eps.wearables.util.TeamCreated
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -48,7 +45,6 @@ class CreateRelationsViewModel
         viewModelScope.launch {
             teamPlayers.forEach {
                 it.teamOfPlayerId = teamId
-              //  playerRepository.updatePlayersTeamIdFromTeam(teamId)
                 playerRepository.updatePlayer(it)
             }
             teamPlayers.clear()
@@ -65,6 +61,14 @@ class CreateRelationsViewModel
         for(player in players){
             if(!teamPlayers.contains(player)){
                 teamPlayers.add(player)
+            }
+        }
+    }
+
+    fun resetTeamOfThePlayer(player: Player) {
+        viewModelScope.launch {
+            if(player.playerId != 0L) {
+                playerRepository.resetTeamOfThePlayer(player.playerId)
             }
         }
     }

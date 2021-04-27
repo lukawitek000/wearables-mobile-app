@@ -28,4 +28,12 @@
         app:layout_constraintEnd_toEndOf="@+id/player_number_tv"
         app:layout_constraintStart_toStartOf="@+id/player_number_tv"
         app:layout_constraintTop_toBottomOf="@+id/player_number_tv" />
+
+    <ImageView
+        android:id="@+id/delete_player_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close" />
 </androidx.constraintlayout.widget.ConstraintLayout>

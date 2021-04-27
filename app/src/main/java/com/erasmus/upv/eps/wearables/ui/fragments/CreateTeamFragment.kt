@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreateTeamBinding
+import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.ui.adapters.PlayersShortAdapter
 import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
@@ -55,7 +56,7 @@ class CreateTeamFragment : Fragment() {
                         sharedViewModel.creatingTeam = it.team
                     }
                     sharedViewModel.addPlayersToTeamPlayers(viewModel.teamWithPlayers.players)
-                    adapter.notifyDataSetChanged()
+                    adapter.submitList(sharedViewModel.teamPlayers)
                     populateInputs()
                     changeButtonText()
                 }
@@ -144,12 +145,19 @@ class CreateTeamFragment : Fragment() {
 
     private fun setUpTeamPlayersRecyclerView() {
         val recyclerView = binding.teamPlayersRv
-        adapter = PlayersShortAdapter()
+        adapter = PlayersShortAdapter(deletePlayer = this::deletePlayerFromAdapter)
         adapter.submitList(sharedViewModel.teamPlayers)
         recyclerView.adapter = adapter
                 recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
+
+    private fun deletePlayerFromAdapter(player: Player){
+        sharedViewModel.teamPlayers.remove(player)
+        sharedViewModel.resetTeamOfThePlayer(player)
+        adapter.submitList(sharedViewModel.teamPlayers)
+    }
+
 
 
 }

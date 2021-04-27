@@ -9,7 +9,8 @@ import com.erasmus.upv.eps.wearables.databinding.ItemViewPlayerShortBinding
 import com.erasmus.upv.eps.wearables.model.Player
 
 class PlayersShortAdapter(
-        private val choosePlayer: (player: Player) -> Unit = {}
+        private val choosePlayer: (player: Player) -> Unit = {},
+        private val deletePlayer: (player: Player) -> Unit = {}
                           ) : ListAdapter<Player, PlayersShortAdapter.PlayersShortViewHolder>(PlayersAdapter.PlayersComparator()) {
 
 
@@ -27,6 +28,13 @@ class PlayersShortAdapter(
         holder.itemView.setOnClickListener {
             choosePlayer.invoke(getItem(position))
         }
+        holder.binding.deletePlayerIv.setOnClickListener {
+            deletePlayer.invoke(getItem(position))
+        }
+    }
+
+    override fun submitList(list: List<Player>?) {
+        super.submitList(list?.let { ArrayList(it) })
     }
 
     inner class PlayersShortViewHolder(val binding: ItemViewPlayerShortBinding) : RecyclerView.ViewHolder(binding.root)
