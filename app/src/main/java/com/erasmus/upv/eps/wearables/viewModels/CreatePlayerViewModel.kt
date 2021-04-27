@@ -1,7 +1,6 @@
 package com.erasmus.upv.eps.wearables.viewModels
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erasmus.upv.eps.wearables.model.Player
@@ -13,16 +12,11 @@ import javax.inject.Inject
 @HiltViewModel
 class CreatePlayerViewModel
 @Inject constructor(
-        private val repository: PlayerRepository,
-        private val savedStateHandle: SavedStateHandle
+        private val repository: PlayerRepository
     ): ViewModel() {
 
+    var player = Player()
 
-    var player = Player(0L, 0L, "", "", 0, "")
-
-    fun setPlayersSport(sport: String){
-        player.sport = sport
-    }
 
     fun getPlayerById(id: Long): LiveData<Player>{
         return repository.getPlayerById(id)
@@ -30,10 +24,10 @@ class CreatePlayerViewModel
 
 
     fun createPlayer(name: String, number: Int, position: String, otherInfo: String){
-        player.playerId = 0L
         setPlayerProperties(name, number, position, otherInfo)
         savePlayerToDatabase()
     }
+
 
     private fun setPlayerProperties(name: String, number: Int, position: String, otherInfo: String) {
         player.name = name
@@ -42,11 +36,13 @@ class CreatePlayerViewModel
         player.otherInfo = otherInfo
     }
 
+
     private fun savePlayerToDatabase() {
         viewModelScope.launch {
-            repository.savePlayer(player)
+            repository.insertPlayer(player)
         }
     }
+
 
     fun updatePlayer(name: String, playerNumber: Int, position: String, otherInfo: String) {
         viewModelScope.launch {
@@ -55,5 +51,9 @@ class CreatePlayerViewModel
         }
     }
 
+
+    fun isNewPlayerCreated(): Boolean {
+        return player.playerId == 0L
+    }
 
 }

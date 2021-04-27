@@ -15,4 +15,15 @@ data class Player(
         var position: String,
         var otherInfo: String = "", // default value just for now, because of fake data
         var photo: String = "" // TODO add taking photos or getting photos from device
-)
+){
+        constructor(): this(
+                playerId = 0L,
+                teamOfPlayerId = 0L,
+                name = "",
+                sport = "",
+                number = 0,
+                position = "",
+                otherInfo = "",
+                photo = ""
+        )
+}

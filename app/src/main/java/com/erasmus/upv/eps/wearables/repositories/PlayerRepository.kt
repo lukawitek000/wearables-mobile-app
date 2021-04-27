@@ -13,7 +13,7 @@ class PlayerRepository
         ) {
 
 
-    suspend fun savePlayer(player: Player){
+    suspend fun insertPlayer(player: Player){
         withContext(Dispatchers.IO) {
             playerDao.insertPlayer(player)
         }

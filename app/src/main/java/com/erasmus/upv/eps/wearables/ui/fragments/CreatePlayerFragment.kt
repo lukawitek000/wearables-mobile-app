@@ -1,7 +1,6 @@
 package com.erasmus.upv.eps.wearables.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,100 +10,108 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreatePlayerBinding
+import com.erasmus.upv.eps.wearables.util.Sports
 import com.erasmus.upv.eps.wearables.viewModels.CreatePlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CreatePlayerFragment : Fragment() {
 
-
     private lateinit var binding: FragmentCreatePlayerBinding
-
     private val viewModel: CreatePlayerViewModel by viewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCreatePlayerBinding.inflate(
-                inflater, container, false
-        )
-
-        getUserInput()
+        binding = FragmentCreatePlayerBinding.inflate(inflater, container, false)
+        observeUserInput()
         receiveSafeArgs()
-
-
         return binding.root
     }
+
 
     private fun receiveSafeArgs() {
         if (arguments != null) {
             val args = CreatePlayerFragmentArgs.fromBundle(requireArguments())
             if (args.playerId > 0L) {
-                viewModel.getPlayerById(args.playerId).observe(viewLifecycleOwner) {
-                    viewModel.player = it
-                    populateInputs()
-                    changeButtonText()
-                }
-            } else {
-               // findNavController().navigateUp()
+                getPlayerFromDatabase(args.playerId)
             }
         }
     }
 
-    private fun changeButtonText() {
-        binding.savePlayerBt.text = "Update"
+
+    private fun getPlayerFromDatabase(playerId: Long) {
+        viewModel.getPlayerById(playerId).observe(viewLifecycleOwner) {
+            viewModel.player = it
+            populateInputs()
+            changeSaveButtonText()
+        }
     }
 
+
+    private fun changeSaveButtonText() {
+        binding.savePlayerBt.text = getString(R.string.update)
+    }
+
+
     private fun populateInputs() {
-        binding.sportRadioGroup.check(setPlayerSport())
+        binding.sportRadioGroup.check(setRadioButtonForPlayerSport())
         binding.playerNameEt.setText(viewModel.player.name)
         binding.playerNumberEt.setText(viewModel.player.number.toString())
         binding.playerPositionEt.setText(viewModel.player.position)
         binding.playerOtherInfoEt.setText(viewModel.player.otherInfo)
     }
 
-    private fun setPlayerSport(): Int {
+
+    private fun setRadioButtonForPlayerSport(): Int {
         return when(viewModel.player.sport){
-            "Football" -> R.id.football_radio_button
-            "Basketball" -> R.id.basketball_radio_button
+            Sports.FOOTBALL -> R.id.football_radio_button
+            Sports.BASKETBALL -> R.id.basketball_radio_button
             else -> R.id.handball_radio_button
         }
     }
 
-    private fun getUserInput() {
+
+    private fun observeUserInput() {
+        savePlayerSportFromRadioButton()
         getRadioButtonInput()
         setSavePlayerListener()
     }
 
 
+    private fun savePlayerSportFromRadioButton() {
+        viewModel.player.sport = getCheckedSport(binding.sportRadioGroup.checkedRadioButtonId)
+    }
+
+
     private fun getRadioButtonInput(){
-        setPlayersSportBaseOnRadioButtonChecked(binding.sportRadioGroup.checkedRadioButtonId)
-        binding.sportRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-            setPlayersSportBaseOnRadioButtonChecked(checkedId)
+        binding.sportRadioGroup.setOnCheckedChangeListener { _, _ ->
+            savePlayerSportFromRadioButton()
         }
     }
 
-    private fun setPlayersSportBaseOnRadioButtonChecked(checkedId: Int) {
-        when (checkedId) {
-            R.id.football_radio_button -> viewModel.setPlayersSport("Football")
-            R.id.handball_radio_button -> viewModel.setPlayersSport("Handball")
-            R.id.basketball_radio_button -> viewModel.setPlayersSport("Basketball")
+
+    private fun getCheckedSport(checkedId: Int) : String {
+        return when (checkedId) {
+            R.id.football_radio_button -> Sports.FOOTBALL
+            R.id.basketball_radio_button -> Sports.BASKETBALL
+            else -> Sports.HANDBALL
         }
     }
+
 
     private fun setSavePlayerListener(){
         binding.savePlayerBt.setOnClickListener {
-            if(viewModel.player.playerId == 0L){
+            if(viewModel.isNewPlayerCreated()){
                 savePlayer()
             }else{
                 updatePlayer()
             }
-
             findNavController().navigateUp()
         }
     }
+
 
     private fun updatePlayer() {
         viewModel.updatePlayer(
@@ -113,7 +120,9 @@ class CreatePlayerFragment : Fragment() {
                 binding.playerPositionEt.text.toString(),
                 binding.playerOtherInfoEt.text.toString()
         )
+        Toast.makeText(requireContext(), getString(R.string.player_updated), Toast.LENGTH_SHORT).show()
     }
+
 
     private fun savePlayer() {
         viewModel.createPlayer(
@@ -122,9 +131,9 @@ class CreatePlayerFragment : Fragment() {
                 binding.playerPositionEt.text.toString(),
                 binding.playerOtherInfoEt.text.toString()
         )
-        Log.i("CreatePlayerFragment", "setSavePlayerListener: ${viewModel.player}")
-        Toast.makeText(requireContext(), "Player saved", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.player_created), Toast.LENGTH_SHORT).show()
     }
+
 
     private fun getPlayerNumber(): Int {
         return try {
@@ -133,8 +142,5 @@ class CreatePlayerFragment : Fragment() {
             0
         }
     }
-
-
-
 
 }
