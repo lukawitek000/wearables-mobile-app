@@ -17,4 +17,13 @@ data class Team (
     val city: String,
    // val logo: Uri?,
     val others: String
-)
+){
+    constructor(): this(
+            teamId = 0L,
+            name = "",
+            sport = "",
+            color = Color.RED,
+            country = "",
+            city = "",
+            others = "")
+}

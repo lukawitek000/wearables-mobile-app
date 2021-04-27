@@ -19,15 +19,19 @@ class TeamInfoFragment : Fragment() {
     private lateinit var binding: FragmentTeamInfoBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = FragmentTeamInfoBinding.inflate(inflater, container, false)
-
+        areButtonsEnabled(false)
         receiveSafeArgs()
         handleDeleteButton()
         binding.deleteTeamBt.visibility = View.GONE // TODO handle match effected by deleting team
-
         handleUpdateButton()
         return binding.root
+    }
+
+    private fun areButtonsEnabled(isEnabled: Boolean) {
+        binding.deleteTeamBt.isEnabled = isEnabled
+        binding.updateTeamBt.isEnabled = isEnabled
     }
 
     private fun handleUpdateButton() {
@@ -48,12 +52,13 @@ class TeamInfoFragment : Fragment() {
         if (arguments != null) {
             val args = TeamInfoFragmentArgs.fromBundle(requireArguments())
             viewModel.teamId = args.teamId
-            setTextToTeamDetailsRawData(args)
+            setTextToTeamDetailsRawData(args.teamId)
         }
     }
 
-    private fun setTextToTeamDetailsRawData(args: TeamInfoFragmentArgs) {
-        viewModel.getTeamDetailInfo(args.teamId).observe(viewLifecycleOwner) {
+    private fun setTextToTeamDetailsRawData(teamId: Long) {
+        viewModel.getTeamDetailInfo(teamId).observe(viewLifecycleOwner) {
+            areButtonsEnabled(true)
             binding.teamInfoTv.text = it.toString()
         }
     }

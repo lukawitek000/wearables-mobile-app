@@ -17,13 +17,11 @@ class TeamsViewModel
     private val repository: TeamRepository
 ): ViewModel(){
 
-
     var teamId: Long = 0L
 
     fun getAllTeams(): LiveData<List<Team>>{
         return repository.allTeams.asLiveData()
     }
-
 
     fun getTeamDetailInfo(id: Long): LiveData<TeamWithPlayers>{
         return repository.getTeamWithPlayers(id)

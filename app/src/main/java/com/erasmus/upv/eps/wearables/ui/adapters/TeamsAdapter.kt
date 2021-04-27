@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.databinding.ItemViewTeamBinding
 import com.erasmus.upv.eps.wearables.model.Team
 
-class TeamsAdapter(private val onClick: (team: Team) -> Unit,
-                private val onInfoClick: (team: Team) -> Unit
+class TeamsAdapter(private val onClickTeamItem: (team: Team) -> Unit,
+                private val onClickTeamInfo: (team: Team) -> Unit
                    ) : ListAdapter<Team, TeamsAdapter.TeamsViewHolder>(TeamsComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamsViewHolder {
@@ -25,15 +25,11 @@ class TeamsAdapter(private val onClick: (team: Team) -> Unit,
     override fun onBindViewHolder(holder: TeamsViewHolder, position: Int) {
         holder.binding.teamNameAdapterTv.text = getItem(position).name
         holder.binding.teamCityAdapterTv.text = getItem(position).city
-        holder.itemView.setOnClickListener { onClick.invoke(getItem(position)) }
+        holder.itemView.setOnClickListener { onClickTeamItem.invoke(getItem(position)) }
         holder.binding.teamInfoIv.setOnClickListener {
-            onInfoClick.invoke(getItem(position))
+            onClickTeamInfo.invoke(getItem(position))
         }
     }
-
-
-
-
 
     inner class TeamsViewHolder(val binding: ItemViewTeamBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -46,7 +42,6 @@ class TeamsAdapter(private val onClick: (team: Team) -> Unit,
         override fun areContentsTheSame(oldItem: Team, newItem: Team): Boolean {
             return oldItem.teamId == newItem.teamId
         }
-
     }
 
 }

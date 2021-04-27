@@ -28,22 +28,20 @@ class TeamsFragment : Fragment() {
     private val viewModel: TeamsViewModel by viewModels()
     private val sharedViewModel: CreateRelationsViewModel by activityViewModels()
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-
         binding = FragmentTeamsBinding.inflate(inflater, container, false)
+        handleCreateTeamFb()
+        setUpTeamsRecyclerView()
+        loadDataFromDb()
+        changeVisibilityOfBottomMenu()
+        return binding.root
+    }
 
+    private fun handleCreateTeamFb() {
         binding.createTeamFb.setOnClickListener {
             findNavController().navigate(R.id.action_teamsFragment_to_createTeamFragment)
         }
-
-        setUpTeamsRecyclerView()
-        loadDataFromDb()
-
-        changeVisibilityOfBottomMenu()
-
-        return binding.root
     }
 
     private fun changeVisibilityOfBottomMenu() {
@@ -66,30 +64,33 @@ class TeamsFragment : Fragment() {
         }
     }
 
-
     private fun setUpTeamsRecyclerView() {
         val rv = binding.teamsRv
-        adapter = TeamsAdapter(onClick = this::selectTeamListener, onInfoClick = this::teamInfoClickListener)
+        adapter = TeamsAdapter(onClickTeamItem = this::onClickTeamItem, onClickTeamInfo = this::onClickTeamInfo)
         rv.adapter = adapter
         rv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun selectTeamListener(team: Team){
+    private fun onClickTeamItem(team: Team){
         if(sharedViewModel.whichTeamIsCreated == TeamCreated.NONE){
             return
         }
-        if(sharedViewModel.whichTeamIsCreated == TeamCreated.HOME_TEAM){
-            sharedViewModel.homeTeam = team
-            Toast.makeText(requireContext(), "Home team selected", Toast.LENGTH_SHORT).show()
-        }else{
-            sharedViewModel.guestTeam = team
-            Toast.makeText(requireContext(), "Guest team selected", Toast.LENGTH_SHORT).show()
-        }
+        createProperTeam(team)
         findNavController().navigateUp()
     }
 
-    private fun teamInfoClickListener(team: Team){
+    private fun createProperTeam(team: Team) {
+        if (sharedViewModel.whichTeamIsCreated == TeamCreated.HOME_TEAM) {
+            sharedViewModel.homeTeam = team
+            Toast.makeText(requireContext(), "Home team selected", Toast.LENGTH_SHORT).show()
+        } else {
+            sharedViewModel.guestTeam = team
+            Toast.makeText(requireContext(), "Guest team selected", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun onClickTeamInfo(team: Team){
         val direction = TeamsFragmentDirections.actionTeamsFragmentToTeamInfoFragment(team.teamId)
         findNavController().navigate(direction)
     }
