@@ -26,7 +26,6 @@ class CreateTeamViewModel
     var receivedTeamId: Long = 0L
 
     fun saveTeam(team: Team) {
-        Log.i("CreateTeamViewModel", "saveTeam: $team ")
         viewModelScope.launch {
              teamId.value = repository.saveTeam(team)
         }
@@ -37,7 +36,6 @@ class CreateTeamViewModel
     }
 
     fun updateTeam(team: Team) {
-        Log.i("CreteTeamViewModel", "updateTeam: $team")
         viewModelScope.launch {
             team.teamId = receivedTeamId
             repository.updateTeam(team)

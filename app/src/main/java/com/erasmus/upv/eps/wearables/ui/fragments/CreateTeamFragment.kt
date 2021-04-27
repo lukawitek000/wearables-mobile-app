@@ -55,8 +55,6 @@ class CreateTeamFragment : Fragment() {
                         sharedViewModel.creatingTeam = it.team
                     }
                     sharedViewModel.addPlayersToTeamPlayers(viewModel.teamWithPlayers.players)
-                    Log.i("CreateTeamFragment", "receiveSafeArgs: ${sharedViewModel.teamPlayers}")
-                    Log.i("CreateTeamFragment", "receiveSafeArgs: ${it}")
                     adapter.notifyDataSetChanged()
                     populateInputs()
                     changeButtonText()
@@ -122,7 +120,6 @@ class CreateTeamFragment : Fragment() {
         viewModel.teamId.observe(viewLifecycleOwner){
             sharedViewModel.updateTeamOfPlayers(it)
             findNavController().navigateUp()
-          //  sharedViewModel.teamPlayers.clear()
             sharedViewModel.isCreatingTeam = false
         }
     }
@@ -149,7 +146,6 @@ class CreateTeamFragment : Fragment() {
         val recyclerView = binding.teamPlayersRv
         adapter = PlayersShortAdapter()
         adapter.submitList(sharedViewModel.teamPlayers)
-        Log.i("CreateTeamFragment", "setUpTeamPlayersRecyclerView: ${sharedViewModel.teamPlayers}")
         recyclerView.adapter = adapter
                 recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
