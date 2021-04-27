@@ -19,7 +19,7 @@ class CreateMatchViewModel
 ) : ViewModel() {
 
     var receivedMatchId = 0L
-    var matchWithTeams = MatchWithTeams(Match(0L, Date(), "", "", "", ""), listOf())
+    var matchWithTeams = MatchWithTeams(Match(0L, Date(), "", "", "", "", ""), listOf())
 
     private val _matchId = MutableLiveData<Long>()
     val matchId: LiveData<Long>

@@ -101,7 +101,7 @@ class CreateMatchFragment : Fragment() {
         binding.matchDateEt.setText(DateTimeFormatter.displayDate(match.date.time))
         binding.matchTimeEt.setText(DateTimeFormatter.displayTime(match.date.time))
         binding.matchLocationEt.setText(match.location)
-        // TODO add city binding.matchCityEt.setText(match.)
+        binding.matchCityEt.setText(match.city)
         binding.matchLeagueEt.setText(match.league)
         binding.matchDetailsEt.setText(match.otherDetails)
     }
@@ -175,6 +175,7 @@ class CreateMatchFragment : Fragment() {
 
     private fun getMatchFromUserInput() {
         sharedViewModel.creatingMatch.location = binding.matchLocationEt.text.toString()
+        sharedViewModel.creatingMatch.city = binding.matchCityEt.text.toString()
         sharedViewModel.creatingMatch.sport = getSelectedSport()
         sharedViewModel.creatingMatch.league = binding.matchLeagueEt.text.toString()
         sharedViewModel.creatingMatch.otherDetails = binding.matchDetailsEt.text.toString()

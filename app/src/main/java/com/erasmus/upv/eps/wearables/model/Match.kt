@@ -9,11 +9,10 @@ import java.util.*
 data class Match(
     @PrimaryKey(autoGenerate = true)
     var matchId: Long,
-    //val guestTeam: Team,
-    //val homeTeam: Team,
     var date: Date,
     var location: String,
+    var city: String,
     var sport: String,
     var league: String,
-    var otherDetails: String,
+    var otherDetails: String
 )

@@ -27,7 +27,7 @@ class CreateRelationsViewModel
     var whichTeamIsCreated = TeamCreated.NONE
 
     var creatingTeam = Team(0L, "", "", 0, "", "", "")
-    var creatingMatch = Match(0L, Date(), "", "", "", "")
+    var creatingMatch = Match(0L, Date(), "", "", "", "", "")
 
 
     fun areBothTeamsAdded(): Boolean {
