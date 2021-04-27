@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -25,7 +24,6 @@ class PlayersFragment : Fragment() {
     private lateinit var binding: FragmentPlayersBinding
     private val viewModel: PlayersViewModel by viewModels()
     private lateinit var playersAdapter: PlayersAdapter
-
     private val sharedViewModel: CreateRelationsViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -33,20 +31,25 @@ class PlayersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlayersBinding.inflate(inflater, container, false)
-
-        binding.createPlayerFb.setOnClickListener {
-            findNavController().navigate(R.id.action_playersFragment_to_createPlayerFragment)
-        }
-
-        if(arguments != null){
-            val args = PlayersFragmentArgs.fromBundle(requireArguments())
-            sharedViewModel.isCreatingTeam = args.isCreatingTeam
-        }
+        receiveSafeArgs()
+        handleCreatePlayerFb()
         changeVisibilityOfBottomMenu()
         setUpRecyclerView()
         listenToDbChanges()
-
         return binding.root
+    }
+
+    private fun receiveSafeArgs() {
+        if (arguments != null) {
+            val args = PlayersFragmentArgs.fromBundle(requireArguments())
+            sharedViewModel.isCreatingTeam = args.isCreatingTeam
+        }
+    }
+
+    private fun handleCreatePlayerFb() {
+        binding.createPlayerFb.setOnClickListener {
+            findNavController().navigate(R.id.action_playersFragment_to_createPlayerFragment)
+        }
     }
 
 
@@ -56,6 +59,43 @@ class PlayersFragment : Fragment() {
         }else{
             (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
         }
+    }
+
+
+    private fun setUpRecyclerView() {
+        val rv = binding.playersRv
+        playersAdapter = PlayersAdapter(
+                onClickPlayerItem = this::onClickPlayerItem,
+                onClickDeletePlayer = this::onClickDeletePlayer
+        )
+        rv.adapter = playersAdapter
+        rv.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+    }
+
+    private fun onClickPlayerItem(player: Player){
+        if(sharedViewModel.isCreatingTeam) {
+            addPlayerToTheTeam(player)
+        }else{
+            navigateToPlayerInfoFragment(player)
+        }
+    }
+
+
+    private fun addPlayerToTheTeam(player: Player){
+        sharedViewModel.teamPlayers.add(player)
+        findNavController().navigateUp()
+    }
+
+
+    private fun navigateToPlayerInfoFragment(player: Player) {
+        val directions = PlayersFragmentDirections.actionPlayersFragmentToPlayerInfoFragment(player.playerId)
+        findNavController().navigate(directions)
+    }
+
+
+    private fun onClickDeletePlayer(player: Player){
+        viewModel.deletePlayer(player)
     }
 
     private fun listenToDbChanges() {
@@ -73,39 +113,5 @@ class PlayersFragment : Fragment() {
             players
         }
     }
-
-
-
-    private fun setUpRecyclerView() {
-        val rv = binding.playersRv
-        playersAdapter = PlayersAdapter(onClick = this::playersAdapterClickListener, onClickDeletePlayer = this::deletePlayer)
-        rv.adapter = playersAdapter
-        rv.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-    }
-
-    private fun playersAdapterClickListener(player: Player){
-        if(sharedViewModel.isCreatingTeam) {
-            addPlayerToTheTeam(player)
-        }else{
-            navigateToPlayerInfoFragment(player)
-        }
-    }
-
-    private fun navigateToPlayerInfoFragment(player: Player) {
-        val directions = PlayersFragmentDirections.actionPlayersFragmentToPlayerInfoFragment(player.playerId)
-        findNavController().navigate(directions)
-    }
-
-
-    private fun addPlayerToTheTeam(player: Player){
-        sharedViewModel.teamPlayers.add(player)
-        findNavController().navigateUp()
-    }
-
-    private fun deletePlayer(player: Player){
-        viewModel.deletePlayer(player)
-    }
-
 
 }

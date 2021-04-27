@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.databinding.ItemViewPlayerBinding
 import com.erasmus.upv.eps.wearables.databinding.ItemViewPlayerShortBinding
 import com.erasmus.upv.eps.wearables.model.Player
+import com.erasmus.upv.eps.wearables.ui.adapters.comparators.PlayersComparator
 
 class PlayersShortAdapter(
         private val choosePlayer: (player: Player) -> Unit = {},
         private val deletePlayer: (player: Player) -> Unit = {}
-                          ) : ListAdapter<Player, PlayersShortAdapter.PlayersShortViewHolder>(PlayersAdapter.PlayersComparator()) {
+                          ) : ListAdapter<Player, PlayersShortAdapter.PlayersShortViewHolder>(PlayersComparator()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayersShortViewHolder {

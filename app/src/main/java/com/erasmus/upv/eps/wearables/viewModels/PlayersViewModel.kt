@@ -1,9 +1,6 @@
 package com.erasmus.upv.eps.wearables.viewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.repositories.PlayerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,18 +13,17 @@ class PlayersViewModel
     private val repository: PlayerRepository
 ) : ViewModel(){
 
-    var playerInfo: Player? = null
-    var playerId: Long = 0L
+    var selectedPlayer: Player = Player()
 
-    fun getDetailsAboutPlayer(id: Long): LiveData<Player>{
-        return repository.getPlayerById(id)
+
+    fun getDetailsAboutPlayer(playerId: Long): LiveData<Player>{
+        return repository.getPlayerById(playerId)
     }
 
 
     fun getAllPlayers(): LiveData<List<Player>>{
         return repository.allPlayers.asLiveData()
     }
-
 
 
     fun filterPlayers(players: List<Player>, alreadyAddedPlayers: List<Player>): List<Player>{
