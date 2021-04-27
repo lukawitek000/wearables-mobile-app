@@ -2,6 +2,7 @@ package com.erasmus.upv.eps.wearables.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.erasmus.upv.eps.wearables.model.Match
 import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.repositories.MatchRepository
@@ -9,6 +10,7 @@ import com.erasmus.upv.eps.wearables.repositories.PlayerRepository
 import com.erasmus.upv.eps.wearables.util.TeamCreated
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +27,7 @@ class CreateRelationsViewModel
     var whichTeamIsCreated = TeamCreated.NONE
 
     var creatingTeam = Team(0L, "", "", 0, "", "", "")
+    var creatingMatch = Match(0L, Date(), "", "", "", "")
 
 
     fun areBothTeamsAdded(): Boolean {

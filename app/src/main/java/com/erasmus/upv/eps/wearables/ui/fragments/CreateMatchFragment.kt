@@ -3,15 +3,11 @@ package com.erasmus.upv.eps.wearables.ui.fragments
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -20,7 +16,6 @@ import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreateMatchBinding
 import com.erasmus.upv.eps.wearables.databinding.ItemViewTeamBinding
 import com.erasmus.upv.eps.wearables.model.Match
-import com.erasmus.upv.eps.wearables.model.MatchWithTeams
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
 import com.erasmus.upv.eps.wearables.util.TeamCreated
@@ -78,16 +73,18 @@ class CreateMatchFragment : Fragment() {
     private fun getMatchDetails() {
         viewModel.getMatchDetails().observe(viewLifecycleOwner){
             viewModel.matchWithTeams = it
+            if(sharedViewModel.creatingMatch.matchId == 0L) {
+                sharedViewModel.creatingMatch = it.match
+            }
             populateUi()
         }
     }
 
     private fun populateUi() {
-        val match = viewModel.matchWithTeams.match
-        setEditTexts(match)
+        setEditTexts(sharedViewModel.creatingMatch)
         setTeamsToSharedViewModel()
         populateTeamsLayouts()
-        binding.sportRadioGroup.check(setSportRadioButton(match.sport))
+        binding.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
     }
 
     private fun setTeamsToSharedViewModel() {
@@ -143,6 +140,7 @@ class CreateMatchFragment : Fragment() {
 
     private fun addGuestTeam() {
         binding.chooseGuestTeamBt.setOnClickListener {
+            getMatchFromUserInput()
             sharedViewModel.whichTeamIsCreated = TeamCreated.GUEST_TEAM
             findNavController().navigate(R.id.action_createMatchFragment_to_teamsFragment)
         }
@@ -150,6 +148,7 @@ class CreateMatchFragment : Fragment() {
 
     private fun addHomeTeam() {
         binding.chooseHomeTeamBt.setOnClickListener {
+            getMatchFromUserInput()
             sharedViewModel.whichTeamIsCreated = TeamCreated.HOME_TEAM
             findNavController().navigate(R.id.action_createMatchFragment_to_teamsFragment)
         }
@@ -159,9 +158,9 @@ class CreateMatchFragment : Fragment() {
         binding.doneCreatingMatchFb.setOnClickListener {
             getMatchFromUserInput()
             if(viewModel.receivedMatchId == 0L) {
-                viewModel.insertMatch()
+                viewModel.insertMatch(sharedViewModel.creatingMatch)
             }else{
-                viewModel.updateMatch()
+                viewModel.updateMatch(sharedViewModel.creatingMatch)
             }
         }
     }
@@ -175,10 +174,14 @@ class CreateMatchFragment : Fragment() {
     }
 
     private fun getMatchFromUserInput() {
-        viewModel.match.location = binding.matchLocationEt.text.toString()
-        viewModel.match.sport = getSelectedSport()
-        viewModel.match.league = binding.matchLeagueEt.text.toString()
-        viewModel.match.otherDetails = binding.matchDetailsEt.text.toString()
+//        viewModel.match.location = binding.matchLocationEt.text.toString()
+//        viewModel.match.sport = getSelectedSport()
+//        viewModel.match.league = binding.matchLeagueEt.text.toString()
+//        viewModel.match.otherDetails = binding.matchDetailsEt.text.toString()
+        sharedViewModel.creatingMatch.location = binding.matchLocationEt.text.toString()
+        sharedViewModel.creatingMatch.sport = getSelectedSport()
+        sharedViewModel.creatingMatch.league = binding.matchLeagueEt.text.toString()
+        sharedViewModel.creatingMatch.otherDetails = binding.matchDetailsEt.text.toString()
     }
 
     private fun getSelectedSport(): String  = when(binding.sportRadioGroup.checkedRadioButtonId){

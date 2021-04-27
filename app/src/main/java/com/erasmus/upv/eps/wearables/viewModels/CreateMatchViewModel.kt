@@ -1,6 +1,5 @@
 package com.erasmus.upv.eps.wearables.viewModels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +19,7 @@ class CreateMatchViewModel
 ) : ViewModel() {
 
 
-    val match = Match(0L, Date(), "", "", "", "")
+    //private var match = Match(0L, Date(), "", "", "", "")
 
     var receivedMatchId = 0L
     var matchWithTeams = MatchWithTeams(Match(0L, Date(), "", "", "", ""), listOf())
@@ -31,10 +30,11 @@ class CreateMatchViewModel
 
     var matchDate: Calendar = Calendar.getInstance()
 
-    fun insertMatch(){
+    fun insertMatch(creatingMatch: Match) {
         viewModelScope.launch {
-            finishCreatingMatch()
-            _matchId.value = repository.insertMatch(match)
+           // match = creatingMatch
+            finishCreatingMatch(creatingMatch)
+            _matchId.value = repository.insertMatch(creatingMatch)
         }
     }
 
@@ -42,17 +42,17 @@ class CreateMatchViewModel
         return repository.getMatchAndTeamsById(receivedMatchId)
     }
 
-    fun updateMatch() {
+    fun updateMatch(creatingMatch: Match) {
         viewModelScope.launch {
-            finishCreatingMatch()
-            repository.resetTeamsInMatch(match)
-           repository.updateMatch(match)
+            finishCreatingMatch(creatingMatch)
+            repository.resetTeamsInMatch(creatingMatch)
+           repository.updateMatch(creatingMatch)
             _matchId.value = receivedMatchId
         }
     }
 
 
-    private fun finishCreatingMatch() {
+    private fun finishCreatingMatch(match: Match) {
         match.date = Date(matchDate.timeInMillis)
         match.matchId = receivedMatchId
     }
