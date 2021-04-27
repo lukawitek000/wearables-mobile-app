@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erasmus.upv.eps.wearables.model.Match
+import com.erasmus.upv.eps.wearables.model.MatchWithTeams
 import com.erasmus.upv.eps.wearables.repositories.MatchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,6 +21,8 @@ class CreateMatchViewModel
 
     val match = Match(0L, Date(), "", "", "", "")
 
+    var receivedMatchId = 0L
+
     private val _matchId = MutableLiveData<Long>()
     val matchId: LiveData<Long>
         get() = _matchId
@@ -33,6 +36,9 @@ class CreateMatchViewModel
         }
     }
 
+    fun getMatchDetails(): LiveData<MatchWithTeams> {
+        return repository.getMatchAndTeamsById(receivedMatchId)
+    }
 
 
 }

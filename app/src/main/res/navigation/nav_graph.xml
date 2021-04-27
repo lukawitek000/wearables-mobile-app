@@ -107,6 +107,10 @@
         <action
             android:id="@+id/action_createMatchFragment_to_teamsFragment"
             app:destination="@id/teamsFragment" />
+        <argument
+            android:name="matchId"
+            app:argType="long"
+            android:defaultValue="0L" />
     </fragment>
     <fragment
         android:id="@+id/createTeamFragment"
@@ -159,6 +163,9 @@
             android:name="matchId"
             app:argType="long"
             android:defaultValue="0L" />
+        <action
+            android:id="@+id/action_matchInfoFragment_to_createMatchFragment"
+            app:destination="@id/createMatchFragment" />
     </fragment>
     <fragment
         android:id="@+id/teamInfoFragment"

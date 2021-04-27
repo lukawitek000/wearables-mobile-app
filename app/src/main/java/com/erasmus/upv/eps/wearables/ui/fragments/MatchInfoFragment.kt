@@ -28,9 +28,11 @@ class MatchInfoFragment : Fragment() {
         receiveSafeArgs()
         setMatchInfoTextView()
         handleDeleteMatchButton()
+        handleUpdateMatchButton()
         
         return binding.root
     }
+
 
     private fun setMatchInfoTextView() {
         viewModel.getInfoAboutTheMatch().observe(viewLifecycleOwner) {
@@ -60,5 +62,14 @@ class MatchInfoFragment : Fragment() {
         Toast.makeText(requireContext(), "Match deleted", Toast.LENGTH_SHORT).show()
         findNavController().navigateUp()
     }
+
+
+    private fun handleUpdateMatchButton() {
+        binding.updateMatchBt.setOnClickListener {
+            val direction = MatchInfoFragmentDirections.actionMatchInfoFragmentToCreateMatchFragment(viewModel.matchId)
+            findNavController().navigate(direction)
+        }
+    }
+
 
 }

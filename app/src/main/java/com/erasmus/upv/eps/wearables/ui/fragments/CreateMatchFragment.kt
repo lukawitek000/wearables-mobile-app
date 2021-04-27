@@ -20,6 +20,7 @@ import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreateMatchBinding
 import com.erasmus.upv.eps.wearables.databinding.ItemViewTeamBinding
 import com.erasmus.upv.eps.wearables.model.Match
+import com.erasmus.upv.eps.wearables.model.MatchWithTeams
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
 import com.erasmus.upv.eps.wearables.util.TeamCreated
@@ -42,6 +43,7 @@ class CreateMatchFragment : Fragment() {
     ): View {
         binding = FragmentCreateMatchBinding.inflate(inflater, container, false)
 
+        receiveSafeArgs()
         handleDateInput()
         handleTimeInput()
         createMatch()
@@ -56,6 +58,60 @@ class CreateMatchFragment : Fragment() {
         customBackPress()
 
         return binding.root
+    }
+
+    private fun receiveSafeArgs() {
+        if(arguments != null){
+            val args = CreateMatchFragmentArgs.fromBundle(requireArguments())
+            viewModel.receivedMatchId = args.matchId
+            if(viewModel.receivedMatchId != 0L) {
+                changeButtonIcon()
+                getMatchDetails()
+            }
+        }
+    }
+
+    private fun getMatchDetails() {
+        viewModel.getMatchDetails().observe(viewLifecycleOwner){
+            populateUi(it)
+        }
+    }
+
+    private fun populateUi(matchWithTeams: MatchWithTeams) {
+        val match = matchWithTeams.match
+        setEditTexts(match)
+        setHomeTeam(matchWithTeams.teams[0])
+        setGuestTeam(matchWithTeams.teams[1])
+        binding.sportRadioGroup.check(setSportRadioButton(match.sport))
+    }
+
+    private fun setGuestTeam(team: Team) {
+        populateTeamLayout(team, binding.guestTeamSelected)
+    }
+
+    private fun setHomeTeam(team: Team) {
+        populateTeamLayout(team, binding.homeTeamSelected)
+    }
+
+    private fun setEditTexts(match: Match) {
+        binding.matchDateEt.setText(DateTimeFormatter.displayDate(match.date.time))
+        binding.matchTimeEt.setText(DateTimeFormatter.displayTime(match.date.time))
+        binding.matchLocationEt.setText(match.location)
+        // TODO add city binding.matchCityEt.setText(match.)
+        binding.matchLeagueEt.setText(match.league)
+        binding.matchDetailsEt.setText(match.otherDetails)
+    }
+
+    private fun setSportRadioButton(sport: String): Int {
+        return when(sport){
+            "Football" -> R.id.football_radio_button
+            "Basketball" -> R.id.basketball_radio_button
+            else -> R.id.handball_radio_button
+        }
+    }
+
+    private fun changeButtonIcon() {
+        binding.doneCreatingMatchFb.setImageResource(R.drawable.ic_update)
     }
 
     private fun customBackPress() {
