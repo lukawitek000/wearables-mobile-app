@@ -27,6 +27,8 @@ class CreateRelationsViewModel
     val teamPlayers = mutableListOf<Player>()
     var whichTeamIsCreated = TeamCreated.NONE
 
+    var creatingTeam = Team(0L, "", "", 0, "", "", "")
+
 
     fun areBothTeamsAdded(): Boolean {
         return (homeTeam != null && guestTeam != null)
@@ -46,7 +48,8 @@ class CreateRelationsViewModel
         viewModelScope.launch {
             teamPlayers.forEach {
                 it.teamOfPlayerId = teamId
-                playerRepository.updatePlayersTeamIdFromTeam(teamId)
+                Log.i("CreateRelationsViewModel", "updateTeamOfPlayers: $it ")
+              //  playerRepository.updatePlayersTeamIdFromTeam(teamId)
                 playerRepository.updatePlayer(it)
             }
             teamPlayers.clear()
@@ -57,6 +60,14 @@ class CreateRelationsViewModel
         homeTeam = null
         guestTeam = null
         whichTeamIsCreated = TeamCreated.NONE
+    }
+
+    fun addPlayersToTeamPlayers(players: List<Player>) {
+        for(player in players){
+            if(!teamPlayers.contains(player)){
+                teamPlayers.add(player)
+            }
+        }
     }
 
 

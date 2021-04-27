@@ -51,10 +51,13 @@ class CreateTeamFragment : Fragment() {
                 viewModel.receivedTeamId = args.teamId
                 viewModel.getTeamWithPlayersById(viewModel.receivedTeamId).observe(viewLifecycleOwner) {
                     viewModel.teamWithPlayers = it
-                    sharedViewModel.teamPlayers.addAll(viewModel.teamWithPlayers.players)
+                    if(sharedViewModel.creatingTeam.teamId == 0L){
+                        sharedViewModel.creatingTeam = it.team
+                    }
+                    sharedViewModel.addPlayersToTeamPlayers(viewModel.teamWithPlayers.players)
                     Log.i("CreateTeamFragment", "receiveSafeArgs: ${sharedViewModel.teamPlayers}")
                     Log.i("CreateTeamFragment", "receiveSafeArgs: ${it}")
-                    adapter.submitList(sharedViewModel.teamPlayers)
+                    adapter.notifyDataSetChanged()
                     populateInputs()
                     changeButtonText()
                 }
@@ -68,10 +71,10 @@ class CreateTeamFragment : Fragment() {
 
     private fun populateInputs() {
         setPlayerSport()
-        binding.teamNameEt.setText(viewModel.teamWithPlayers!!.team.name)
-        binding.teamCountryEt.setText(viewModel.teamWithPlayers!!.team.country)
-        binding.teamCityEt.setText(viewModel.teamWithPlayers!!.team.city)
-        binding.teamInfoEt.setText(viewModel.teamWithPlayers!!.team.others)
+        binding.teamNameEt.setText(sharedViewModel.creatingTeam.name)
+        binding.teamCountryEt.setText(sharedViewModel.creatingTeam.country)
+        binding.teamCityEt.setText(sharedViewModel.creatingTeam.city)
+        binding.teamInfoEt.setText(sharedViewModel.creatingTeam.others)
         adapter.submitList(sharedViewModel.teamPlayers)
     }
 
@@ -94,6 +97,7 @@ class CreateTeamFragment : Fragment() {
 
     private fun addPlayer() {
         binding.addPlayerBt.setOnClickListener {
+            sharedViewModel.creatingTeam = getUserInput()
             val destination = CreateTeamFragmentDirections.actionCreateTeamFragmentToPlayersFragment(true)
             findNavController().navigate(destination)
         }
@@ -108,6 +112,8 @@ class CreateTeamFragment : Fragment() {
             }else{
                 viewModel.updateTeam(getUserInput())
                 sharedViewModel.updateTeamOfPlayers(viewModel.receivedTeamId)
+                Toast.makeText(requireContext(), "Team Update", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
             }
         }
     }
@@ -123,7 +129,7 @@ class CreateTeamFragment : Fragment() {
 
     private fun getUserInput() : Team {
         return Team(
-            0L,
+            viewModel.receivedTeamId,
             binding.teamNameEt.text.toString(),
             getSelectedSport(),
             Color.RED,

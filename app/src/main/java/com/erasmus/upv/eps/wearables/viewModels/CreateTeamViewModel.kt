@@ -37,7 +37,9 @@ class CreateTeamViewModel
     }
 
     fun updateTeam(team: Team) {
+        Log.i("CreteTeamViewModel", "updateTeam: $team")
         viewModelScope.launch {
+            team.teamId = receivedTeamId
             repository.updateTeam(team)
         }
     }
