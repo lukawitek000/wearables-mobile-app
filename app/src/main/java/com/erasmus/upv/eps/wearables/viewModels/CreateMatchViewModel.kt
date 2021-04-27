@@ -18,9 +18,6 @@ class CreateMatchViewModel
     private val repository: MatchRepository
 ) : ViewModel() {
 
-
-    //private var match = Match(0L, Date(), "", "", "", "")
-
     var receivedMatchId = 0L
     var matchWithTeams = MatchWithTeams(Match(0L, Date(), "", "", "", ""), listOf())
 
@@ -32,7 +29,6 @@ class CreateMatchViewModel
 
     fun insertMatch(creatingMatch: Match) {
         viewModelScope.launch {
-           // match = creatingMatch
             finishCreatingMatch(creatingMatch)
             _matchId.value = repository.insertMatch(creatingMatch)
         }

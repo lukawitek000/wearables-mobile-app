@@ -174,10 +174,6 @@ class CreateMatchFragment : Fragment() {
     }
 
     private fun getMatchFromUserInput() {
-//        viewModel.match.location = binding.matchLocationEt.text.toString()
-//        viewModel.match.sport = getSelectedSport()
-//        viewModel.match.league = binding.matchLeagueEt.text.toString()
-//        viewModel.match.otherDetails = binding.matchDetailsEt.text.toString()
         sharedViewModel.creatingMatch.location = binding.matchLocationEt.text.toString()
         sharedViewModel.creatingMatch.sport = getSelectedSport()
         sharedViewModel.creatingMatch.league = binding.matchLeagueEt.text.toString()
