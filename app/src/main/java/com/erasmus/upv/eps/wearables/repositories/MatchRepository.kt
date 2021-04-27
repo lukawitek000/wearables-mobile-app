@@ -30,7 +30,7 @@ class MatchRepository
     suspend fun insertMatchTeamCrossRef(matchId: Long, teamId: Long){
         withContext(Dispatchers.IO){
             matchDao.insertMatchTeamCrossRef(
-                MatchTeamCrossRef(matchId, teamId)
+                MatchTeamCrossRef(matchId = matchId, teamId = teamId)
             )
         }
     }
@@ -48,6 +48,18 @@ class MatchRepository
     suspend fun deleteMatchTeamCrossRefByMatchId(matchId: Long) {
         withContext(Dispatchers.IO){
             matchDao.deleteMatchTeamCrossRefByMatchId(matchId)
+        }
+    }
+
+    suspend fun updateMatch(match: Match) {
+        withContext(Dispatchers.IO){
+            matchDao.updateMatch(match)
+        }
+    }
+
+    suspend fun resetTeamsInMatch(match: Match) {
+        withContext(Dispatchers.IO){
+            matchDao.deleteMatchTeamCrossRefByMatchId(match.matchId)
         }
     }
 

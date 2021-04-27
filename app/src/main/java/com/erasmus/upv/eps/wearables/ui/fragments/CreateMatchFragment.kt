@@ -52,12 +52,16 @@ class CreateMatchFragment : Fragment() {
         addGuestTeam()
 
         binding.doneCreatingMatchFb.isEnabled = sharedViewModel.areBothTeamsAdded()
-        populateTeamLayout(sharedViewModel.homeTeam, binding.homeTeamSelected)
-        populateTeamLayout(sharedViewModel.guestTeam, binding.guestTeamSelected)
+        populateTeamsLayouts()
 
         customBackPress()
 
         return binding.root
+    }
+
+    private fun populateTeamsLayouts() {
+        populateTeamLayout(sharedViewModel.homeTeam, binding.homeTeamSelected)
+        populateTeamLayout(sharedViewModel.guestTeam, binding.guestTeamSelected)
     }
 
     private fun receiveSafeArgs() {
@@ -73,25 +77,28 @@ class CreateMatchFragment : Fragment() {
 
     private fun getMatchDetails() {
         viewModel.getMatchDetails().observe(viewLifecycleOwner){
-            populateUi(it)
+            viewModel.matchWithTeams = it
+            populateUi()
         }
     }
 
-    private fun populateUi(matchWithTeams: MatchWithTeams) {
-        val match = matchWithTeams.match
+    private fun populateUi() {
+        val match = viewModel.matchWithTeams.match
         setEditTexts(match)
-        setHomeTeam(matchWithTeams.teams[0])
-        setGuestTeam(matchWithTeams.teams[1])
+        setTeamsToSharedViewModel()
+        populateTeamsLayouts()
         binding.sportRadioGroup.check(setSportRadioButton(match.sport))
     }
 
-    private fun setGuestTeam(team: Team) {
-        populateTeamLayout(team, binding.guestTeamSelected)
+    private fun setTeamsToSharedViewModel() {
+        if (sharedViewModel.homeTeam == null) {
+            sharedViewModel.homeTeam = viewModel.matchWithTeams.teams[0]
+        }
+        if (sharedViewModel.guestTeam == null) {
+            sharedViewModel.guestTeam = viewModel.matchWithTeams.teams[1]
+        }
     }
 
-    private fun setHomeTeam(team: Team) {
-        populateTeamLayout(team, binding.homeTeamSelected)
-    }
 
     private fun setEditTexts(match: Match) {
         binding.matchDateEt.setText(DateTimeFormatter.displayDate(match.date.time))
@@ -151,7 +158,11 @@ class CreateMatchFragment : Fragment() {
     private fun createMatch() {
         binding.doneCreatingMatchFb.setOnClickListener {
             getMatchFromUserInput()
-            viewModel.insertMatch()
+            if(viewModel.receivedMatchId == 0L) {
+                viewModel.insertMatch()
+            }else{
+                viewModel.updateMatch()
+            }
         }
     }
 

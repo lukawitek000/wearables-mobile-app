@@ -35,4 +35,7 @@ interface MatchDao {
     @Query("DELETE FROM MatchTeamCrossRef WHERE matchId == :matchId")
     fun deleteMatchTeamCrossRefByMatchId(matchId: Long)
 
+    @Update
+    fun updateMatch(match: Match)
+
 }
