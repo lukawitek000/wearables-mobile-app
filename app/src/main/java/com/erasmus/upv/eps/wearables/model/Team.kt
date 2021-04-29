@@ -10,7 +10,6 @@ data class Team (
     @PrimaryKey(autoGenerate = true)
     var teamId: Long,
     val name: String,
-    //val players: List<Player>,
     val sport: String,
     val color: Int,
     val country: String,

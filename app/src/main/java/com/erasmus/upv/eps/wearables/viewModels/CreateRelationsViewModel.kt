@@ -26,7 +26,7 @@ class CreateRelationsViewModel
     val teamPlayers = mutableListOf<Player>()
     var whichTeamIsCreated = TeamCreated.NONE
 
-    var creatingTeam = Team(0L, "", "", 0, "", "", "")
+    var creatingTeam = Team()
     var creatingMatch = Match(0L, Date(), "", "", "", "", "")
 
 

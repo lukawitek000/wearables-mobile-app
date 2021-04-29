@@ -5,4 +5,6 @@
     <string name="update">Update</string>
     <string name="player_created">Player created</string>
     <string name="player_updated">Player updated</string>
+    <string name="team_created">Team created</string>
+    <string name="team_updated">Team updated</string>
 </resources>

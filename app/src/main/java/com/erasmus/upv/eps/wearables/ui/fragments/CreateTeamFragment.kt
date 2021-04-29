@@ -18,6 +18,7 @@ import com.erasmus.upv.eps.wearables.databinding.FragmentCreateTeamBinding
 import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.ui.adapters.PlayersShortAdapter
+import com.erasmus.upv.eps.wearables.util.Sports
 import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
 import com.erasmus.upv.eps.wearables.viewModels.CreateTeamViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,7 +66,7 @@ class CreateTeamFragment : Fragment() {
     }
 
     private fun changeButtonText() {
-        binding.saveTeamBt.text = "Update"
+        binding.saveTeamBt.text = getString(R.string.update)
     }
 
     private fun populateInputs() {
@@ -78,9 +79,9 @@ class CreateTeamFragment : Fragment() {
     }
 
     private fun setPlayerSport(): Int {
-        return when(viewModel.teamWithPlayers!!.team.sport){
-            "Football" -> R.id.football_radio_button
-            "Basketball" -> R.id.basketball_radio_button
+        return when(viewModel.teamWithPlayers.team.sport){
+            Sports.FOOTBALL -> R.id.football_radio_button
+            Sports.BASKETBALL -> R.id.basketball_radio_button
             else -> R.id.handball_radio_button
         }
     }
@@ -107,11 +108,11 @@ class CreateTeamFragment : Fragment() {
         binding.saveTeamBt.setOnClickListener {
             if(viewModel.receivedTeamId == 0L) {
                 viewModel.saveTeam(getUserInput())
-                Toast.makeText(requireContext(), "Team created", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.team_created), Toast.LENGTH_SHORT).show()
             }else{
                 viewModel.updateTeam(getUserInput())
                 sharedViewModel.updateTeamOfPlayers(viewModel.receivedTeamId)
-                Toast.makeText(requireContext(), "Team Update", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.team_updated), Toast.LENGTH_SHORT).show()
                 findNavController().navigateUp()
             }
         }
@@ -138,9 +139,9 @@ class CreateTeamFragment : Fragment() {
     }
 
     private fun getSelectedSport(): String  = when(binding.sportRadioGroup.checkedRadioButtonId){
-        R.id.football_radio_button -> "Football"
-        R.id.handball_radio_button -> "Handball"
-        else -> "Basketball"
+        R.id.football_radio_button -> Sports.FOOTBALL
+        R.id.handball_radio_button -> Sports.HANDBALL
+        else -> Sports.BASKETBALL
     }
 
     private fun setUpTeamPlayersRecyclerView() {
