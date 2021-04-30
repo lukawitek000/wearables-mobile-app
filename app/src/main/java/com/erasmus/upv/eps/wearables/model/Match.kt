@@ -15,4 +15,14 @@ data class Match(
     var sport: String,
     var league: String,
     var otherDetails: String
-)
+){
+    constructor(): this(
+            matchId = 0L,
+            date = Date(),
+            location = "",
+            city = "",
+            sport = "",
+            league = "",
+            otherDetails = ""
+    )
+}
