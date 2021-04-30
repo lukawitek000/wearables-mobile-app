@@ -19,7 +19,7 @@ class CreateTeamViewModel
 ) : ViewModel(){
 
     var teamWithPlayers: TeamWithPlayers = TeamWithPlayers(
-            Team(0L, "", "", 0, "", "", ""),
+            Team(),
             listOf())
     val teamId = MutableLiveData<Long>()
 
@@ -38,7 +38,7 @@ class CreateTeamViewModel
     fun updateTeam(team: Team) {
         viewModelScope.launch {
             team.teamId = receivedTeamId
-            repository.updateTeam(team)
+            teamId.value = repository.updateTeam(team)
         }
     }
 

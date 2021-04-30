@@ -55,9 +55,9 @@ class CreateTeamFragment : Fragment() {
                     viewModel.teamWithPlayers = it
                     if(sharedViewModel.creatingTeam.teamId == 0L){
                         sharedViewModel.creatingTeam = it.team
+                        sharedViewModel.addPlayersToTeamPlayers(viewModel.teamWithPlayers.players)
+                        adapter.submitList(sharedViewModel.teamPlayers)
                     }
-                    sharedViewModel.addPlayersToTeamPlayers(viewModel.teamWithPlayers.players)
-                    adapter.submitList(sharedViewModel.teamPlayers)
                     populateInputs()
                     changeButtonText()
                 }
@@ -90,6 +90,7 @@ class CreateTeamFragment : Fragment() {
     private fun handleBackPress() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
             sharedViewModel.isCreatingTeam = false
+            sharedViewModel.resetCreatingTeam()
             sharedViewModel.teamPlayers.clear()
             findNavController().navigateUp()
         }
@@ -106,21 +107,20 @@ class CreateTeamFragment : Fragment() {
     private fun createTeam() {
         updatePlayers()
         binding.saveTeamBt.setOnClickListener {
+            sharedViewModel.resetCreatingTeam()
             if(viewModel.receivedTeamId == 0L) {
                 viewModel.saveTeam(getUserInput())
                 Toast.makeText(requireContext(), getString(R.string.team_created), Toast.LENGTH_SHORT).show()
             }else{
                 viewModel.updateTeam(getUserInput())
-                sharedViewModel.updateTeamOfPlayers(viewModel.receivedTeamId)
                 Toast.makeText(requireContext(), getString(R.string.team_updated), Toast.LENGTH_SHORT).show()
-                findNavController().navigateUp()
             }
         }
     }
 
     private fun updatePlayers(){
         viewModel.teamId.observe(viewLifecycleOwner){
-            sharedViewModel.updateTeamOfPlayers(it)
+            sharedViewModel.updateTeamOfPlayers(it, viewModel.teamWithPlayers.players)
             findNavController().navigateUp()
             sharedViewModel.isCreatingTeam = false
         }
@@ -155,7 +155,6 @@ class CreateTeamFragment : Fragment() {
 
     private fun deletePlayerFromAdapter(player: Player){
         sharedViewModel.teamPlayers.remove(player)
-        sharedViewModel.resetTeamOfThePlayer(player)
         adapter.submitList(sharedViewModel.teamPlayers)
     }
 

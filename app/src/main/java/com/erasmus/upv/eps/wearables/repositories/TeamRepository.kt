@@ -30,9 +30,10 @@ class TeamRepository (
         }
     }
 
-    suspend fun updateTeam(team: Team) {
-        withContext(Dispatchers.IO){
+    suspend fun updateTeam(team: Team): Long {
+        return withContext(Dispatchers.IO){
             teamDao.updateTeam(team)
+            team.teamId
         }
     }
 

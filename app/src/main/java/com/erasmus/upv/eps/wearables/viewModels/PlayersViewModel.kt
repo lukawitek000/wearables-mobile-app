@@ -26,9 +26,9 @@ class PlayersViewModel
     }
 
 
-    fun filterPlayers(players: List<Player>, alreadyAddedPlayers: List<Player>): List<Player>{
+    fun filterPlayers(players: List<Player>, alreadyAddedPlayers: List<Player>, teamId: Long = 0L): List<Player>{
         return players.filter { player ->
-            player.teamOfPlayerId == 0L && !alreadyAddedPlayers.any {  player.playerId == it.playerId }
+            (player.teamOfPlayerId == 0L || player.teamOfPlayerId == teamId) && !alreadyAddedPlayers.any {  player.playerId == it.playerId }
         }
     }
 

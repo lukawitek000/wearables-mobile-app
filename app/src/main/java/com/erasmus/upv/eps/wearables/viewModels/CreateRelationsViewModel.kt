@@ -44,13 +44,24 @@ class CreateRelationsViewModel
         }
     }
 
-    fun updateTeamOfPlayers(teamId: Long) {
+    fun updateTeamOfPlayers(teamId: Long, oldPlayers: List<Player> = listOf()) {
         viewModelScope.launch {
+
             teamPlayers.forEach {
                 it.teamOfPlayerId = teamId
                 playerRepository.updatePlayer(it)
             }
+            updateDeletedPlayers(oldPlayers)
             teamPlayers.clear()
+        }
+    }
+
+    private suspend fun updateDeletedPlayers(oldPlayers: List<Player>) {
+        oldPlayers.forEach {
+            if (!teamPlayers.contains(it)) {
+                it.teamOfPlayerId = 0L
+                playerRepository.updatePlayer(it)
+            }
         }
     }
 
@@ -68,12 +79,9 @@ class CreateRelationsViewModel
         }
     }
 
-    fun resetTeamOfThePlayer(player: Player) {
-        viewModelScope.launch {
-            if(player.playerId != 0L) {
-                playerRepository.resetTeamOfThePlayer(player.playerId)
-            }
-        }
+
+    fun resetCreatingTeam() {
+        creatingTeam.teamId = 0L
     }
 
 
