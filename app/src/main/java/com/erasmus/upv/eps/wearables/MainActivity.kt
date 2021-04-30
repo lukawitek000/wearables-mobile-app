@@ -5,15 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.erasmus.upv.eps.wearables.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,20 +18,31 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-
+    private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var bottomNavigation: BottomNavigationView
 
+
+    companion object{
+        const val IS_FIRST_LAUNCH_TAG = "First launch"
+    }
+
+    private var isFirstLaunchOfApp = true
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_Wearables)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         
         setUpNavController()
         setUpActionBar()
         setUpBottomNavigation()
-
-
+        checkFirstRunOfTheApp()
+        navigateToMatchesFragment()
     }
+
 
 
     private fun setUpBottomNavigation() {
@@ -46,7 +54,6 @@ class MainActivity : AppCompatActivity() {
     private fun setUpActionBar() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.splashScreenFragment,
                 R.id.tutorialFragment,
                 R.id.matchesFragment,
                 R.id.teamsFragment,
@@ -54,9 +61,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.infoFragment
             )
         )
-
         setupActionBarWithNavController(navController, appBarConfiguration)
-        controlActionBarVisibility()
     }
 
     private fun setUpNavController() {
@@ -65,20 +70,10 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
     }
 
-    private fun controlActionBarVisibility() {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.splashScreenFragment -> supportActionBar?.hide()
-                else -> supportActionBar?.show()
-            }
-        }
-    }
-
 
     private fun controlBottomNavigationVisibility(){
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.splashScreenFragment -> setBottomNavigationVisibility(View.GONE)
                 R.id.tutorialFragment -> setBottomNavigationVisibility(View.GONE)
                 R.id.createMatchFragment -> setBottomNavigationVisibility(View.GONE)
                 R.id.createTeamFragment -> setBottomNavigationVisibility(View.GONE)
@@ -108,6 +103,23 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
+    private fun checkFirstRunOfTheApp() {
+        val sharedPreferences = getPreferences(Context.MODE_PRIVATE) ?: return
+        if(sharedPreferences.contains(IS_FIRST_LAUNCH_TAG)){
+            isFirstLaunchOfApp = sharedPreferences.getBoolean(IS_FIRST_LAUNCH_TAG, false)
+        }else{
+            sharedPreferences.edit().putBoolean(IS_FIRST_LAUNCH_TAG, false).apply()
+        }
+    }
+
+
+
+    private fun navigateToMatchesFragment() {
+        if(!isFirstLaunchOfApp){
+            navController.navigate(R.id.action_tutorialFragment_to_matchesFragment)
+        }
+    }
 
 
 

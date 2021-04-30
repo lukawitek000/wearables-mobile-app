@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashScreenFragment">
+    app:startDestination="@id/tutorialFragment">
 
     <fragment
         android:id="@+id/scanningBluetoothFragment"
@@ -18,24 +18,6 @@
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.ResponseDataListFragment"
         android:label="Received Data"
         tools:layout="@layout/fragment_response_data_list" />
-    <fragment
-        android:id="@+id/splashScreenFragment"
-        android:name="com.erasmus.upv.eps.wearables.ui.fragments.SplashScreenFragment"
-        android:label="Splash Screen"
-        tools:layout="@layout/fragment_splash_screen" >
-        <action
-            android:id="@+id/action_splashScreenFragment_to_tutorialFragment"
-            app:destination="@id/tutorialFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_splashScreenFragment_to_matchesFragment"
-            app:destination="@id/matchesFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
-    </fragment>
     <fragment
         android:id="@+id/matchesFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.MatchesViewPagerFragment"
