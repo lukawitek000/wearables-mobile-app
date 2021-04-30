@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.erasmus.upv.eps.wearables.databinding.FragmentTeamInfoBinding
 import com.erasmus.upv.eps.wearables.viewModels.TeamsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.lang.Exception
 
 @AndroidEntryPoint
@@ -78,8 +79,8 @@ class TeamInfoFragment : Fragment() {
             try {
                 areButtonsEnabled(true)
                 binding.teamInfoTv.text = it.toString()
-            }catch (e: Exception){
-                Log.e("TeamInfoFragment", "No team in the database")
+            }catch (e: Exception) {
+                Timber.e("No team in the database")
                 findNavController().navigateUp()
             }
         }

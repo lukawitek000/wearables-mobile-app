@@ -79,4 +79,7 @@ dependencies {
 
     // coroutines dependency
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
+
+    //timber for logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }
