@@ -37,6 +37,12 @@ class TeamRepository (
         }
     }
 
+    suspend fun isTeamPartOfMatch(teamId: Long): Boolean {
+        return withContext(Dispatchers.IO){
+            teamDao.isTeamPartOfAnyMatch(teamId)
+        }
+    }
+
     val allTeams = teamDao.getAllTeams()
 
 }

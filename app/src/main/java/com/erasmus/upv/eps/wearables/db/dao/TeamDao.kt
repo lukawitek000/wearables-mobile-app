@@ -26,4 +26,7 @@ interface TeamDao {
     @Update
     fun updateTeam(team: Team)
 
+    @Query("SELECT EXISTS(SELECT * FROM MatchTeamCrossRef WHERE teamId == :teamId)")
+    fun isTeamPartOfAnyMatch(teamId: Long): Boolean
+
 }

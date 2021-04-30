@@ -1,6 +1,9 @@
 package com.erasmus.upv.eps.wearables.ui.fragments
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.erasmus.upv.eps.wearables.databinding.FragmentTeamInfoBinding
 import com.erasmus.upv.eps.wearables.viewModels.TeamsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Exception
 
 @AndroidEntryPoint
 class TeamInfoFragment : Fragment() {
@@ -24,7 +28,6 @@ class TeamInfoFragment : Fragment() {
         areButtonsEnabled(false)
         receiveSafeArgs()
         handleDeleteButton()
-        binding.deleteTeamBt.visibility = View.GONE // TODO handle match effected by deleting team
         handleUpdateButton()
         return binding.root
     }
@@ -44,8 +47,22 @@ class TeamInfoFragment : Fragment() {
     private fun handleDeleteButton() {
         binding.deleteTeamBt.setOnClickListener {
             viewModel.deleteTeamById(viewModel.teamId)
-            findNavController().navigateUp()
+            viewModel.isTeamDeleted.observe(viewLifecycleOwner){
+                if(it){
+                    findNavController()
+                }else{
+                    showDialogInformingThatTeamIsPartOfMatch()
+                }
+            }
         }
+    }
+
+    private fun showDialogInformingThatTeamIsPartOfMatch() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Cannot delete the team")
+        builder.setMessage("The team is part of a match, so it cannot be deleted")
+        builder.setPositiveButton("Ok") { dialog, _ -> dialog.dismiss() }
+        builder.create().show()
     }
 
     private fun receiveSafeArgs() {
@@ -58,8 +75,13 @@ class TeamInfoFragment : Fragment() {
 
     private fun setTextToTeamDetailsRawData(teamId: Long) {
         viewModel.getTeamDetailInfo(teamId).observe(viewLifecycleOwner) {
-            areButtonsEnabled(true)
-            binding.teamInfoTv.text = it.toString()
+            try {
+                areButtonsEnabled(true)
+                binding.teamInfoTv.text = it.toString()
+            }catch (e: Exception){
+                Log.e("TeamInfoFragment", "No team in the database")
+                findNavController().navigateUp()
+            }
         }
     }
 

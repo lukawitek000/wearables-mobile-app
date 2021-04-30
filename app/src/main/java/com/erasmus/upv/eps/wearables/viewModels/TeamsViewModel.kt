@@ -1,9 +1,6 @@
 package com.erasmus.upv.eps.wearables.viewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.model.TeamWithPlayers
 import com.erasmus.upv.eps.wearables.repositories.TeamRepository
@@ -18,6 +15,7 @@ class TeamsViewModel
 ): ViewModel(){
 
     var teamId: Long = 0L
+    val isTeamDeleted = MutableLiveData<Boolean>()
 
     fun getAllTeams(): LiveData<List<Team>>{
         return repository.allTeams.asLiveData()
@@ -29,7 +27,12 @@ class TeamsViewModel
 
     fun deleteTeamById(teamId: Long) {
         viewModelScope.launch {
-            repository.deleteTeamById(teamId)
+            if(repository.isTeamPartOfMatch(teamId)){
+                isTeamDeleted.value = false
+            }else {
+                repository.deleteTeamById(teamId)
+                isTeamDeleted.value = true
+            }
         }
     }
 
