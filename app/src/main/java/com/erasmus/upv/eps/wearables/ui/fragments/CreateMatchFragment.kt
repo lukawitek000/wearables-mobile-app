@@ -18,6 +18,7 @@ import com.erasmus.upv.eps.wearables.databinding.ItemViewTeamBinding
 import com.erasmus.upv.eps.wearables.model.Match
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
+import com.erasmus.upv.eps.wearables.util.Sports
 import com.erasmus.upv.eps.wearables.util.TeamCreated
 import com.erasmus.upv.eps.wearables.viewModels.CreateMatchViewModel
 import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
@@ -29,7 +30,6 @@ class CreateMatchFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateMatchBinding
     private val sharedViewModel: CreateRelationsViewModel by activityViewModels()
-
     private val viewModel: CreateMatchViewModel by viewModels()
 
     override fun onCreateView(
@@ -46,12 +46,16 @@ class CreateMatchFragment : Fragment() {
         addHomeTeam()
         addGuestTeam()
 
-        binding.doneCreatingMatchFb.isEnabled = sharedViewModel.areBothTeamsAdded()
+        enableSavingMatchButton()
         populateTeamsLayouts()
 
         customBackPress()
 
         return binding.root
+    }
+
+    private fun enableSavingMatchButton() {
+        binding.doneCreatingMatchFb.isEnabled = sharedViewModel.areBothTeamsAdded()
     }
 
     private fun populateTeamsLayouts() {
@@ -108,8 +112,8 @@ class CreateMatchFragment : Fragment() {
 
     private fun setSportRadioButton(sport: String): Int {
         return when(sport){
-            "Football" -> R.id.football_radio_button
-            "Basketball" -> R.id.basketball_radio_button
+            Sports.FOOTBALL -> R.id.football_radio_button
+            Sports.BASKETBALL -> R.id.basketball_radio_button
             else -> R.id.handball_radio_button
         }
     }
@@ -121,7 +125,6 @@ class CreateMatchFragment : Fragment() {
     private fun customBackPress() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
             sharedViewModel.clearTeams()
-            Toast.makeText(requireContext(), "Back pressed", Toast.LENGTH_SHORT).show()
             findNavController().navigateUp()
         }
     }
@@ -159,8 +162,10 @@ class CreateMatchFragment : Fragment() {
             getMatchFromUserInput()
             if(viewModel.receivedMatchId == 0L) {
                 viewModel.insertMatch(sharedViewModel.creatingMatch)
+                Toast.makeText(requireContext(), getString(R.string.match_created), Toast.LENGTH_SHORT).show()
             }else{
                 viewModel.updateMatch(sharedViewModel.creatingMatch)
+                Toast.makeText(requireContext(), getString(R.string.match_updated), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -168,7 +173,6 @@ class CreateMatchFragment : Fragment() {
     private fun observeCreatedMatchId() {
         viewModel.matchId.observe(viewLifecycleOwner){
             sharedViewModel.createMatchTeamCrossRef(it)
-            Toast.makeText(requireContext(), "Match created", Toast.LENGTH_SHORT).show()
             findNavController().navigateUp()
         }
     }
@@ -182,9 +186,9 @@ class CreateMatchFragment : Fragment() {
     }
 
     private fun getSelectedSport(): String  = when(binding.sportRadioGroup.checkedRadioButtonId){
-        R.id.football_radio_button -> "Football"
-        R.id.handball_radio_button -> "Handball"
-        else -> "Basketball"
+        R.id.football_radio_button -> Sports.FOOTBALL
+        R.id.handball_radio_button -> Sports.HANDBALL
+        else -> Sports.BASKETBALL
     }
 
     private fun handleTimeInput() {

@@ -7,4 +7,6 @@
     <string name="player_updated">Player updated</string>
     <string name="team_created">Team created</string>
     <string name="team_updated">Team updated</string>
+    <string name="match_created">Match created</string>
+    <string name="match_updated">Match updated</string>
 </resources>
