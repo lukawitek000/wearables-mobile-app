@@ -36,6 +36,7 @@ import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.ScanResultsAdapter
 import com.erasmus.upv.eps.wearables.viewModels.ScanningBluetoothViewModel
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
+import timber.log.Timber
 
 
 class ScanningBluetoothFragment : Fragment() {
@@ -58,6 +59,7 @@ class ScanningBluetoothFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentScanningBluetoothBinding.inflate(inflater, container, false)
+
         receiveSafeArgs()
         clearDevicesLists()
         setUpRecyclerView()
@@ -78,7 +80,7 @@ class ScanningBluetoothFragment : Fragment() {
 
     private fun handleGoingToConfigurationDevices() {
         binding.configureDevicesBt.setOnClickListener {
-
+            Timber.d("handleGoingToConfigurationDevices: ${viewModel.selectedScanResults}")
             for (device in viewModel.selectedScanResults) {
                 val bluetoothGatt = device.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
                 BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address
@@ -91,7 +93,7 @@ class ScanningBluetoothFragment : Fragment() {
     private fun setUpRecyclerView() {
         val scanResultRecyclerView = binding.scanResultsRv
         scanResultRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        scanResultsAdapter = ScanResultsAdapter(viewModel.scanResults) {
+        scanResultsAdapter = ScanResultsAdapter() {
             //TODO
 
             //BLEConnectionForegroundService.gattDevice = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
@@ -100,7 +102,9 @@ class ScanningBluetoothFragment : Fragment() {
     //            BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address ?: "NULL"] = bluetoothGatt
 
 
-            scanResultsAdapter.notifyItemChanged(viewModel.scanResults.indexOfFirst { device -> device.address == it.address })
+//            scanResultsAdapter.notifyItemChanged(viewModel.scanResults.indexOfFirst { device -> device.address == it.address })
+
+           // scanResultsAdapter.notifyItemChanged(viewModel.getChangedElementIndex(it))
             if (viewModel.selectedScanResults.contains(it)) {
                 viewModel.selectedScanResults.remove(it)
             } else {
@@ -170,7 +174,8 @@ class ScanningBluetoothFragment : Fragment() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !hasLocationPermissionGranted){
             requestLocationPermission()
         }else if(isLocationEnabled || Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-            viewModel.scanResults.clear()
+            //viewModel.scanResults.clear()
+            viewModel.clearScanResults()
             scanResultsAdapter.notifyDataSetChanged()
 
             bleScanner.startScan(null, scanSettings, scanCallback)
@@ -200,6 +205,11 @@ class ScanningBluetoothFragment : Fragment() {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        stopBLEScan()
+    }
+
     private fun stopBLEScan(){
         bleScanner.stopScan(scanCallback)
         isScanning = false
@@ -226,17 +236,18 @@ class ScanningBluetoothFragment : Fragment() {
 
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             super.onScanResult(callbackType, result)
-            val indexQuery = viewModel.scanResults.indexOfFirst { it.address == result.device.address }
-            if(indexQuery == -1){
-                viewModel.scanResults.add(result.device)
-                scanResultsAdapter.notifyItemInserted(viewModel.scanResults.size - 1)
+            if(!viewModel.isDeviceAlreadySaved(result.device)){
+                viewModel.addNewScanResult(result.device)
+                viewModel.scanResultsLiveData.observe(viewLifecycleOwner){
+                    scanResultsAdapter.submitList(it.toMutableList())
+                }
+
             }
         }
 
         override fun onScanFailed(errorCode: Int) {
             super.onScanFailed(errorCode)
             Toast.makeText(requireContext(), "Scan failed", Toast.LENGTH_SHORT).show()
-            Log.i(TAG, "onScanFailed: error $errorCode")
         }
     }
 

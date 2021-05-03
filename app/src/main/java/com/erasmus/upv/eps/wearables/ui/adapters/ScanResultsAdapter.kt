@@ -7,54 +7,68 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.R
+import com.erasmus.upv.eps.wearables.databinding.ItemViewScanResultBinding
+import com.erasmus.upv.eps.wearables.model.Player
 
-class ScanResultsAdapter(private val scanResults: MutableList<BluetoothDevice>,
-                         private val onClickScanResult: (BluetoothDevice) -> Unit)
-    : RecyclerView.Adapter<ScanResultsAdapter.ScanResultsViewHolder>() {
+class ScanResultsAdapter(private val onClickScanResult: (BluetoothDevice) -> Unit)
+    : ListAdapter<BluetoothDevice, ScanResultsAdapter.ScanResultsViewHolder>(
+        ScanResultsComparator()
+) {
 
 
     private val selectedDevices = emptyList<BluetoothDevice>().toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScanResultsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_view_scan_result, parent, false)
-        return ScanResultsViewHolder(view)
+        return ScanResultsViewHolder(
+                ItemViewScanResultBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                )
+        )
     }
 
     override fun onBindViewHolder(holder: ScanResultsViewHolder, position: Int) {
 
-        holder.deviceNameTextView.text = scanResults[position].name ?: "No name"
-        holder.deviceAddressTextView.text = scanResults[position].address
+        holder.binding.deviceNameTextView.text = getItem(position).name ?: "Unknown Device"
 
-        Log.i("ScanResultsAdapter", "onBindViewHolder: selected scans $selectedDevices")
+        holder.binding.selectedDeviceCb.isChecked = selectedDevices.contains(getItem(position))
 
-        Log.i("ScanResultsAdapter", "onBindViewHolder: all scans $scanResults")
-        if(selectedDevices.contains(scanResults[position])){
-            holder.itemView.setBackgroundColor(Color.RED)
-        }else{
-            holder.itemView.setBackgroundColor(Color.WHITE)
-        }
-
-        holder.itemView.setOnClickListener {
-            if(!selectedDevices.contains(scanResults[position])){
-                selectedDevices.add(scanResults[position])
-            }else{
-                selectedDevices.remove(scanResults[position])
-            }
-            onClickScanResult(scanResults[position])
+        holder.binding.selectedDeviceCb.setOnCheckedChangeListener { _, _ ->
+            controlSelectedDevices(position)
         }
 
     }
 
-    override fun getItemCount(): Int = scanResults.size
+    private fun controlSelectedDevices(position: Int) {
+        if (!selectedDevices.contains(getItem(position))) {
+            selectedDevices.add(getItem(position))
+        } else {
+            selectedDevices.remove(getItem(position))
+        }
+        onClickScanResult(getItem(position))
+    }
 
+    override fun submitList(list: MutableList<BluetoothDevice>?) {
+        super.submitList(list?.let { ArrayList(it) })
+    }
 
+    inner class ScanResultsViewHolder(val binding: ItemViewScanResultBinding): RecyclerView.ViewHolder(binding.root) {
 
-    inner class ScanResultsViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    }
 
-        val deviceNameTextView: TextView = view.findViewById(R.id.device_name_textView)
-        val deviceAddressTextView: TextView = view.findViewById(R.id.device_address_textView)
+    class ScanResultsComparator(): DiffUtil.ItemCallback<BluetoothDevice>(){
+        override fun areItemsTheSame(oldItem: BluetoothDevice, newItem: BluetoothDevice): Boolean {
+            return oldItem.address == newItem.address
+        }
+
+        override fun areContentsTheSame(oldItem: BluetoothDevice, newItem: BluetoothDevice): Boolean {
+            return oldItem == newItem
+        }
 
     }
 
