@@ -22,8 +22,14 @@
             android:id="@+id/action_matchesFragment_to_matchStatisticsFragment"
             app:destination="@id/matchStatisticsFragment" />
         <action
-            android:id="@+id/action_matchesFragment_to_scanningBluetoothFragment"
-            app:destination="@id/receiving_data_nested_graph" />
+            android:id="@+id/action_matchesFragment_to_receiving_data_nested_graph"
+            app:destination="@id/receiving_data_nested_graph">
+            <argument
+                android:name="matchId"
+                app:argType="long"
+                android:defaultValue="0L"
+                />
+        </action>
         <action
             android:id="@+id/action_matchesFragment_to_matchInfoFragment"
             app:destination="@id/matchInfoFragment" />
@@ -153,29 +159,5 @@
             android:id="@+id/action_playerInfoFragment_to_createPlayerFragment"
             app:destination="@id/createPlayerFragment" />
     </fragment>
-    <navigation android:id="@+id/receiving_data_nested_graph"
-        app:startDestination="@id/scanningBluetoothFragment">
-        <fragment
-            android:id="@+id/scanningBluetoothFragment"
-            android:name="com.erasmus.upv.eps.wearables.ui.fragments.ScanningBluetoothFragment"
-            android:label="Scanning BLE">
-            <action
-                android:id="@+id/action_scanningBluetoothFragment_to_configureDevicesFragment"
-                app:destination="@id/configureDevicesFragment" />
-        </fragment>
-        <fragment
-            android:id="@+id/configureDevicesFragment"
-            android:name="com.erasmus.upv.eps.wearables.ui.fragments.ConfigureDevicesFragment"
-            android:label="Configure Devices"
-            tools:layout="@layout/fragment_configure_devices">
-            <action
-                android:id="@+id/action_configureDevicesFragment_to_currentMatchFragment"
-                app:destination="@id/currentMatchFragment" />
-        </fragment>
-        <fragment
-            android:id="@+id/currentMatchFragment"
-            android:name="com.erasmus.upv.eps.wearables.ui.fragments.CurrentMatchFragment"
-            android:label="Current Match"
-            tools:layout="@layout/fragment_current_match" />
-    </navigation>
+    <include app:graph="@navigation/receiving_data_nested_graph" />
 </navigation>

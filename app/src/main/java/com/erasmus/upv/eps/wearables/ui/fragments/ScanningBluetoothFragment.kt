@@ -56,6 +56,13 @@ class ScanningBluetoothFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_scanning_bluetooth, container, false)
 
+        if(arguments != null){
+            val args = ScanningBluetoothFragmentArgs.fromBundle(requireArguments())
+            val matchId = args.matchId
+            Toast.makeText(requireContext(), "Received $matchId", Toast.LENGTH_SHORT).show()
+        }
+
+
         viewModel = ViewModelProvider(this).get(ScanningBluetoothViewModel::class.java)
 
         if(BLEConnectionForegroundService.isServiceRunning){

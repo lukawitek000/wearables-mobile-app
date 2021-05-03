@@ -93,12 +93,18 @@ class MatchesFragment : Fragment() {
             .setTitle("Do you want to start recording statistics for the match ${match.matchId}?")
             .setPositiveButton("Yes"
             ) { _, _ ->
-                findNavController().navigate(R.id.action_matchesFragment_to_scanningBluetoothFragment)
+                navigateToScanningForBLEDevices(match.matchId)
             }
             .setNegativeButton("No") { dialog, _ ->
                 dialog.dismiss()
             }
             .create()
+    }
+
+    private fun navigateToScanningForBLEDevices(matchId: Long) {
+        val directions = MatchesViewPagerFragmentDirections.actionMatchesFragmentToReceivingDataNestedGraph(matchId)
+        //findNavController().navigate(R.id.action_matchesFragment_to_scanningBluetoothFragment)
+        findNavController().navigate(directions)
     }
 
 
