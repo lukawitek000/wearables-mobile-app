@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/scanningBluetoothFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.ScanningBluetoothFragment"
-        android:label="Scanning BLE">
+        android:label="Scan for devices">
         <action
             android:id="@+id/action_scanningBluetoothFragment_to_configureDevicesFragment"
             app:destination="@id/configureDevicesFragment" />

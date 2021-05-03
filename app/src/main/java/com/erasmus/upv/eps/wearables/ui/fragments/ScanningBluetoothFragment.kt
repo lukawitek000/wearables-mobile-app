@@ -24,12 +24,14 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
+import com.erasmus.upv.eps.wearables.databinding.FragmentScanningBluetoothBinding
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.ScanResultsAdapter
 import com.erasmus.upv.eps.wearables.viewModels.ScanningBluetoothViewModel
@@ -39,9 +41,11 @@ import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
 class ScanningBluetoothFragment : Fragment() {
 
 
+
+    private lateinit var binding: FragmentScanningBluetoothBinding
+
     private lateinit var scanResultsAdapter: ScanResultsAdapter
-    private lateinit var viewModel: ScanningBluetoothViewModel
-    private lateinit var scanButton: Button
+    private val viewModel: ScanningBluetoothViewModel by viewModels()
 
     companion object{
         private const val TAG = "ScanningBluetoothFrag"
@@ -52,75 +56,73 @@ class ScanningBluetoothFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_scanning_bluetooth, container, false)
+    ): View {
+        binding = FragmentScanningBluetoothBinding.inflate(inflater, container, false)
+        receiveSafeArgs()
+        clearDevicesLists()
+        setUpRecyclerView()
+        handleGoingToConfigurationDevices()
+        handleScanButton()
+        return binding.root
+    }
 
-        if(arguments != null){
-            val args = ScanningBluetoothFragmentArgs.fromBundle(requireArguments())
-            val matchId = args.matchId
-            Toast.makeText(requireContext(), "Received $matchId", Toast.LENGTH_SHORT).show()
+    private fun handleScanButton() {
+        binding.scanBt.setOnClickListener {
+            if (isScanning) {
+                stopBLEScan()
+            } else {
+                startBLEScan()
+            }
         }
+    }
 
+    private fun handleGoingToConfigurationDevices() {
+        binding.configureDevicesBt.setOnClickListener {
 
-        viewModel = ViewModelProvider(this).get(ScanningBluetoothViewModel::class.java)
-
-        if(BLEConnectionForegroundService.isServiceRunning){
-            //findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
+            for (device in viewModel.selectedScanResults) {
+                val bluetoothGatt = device.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
+                BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address
+                        ?: "NULL"] = bluetoothGatt
+            }
+            findNavController().navigate(R.id.action_scanningBluetoothFragment_to_configureDevicesFragment)
         }
+    }
 
-        viewModel.selectedScanResults = mutableListOf<BluetoothDevice>()
-        BLEConnectionForegroundService.gattDevicesMap.clear()
-
-        val scanResultRecyclerView = view.findViewById<RecyclerView>(R.id.scan_results_recyclerView)
+    private fun setUpRecyclerView() {
+        val scanResultRecyclerView = binding.scanResultsRv
         scanResultRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        scanResultsAdapter = ScanResultsAdapter(viewModel.scanResults){
+        scanResultsAdapter = ScanResultsAdapter(viewModel.scanResults) {
             //TODO
 
             //BLEConnectionForegroundService.gattDevice = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
-//
-//            val bluetoothGatt = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
-//            BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address ?: "NULL"] = bluetoothGatt
+    //
+    //            val bluetoothGatt = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
+    //            BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address ?: "NULL"] = bluetoothGatt
 
-            //findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
-            Toast.makeText(requireContext(), "${it.name} selected", Toast.LENGTH_SHORT).show()
+
             scanResultsAdapter.notifyItemChanged(viewModel.scanResults.indexOfFirst { device -> device.address == it.address })
-
-            if(viewModel.selectedScanResults.contains(it)){
+            if (viewModel.selectedScanResults.contains(it)) {
                 viewModel.selectedScanResults.remove(it)
-            }else{
+            } else {
                 viewModel.selectedScanResults.add(it)
             }
 
 
         }
         scanResultRecyclerView.adapter = scanResultsAdapter
+    }
 
-        view.findViewById<Button>(R.id.go_to_data_screen_button).setOnClickListener {
+    private fun clearDevicesLists() {
+        viewModel.selectedScanResults = mutableListOf<BluetoothDevice>()
+        BLEConnectionForegroundService.gattDevicesMap.clear()
+    }
 
-            for(device in viewModel.selectedScanResults){
-                val bluetoothGatt = device.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
-                BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address ?: "NULL"] = bluetoothGatt
-            }
-
-            Log.i(
-                    TAG,
-                    "onCreateView: list of devices ${BLEConnectionForegroundService.gattDevicesMap}")
-
-            findNavController().navigate(R.id.action_scanningBluetoothFragment_to_configureDevicesFragment)
-            // findNavController().navigate(R.id.action_scanningBluetoothFragment_to_responseDataListFragment)
+    private fun receiveSafeArgs() {
+        if (arguments != null) {
+            val args = ScanningBluetoothFragmentArgs.fromBundle(requireArguments())
+            val matchId = args.matchId
+            Toast.makeText(requireContext(), "Received $matchId", Toast.LENGTH_SHORT).show()
         }
-
-
-        scanButton = view.findViewById(R.id.scan_button)
-        scanButton.setOnClickListener {
-            if(isScanning){
-                stopBLEScan()
-            }else{
-                startBLEScan()
-            }
-        }
-        return view
     }
 
 
@@ -207,7 +209,7 @@ class ScanningBluetoothFragment : Fragment() {
         set(value) {
             field = value
             requireActivity().runOnUiThread {
-                scanButton.text = if(value) "Stop scan" else "Start scan"
+                binding.scanBt.text = if(value) "Stop scan" else "Start scan"
             }
         }
 

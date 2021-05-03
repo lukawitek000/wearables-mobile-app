@@ -8,37 +8,41 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/scan_results_recyclerView"
+        android:id="@+id/scan_results_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/scan_button"
+        app:layout_constraintBottom_toTopOf="@+id/scan_bt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <Button
-        android:id="@+id/scan_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/scan_bt"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Start scan"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Scan for devices"
+        app:layout_constraintBottom_toTopOf="@+id/configure_devices_bt"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
-
     <Button
-        android:layout_width="wrap_content"
+        android:id="@+id/configure_devices_bt"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/go_to_data_screen_button"
-        android:text="GO"
-        app:layout_constraintBottom_toBottomOf="@+id/scan_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/scan_button"/>
+        android:layout_marginBottom="8dp"
+        android:text="Configure devices"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/scan_bt"
+        app:layout_constraintStart_toStartOf="@+id/scan_bt" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
