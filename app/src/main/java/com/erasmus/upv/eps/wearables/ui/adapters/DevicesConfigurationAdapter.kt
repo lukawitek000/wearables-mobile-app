@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.databinding.ItemViewDevicesConfigurationBinding
-import com.erasmus.upv.eps.wearables.model.Device
+import com.erasmus.upv.eps.wearables.model.BLEDevice
 import com.erasmus.upv.eps.wearables.model.Gesture
 
-class DevicesConfigurationAdapter(private val devices: List<Device>,
+class DevicesConfigurationAdapter(private val devices: List<BLEDevice>,
                                   private val context: Context,
-                                  private val onGestureClick: (device: Device, gesture: Gesture) -> Unit
+                                  private val onGestureClick: (device: BLEDevice, gesture: Gesture) -> Unit
                                   ) : RecyclerView.Adapter<DevicesConfigurationAdapter.DevicesConfigurationViewHolder>() {
 
 
@@ -25,9 +25,11 @@ class DevicesConfigurationAdapter(private val devices: List<Device>,
         holder.binding.deviceNameTv.text = devices[position].name
         val rv = holder.binding.deviceGestureRv
         rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        rv.adapter = GestureConfigurationAdapter(devices[position].gestures){
-            onGestureClick.invoke(devices[position], it)
-        }
+        //rv.adapter = GestureConfigurationAdapter(devices[position].gestures){
+        rv.adapter = GestureConfigurationAdapter(emptyList()){
+                onGestureClick.invoke(devices[position], it)
+            }
+
 
     }
 

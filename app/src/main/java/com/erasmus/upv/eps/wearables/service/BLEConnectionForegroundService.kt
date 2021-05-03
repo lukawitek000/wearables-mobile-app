@@ -121,7 +121,7 @@ class BLEConnectionForegroundService : LifecycleService() {
                 .setOngoing(true)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("BLE Connection")
-                .setContentText("Device connected to ....")
+                .setContentText("BLEDevice connected to ....")
                 .setContentIntent(getPendingIntent())
     }
 

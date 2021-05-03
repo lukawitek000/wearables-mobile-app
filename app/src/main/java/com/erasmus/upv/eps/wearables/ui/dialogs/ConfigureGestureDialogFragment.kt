@@ -8,12 +8,12 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.DialogFragmentConfigureGestureBinding
-import com.erasmus.upv.eps.wearables.model.Device
+import com.erasmus.upv.eps.wearables.model.BLEDevice
 import com.erasmus.upv.eps.wearables.model.Gesture
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class ConfigureGestureDialogFragment(private val device: Device, private val gesture: Gesture) : BottomSheetDialogFragment() {
+class ConfigureGestureDialogFragment(private val device: BLEDevice, private val gesture: Gesture) : BottomSheetDialogFragment() {
 
 
     companion object {
