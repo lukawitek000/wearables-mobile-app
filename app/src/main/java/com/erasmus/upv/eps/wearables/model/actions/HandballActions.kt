@@ -1,8 +1,8 @@
 package com.erasmus.upv.eps.wearables.model.actions
 
-enum class FootballActions : Actions {
+enum class HandballActions: Actions {
     GOAL,
     FOUL,
-    OFFSIDE,
-    ASSIST
+    INSIDE_PENALTY_AREA_FAULT
+
 }
