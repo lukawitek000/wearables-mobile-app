@@ -82,11 +82,11 @@ class ScanningBluetoothFragment : Fragment() {
     private fun handleGoingToConfigurationDevices() {
         binding.configureDevicesBt.setOnClickListener {
             Timber.d("handleGoingToConfigurationDevices: ${viewModel.selectedScanResults}")
-            for (device in viewModel.selectedScanResults) {
-                val bluetoothGatt = device.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
-                BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address
-                        ?: "NULL"] = bluetoothGatt
-            }
+//            for (device in viewModel.selectedScanResults) {
+//                val bluetoothGatt = device.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
+//                BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address
+//                        ?: "NULL"] = bluetoothGatt
+//            }
             findNavController().navigate(R.id.action_scanningBluetoothFragment_to_configureDevicesFragment)
         }
     }

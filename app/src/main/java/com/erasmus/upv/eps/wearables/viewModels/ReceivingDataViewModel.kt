@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.room.PrimaryKey
 import com.erasmus.upv.eps.wearables.db.dao.MatchDao
 import com.erasmus.upv.eps.wearables.model.*
+import com.erasmus.upv.eps.wearables.model.actions.Actions
 import com.erasmus.upv.eps.wearables.model.actions.BasketballActions
 import com.erasmus.upv.eps.wearables.model.actions.FootballActions
 import com.erasmus.upv.eps.wearables.model.actions.HandballActions
@@ -36,9 +37,15 @@ class ReceivingDataViewModel
     var homeTeam = TeamWithPlayers(Team(), listOf())
     var guestTeam = TeamWithPlayers(Team(), listOf())
 
-    var selectedTeam = ""
-    var selectedPlayer = ""
-    var selectedAction = ""
+    var selectedTeamId = 0L
+    var selectedPlayerId = 0L
+    var selectedAction: Actions? = null
+
+    var devicesWithGestures = emptyList<BLEDeviceWithGestures>()
+
+    fun setDevicesWithGestures(){
+        devicesWithGestures = getSelectedBLEDevicesWithGestures()
+    }
 
 
     init {
@@ -97,11 +104,19 @@ class ReceivingDataViewModel
         return teamRepository.getTeamWithPlayers(teamId)
     }
 
-    fun getActionsForAMatch(): List<String> {
+    fun getActionsForAMatch(): List<Actions> {
         return when(match.sport){
-            Sports.FOOTBALL -> FootballActions.values().map { it.name }
-            Sports.HANDBALL -> HandballActions.values().map { it.name }
-            else -> BasketballActions.values().map { it.name }
+            Sports.FOOTBALL -> FootballActions.values().toList()
+            Sports.HANDBALL -> HandballActions.values().toList()
+            else -> BasketballActions.values().toList()
+        }
+    }
+
+    fun getPlayersFromSelectedTeam(): List<Player> {
+        return when(selectedTeamId) {
+            homeTeam.team.teamId -> homeTeam.players
+            guestTeam.team.teamId -> guestTeam.players
+            else -> emptyList()
         }
     }
 

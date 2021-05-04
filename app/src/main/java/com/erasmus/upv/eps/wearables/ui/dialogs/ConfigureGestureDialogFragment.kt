@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.navGraphViewModels
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.DialogFragmentConfigureGestureBinding
 import com.erasmus.upv.eps.wearables.model.BLEDevice
 import com.erasmus.upv.eps.wearables.model.Gesture
+import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import timber.log.Timber
@@ -41,7 +43,10 @@ class ConfigureGestureDialogFragment(private val device: BLEDevice, private val 
         binding.configGestureNameTv.text = gesture.name
         binding.doneConfigGestureBn.setOnClickListener {
             dismiss()
-            Timber.d("Result ${viewModel.selectedTeam}, ${viewModel.selectedPlayer}, ${viewModel.selectedAction}")
+            Timber.d("Result ${viewModel.selectedTeamId}, ${viewModel.selectedPlayerId}, ${viewModel.selectedAction}")
+            gesture.assignPlayerId = viewModel.selectedPlayerId
+            gesture.assignTeamId = viewModel.selectedTeamId
+            gesture.action = viewModel.selectedAction
         }
         configDropDownInputs()
 
@@ -51,26 +56,27 @@ class ConfigureGestureDialogFragment(private val device: BLEDevice, private val 
     private fun configDropDownInputs() {
         configSelectActionInput()
         configSelectTeamInput()
-        configSelectPlayerInput()
+      //  configSelectPlayerInput()
     }
 
     private fun configSelectPlayerInput() {
-        val players = mutableListOf<String>()
-        players.addAll(viewModel.homeTeam.players.map { it.name })
-        players.addAll(viewModel.guestTeam.players.map { it.name })
-        val adapter = ArrayAdapter(requireContext(), R.layout.input_list_item, players)
-        (binding.selectPlayerForGestureTf.editText as AutoCompleteTextView).setAdapter(adapter)
+        val players = mutableListOf<Player>()
+        players.addAll(viewModel.getPlayersFromSelectedTeam())
+        val playersAdapter = ArrayAdapter(requireContext(), R.layout.input_list_item, players)
+        (binding.selectPlayerForGestureTf.editText as AutoCompleteTextView).setAdapter(playersAdapter)
         (binding.selectPlayerForGestureTf.editText as AutoCompleteTextView).setOnItemClickListener { _, _, position, _ ->
-            viewModel.selectedAction = adapter.getItem(position).toString()
+            viewModel.selectedPlayerId = playersAdapter.getItem(position)?.playerId ?: 0L
         }
     }
 
     private fun configSelectTeamInput() {
-        val teams = listOf(viewModel.homeTeam.team.name, viewModel.guestTeam.team.name)
+        val teams = listOf(viewModel.homeTeam.team, viewModel.guestTeam.team)
         val adapter = ArrayAdapter(requireContext(), R.layout.input_list_item, teams)
         (binding.selectTeamForGestureTf.editText as AutoCompleteTextView).setAdapter(adapter)
         (binding.selectTeamForGestureTf.editText as AutoCompleteTextView).setOnItemClickListener { _, _, position, _ ->
-            viewModel.selectedTeam = adapter.getItem(position).toString()
+            viewModel.selectedTeamId = adapter.getItem(position)?.teamId ?: 0L
+            binding.selectPlayerForGestureTf.isEnabled = true
+            configSelectPlayerInput()
         }
     }
 
@@ -79,9 +85,12 @@ class ConfigureGestureDialogFragment(private val device: BLEDevice, private val 
         val adapter = ArrayAdapter(requireContext(), R.layout.input_list_item, actions)
         (binding.selectActionTf.editText as AutoCompleteTextView).setAdapter(adapter)
         (binding.selectActionTf.editText as AutoCompleteTextView).setOnItemClickListener { _, _, position, _ ->
-            viewModel.selectedPlayer = adapter.getItem(position).toString()
+            viewModel.selectedAction = adapter.getItem(position)
         }
     }
+
+
+
 
 
 }

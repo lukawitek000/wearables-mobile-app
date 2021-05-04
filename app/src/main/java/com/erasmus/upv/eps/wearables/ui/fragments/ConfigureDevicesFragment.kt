@@ -32,6 +32,7 @@ class ConfigureDevicesFragment : Fragment() {
     ): View {
         binding = FragmentConfigureDevicesBinding.inflate(inflater, container, false)
         Timber.d("selected devices ${viewModel.selectedScanResults}")
+        viewModel.setDevicesWithGestures()
         setUpRecyclerView()
         handleDoneButton()
         return binding.root
@@ -40,6 +41,7 @@ class ConfigureDevicesFragment : Fragment() {
 
     private fun handleDoneButton() {
         binding.doneBt.setOnClickListener {
+            Timber.d("check gesture config ${viewModel.devicesWithGestures}")
             findNavController().navigate(R.id.action_configureDevicesFragment_to_currentMatchFragment)
         }
     }
@@ -47,7 +49,7 @@ class ConfigureDevicesFragment : Fragment() {
     private fun setUpRecyclerView() {
         val rv = binding.devicesConfigRv
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        rv.adapter = DevicesConfigurationAdapter(viewModel.getSelectedBLEDevicesWithGestures(), requireContext()) { device, gesture ->
+        rv.adapter = DevicesConfigurationAdapter(viewModel.devicesWithGestures, requireContext()) { device, gesture ->
             ConfigureGestureDialogFragment(device, gesture).show(childFragmentManager, ConfigureGestureDialogFragment.TAG)
         }
     }

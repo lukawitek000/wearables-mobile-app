@@ -11,8 +11,8 @@ data class Gesture (
         val id: Long,
         val name: String,
         val receivedData: Int,
-        val action: Actions?, // meaning, assign statistic to gesture
-        val assignTeamId: Long,
-        val assignPlayerId: Long,
+        var action: Actions?, // meaning, assign statistic to gesture
+        var assignTeamId: Long,
+        var assignPlayerId: Long,
         val bleDeviceId: String
         )
