@@ -22,19 +22,23 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentScanningBluetoothBinding
+import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.ScanResultsAdapter
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-
+@AndroidEntryPoint
 class ScanningBluetoothFragment : Fragment() {
 
 
@@ -42,7 +46,8 @@ class ScanningBluetoothFragment : Fragment() {
     private lateinit var binding: FragmentScanningBluetoothBinding
 
     private lateinit var scanResultsAdapter: ScanResultsAdapter
-    private val viewModel: ReceivingDataViewModel by navGraphViewModels(R.id.receiving_data_nested_graph)
+    private val viewModel: ReceivingDataViewModel by hiltNavGraphViewModels(R.id.receiving_data_nested_graph)
+  // private val viewModel: ReceivingDataViewModel by viewModels()
 
     companion object{
         private const val TAG = "ScanningBluetoothFrag"
@@ -120,8 +125,31 @@ class ScanningBluetoothFragment : Fragment() {
     private fun receiveSafeArgs() {
         if (arguments != null) {
             val args = ScanningBluetoothFragmentArgs.fromBundle(requireArguments())
-            val matchId = args.matchId
-            Toast.makeText(requireContext(), "Received $matchId", Toast.LENGTH_SHORT).show()
+            viewModel.matchId = args.matchId
+            binding.configureDevicesBt.isEnabled = false
+            getMatchDetails()
+            //Toast.makeText(requireContext(), "Received $matchId", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun getMatchDetails() {
+        viewModel.getMatchWithTeams().observe(viewLifecycleOwner) {
+            viewModel.match = it.match
+            getHomeTeamWithPlayers(it.teams)
+            getGuestTeamWithPlayers(it.teams)
+            binding.configureDevicesBt.isEnabled = true
+        }
+    }
+
+    private fun getGuestTeamWithPlayers(teams: List<Team>) {
+        viewModel.getTeamWithPlayers(teams[1].teamId).observe(viewLifecycleOwner){
+            viewModel.guestTeam = it
+        }
+    }
+
+    private fun getHomeTeamWithPlayers(teams: List<Team>) {
+        viewModel.getTeamWithPlayers(teams[0].teamId).observe(viewLifecycleOwner){
+            viewModel.homeTeam = it
         }
     }
 

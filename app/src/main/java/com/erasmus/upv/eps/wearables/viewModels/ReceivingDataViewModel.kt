@@ -1,13 +1,27 @@
 package com.erasmus.upv.eps.wearables.viewModels
 
 import android.bluetooth.BluetoothDevice
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.erasmus.upv.eps.wearables.model.BLEDevice
-import com.erasmus.upv.eps.wearables.model.BLEDeviceWithGestures
-import com.erasmus.upv.eps.wearables.model.Gesture
+import androidx.room.PrimaryKey
+import com.erasmus.upv.eps.wearables.db.dao.MatchDao
+import com.erasmus.upv.eps.wearables.model.*
+import com.erasmus.upv.eps.wearables.model.actions.BasketballActions
+import com.erasmus.upv.eps.wearables.model.actions.FootballActions
+import com.erasmus.upv.eps.wearables.model.actions.HandballActions
+import com.erasmus.upv.eps.wearables.repositories.MatchRepository
+import com.erasmus.upv.eps.wearables.repositories.TeamRepository
+import com.erasmus.upv.eps.wearables.util.Sports
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ReceivingDataViewModel: ViewModel() {
+@HiltViewModel
+class ReceivingDataViewModel
+    @Inject constructor(
+        private val matchRepository: MatchRepository,
+        private val teamRepository: TeamRepository
+        ): ViewModel() {
 
 
     private var scanResults = mutableListOf<BluetoothDevice>()
@@ -15,6 +29,17 @@ class ReceivingDataViewModel: ViewModel() {
     var selectedScanResults = mutableListOf<BluetoothDevice>()
 
     val scanResultsLiveData = MutableLiveData<List<BluetoothDevice>>()
+
+    var matchId = 0L
+
+    var match = Match()
+    var homeTeam = TeamWithPlayers(Team(), listOf())
+    var guestTeam = TeamWithPlayers(Team(), listOf())
+
+    var selectedTeam = ""
+    var selectedPlayer = ""
+    var selectedAction = ""
+
 
     init {
         scanResultsLiveData.value = ArrayList()
@@ -35,15 +60,6 @@ class ReceivingDataViewModel: ViewModel() {
         scanResultsLiveData.value = scanResults
     }
 
-    fun getChangedElementIndex(device: BluetoothDevice): Int{
-        return scanResults.indexOfFirst { it -> device.address == it.address }
-    }
-
-    fun getSelectedBLEDevices(): List<BLEDevice>{
-        return selectedScanResults.map {
-            createBLEDevice(it)
-        }
-    }
 
     private fun createBLEDevice(it: BluetoothDevice): BLEDevice {
         var name = it.name
@@ -70,6 +86,23 @@ class ReceivingDataViewModel: ViewModel() {
             )
         }
         return gestures
+    }
+
+
+    fun getMatchWithTeams(): LiveData<MatchWithTeams>{
+        return matchRepository.getMatchAndTeamsById(matchId)
+    }
+
+    fun getTeamWithPlayers(teamId: Long): LiveData<TeamWithPlayers> {
+        return teamRepository.getTeamWithPlayers(teamId)
+    }
+
+    fun getActionsForAMatch(): List<String> {
+        return when(match.sport){
+            Sports.FOOTBALL -> FootballActions.values().map { it.name }
+            Sports.HANDBALL -> HandballActions.values().map { it.name }
+            else -> BasketballActions.values().map { it.name }
+        }
     }
 
 
