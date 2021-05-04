@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.room.PrimaryKey
 import com.erasmus.upv.eps.wearables.db.dao.MatchDao
 import com.erasmus.upv.eps.wearables.model.*
@@ -11,17 +12,20 @@ import com.erasmus.upv.eps.wearables.model.actions.Actions
 import com.erasmus.upv.eps.wearables.model.actions.BasketballActions
 import com.erasmus.upv.eps.wearables.model.actions.FootballActions
 import com.erasmus.upv.eps.wearables.model.actions.HandballActions
+import com.erasmus.upv.eps.wearables.repositories.ConfigRepository
 import com.erasmus.upv.eps.wearables.repositories.MatchRepository
 import com.erasmus.upv.eps.wearables.repositories.TeamRepository
 import com.erasmus.upv.eps.wearables.util.Sports
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ReceivingDataViewModel
     @Inject constructor(
         private val matchRepository: MatchRepository,
-        private val teamRepository: TeamRepository
+        private val teamRepository: TeamRepository,
+        private val configRepository: ConfigRepository
         ): ViewModel() {
 
 
@@ -117,6 +121,17 @@ class ReceivingDataViewModel
             homeTeam.team.teamId -> homeTeam.players
             guestTeam.team.teamId -> guestTeam.players
             else -> emptyList()
+        }
+    }
+
+    fun saveDevicesAndGestureConfiguration() {
+        viewModelScope.launch {
+            configRepository.insertBLEDevice(devicesWithGestures.map { it.bleDevice })
+            val gestures = mutableListOf<Gesture>()
+            for(device in devicesWithGestures) {
+                gestures.addAll(device.gestures)
+            }
+            configRepository.insertGesturesConfig(gestures)
         }
     }
 

@@ -33,7 +33,7 @@ class Converters {
     private val handballActionsPrefix = "HandballActions"
 
     @TypeConverter
-    fun fromActionsToString(actions: Actions): String {
+    fun fromActionsToString(actions: Actions?): String {
         return when (actions) {
             is FootballActions -> {
                 "$footballActionsPrefix${actions.name}"
@@ -45,7 +45,7 @@ class Converters {
                 "$handballActionsPrefix${actions.name}"
             }
             else -> {
-                throw Exception()
+                ""
             }
         }
     }

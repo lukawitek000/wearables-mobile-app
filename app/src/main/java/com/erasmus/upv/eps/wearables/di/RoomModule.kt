@@ -3,6 +3,7 @@ package com.erasmus.upv.eps.wearables.di
 import android.content.Context
 import androidx.room.Room
 import com.erasmus.upv.eps.wearables.db.AppDatabase
+import com.erasmus.upv.eps.wearables.db.dao.ConfigDao
 import com.erasmus.upv.eps.wearables.db.dao.MatchDao
 import com.erasmus.upv.eps.wearables.db.dao.PlayerDao
 import com.erasmus.upv.eps.wearables.db.dao.TeamDao
@@ -28,6 +29,13 @@ object RoomModule {
         ).fallbackToDestructiveMigration()
             .build()
     }
+
+    @Singleton
+    @Provides
+    fun provideConfigDao(wearablesDb: AppDatabase): ConfigDao {
+        return wearablesDb.configDao()
+    }
+
 
     @Singleton
     @Provides

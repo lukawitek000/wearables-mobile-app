@@ -42,6 +42,7 @@ class ConfigureDevicesFragment : Fragment() {
     private fun handleDoneButton() {
         binding.doneBt.setOnClickListener {
             Timber.d("check gesture config ${viewModel.devicesWithGestures}")
+            viewModel.saveDevicesAndGestureConfiguration()
             findNavController().navigate(R.id.action_configureDevicesFragment_to_currentMatchFragment)
         }
     }
