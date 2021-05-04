@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentConfigureDevicesBinding
@@ -13,12 +14,16 @@ import com.erasmus.upv.eps.wearables.model.BLEDevice
 import com.erasmus.upv.eps.wearables.model.Gesture
 import com.erasmus.upv.eps.wearables.ui.adapters.DevicesConfigurationAdapter
 import com.erasmus.upv.eps.wearables.ui.dialogs.ConfigureGestureDialogFragment
+import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
+import timber.log.Timber
 
 
 class ConfigureDevicesFragment : Fragment() {
 
 
     private lateinit var binding: FragmentConfigureDevicesBinding
+
+    private val viewModel: ReceivingDataViewModel by navGraphViewModels(R.id.receiving_data_nested_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +32,7 @@ class ConfigureDevicesFragment : Fragment() {
 
         binding = FragmentConfigureDevicesBinding.inflate(inflater, container, false)
 
+        Timber.d("selected devices ${viewModel.selectedScanResults}")
 
 
 //        view.findViewById<Button>(R.id.configure_gesture_bt).setOnClickListener {

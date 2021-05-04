@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothDevice
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ScanningBluetoothViewModel: ViewModel() {
+class ReceivingDataViewModel: ViewModel() {
 
 
     private var scanResults = mutableListOf<BluetoothDevice>()

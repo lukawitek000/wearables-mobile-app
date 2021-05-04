@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.MainActivity
@@ -34,7 +35,7 @@ import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentScanningBluetoothBinding
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.ScanResultsAdapter
-import com.erasmus.upv.eps.wearables.viewModels.ScanningBluetoothViewModel
+import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
 import timber.log.Timber
 
@@ -46,7 +47,7 @@ class ScanningBluetoothFragment : Fragment() {
     private lateinit var binding: FragmentScanningBluetoothBinding
 
     private lateinit var scanResultsAdapter: ScanResultsAdapter
-    private val viewModel: ScanningBluetoothViewModel by viewModels()
+    private val viewModel: ReceivingDataViewModel by navGraphViewModels(R.id.receiving_data_nested_graph)
 
     companion object{
         private const val TAG = "ScanningBluetoothFrag"
