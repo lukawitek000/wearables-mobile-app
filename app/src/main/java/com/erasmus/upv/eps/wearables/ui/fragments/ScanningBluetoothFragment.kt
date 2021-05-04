@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentScanningBluetoothBinding
+import com.erasmus.upv.eps.wearables.model.BLEDeviceWithGestures
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.ScanResultsAdapter
@@ -66,7 +67,25 @@ class ScanningBluetoothFragment : Fragment() {
         setUpRecyclerView()
         handleGoingToConfigurationDevices()
         handleScanButton()
+        displaySavedDevices()
         return binding.root
+    }
+
+    private fun displaySavedDevices() {
+        val rv = binding.savedDevicesRv
+        rv.layoutManager = LinearLayoutManager(requireContext())
+        val adapter = ScanResultsAdapter(this::onClickScanResultsAdapter)
+        rv.adapter = adapter
+        viewModel.getDevicesWithGestures()
+        viewModel.savedDevicesAndGestures.observe(viewLifecycleOwner){
+            adapter.submitList(getBluetoothDevicesFromAddresses(it).toMutableList())
+        }
+    }
+
+    private fun getBluetoothDevicesFromAddresses(devicesWithGestures: List<BLEDeviceWithGestures>): List<BluetoothDevice> {
+        return devicesWithGestures.map {
+            BluetoothAdapter.getDefaultAdapter().getRemoteDevice(it.bleDevice.address)
+        }
     }
 
     private fun handleScanButton() {
@@ -94,27 +113,27 @@ class ScanningBluetoothFragment : Fragment() {
     private fun setUpRecyclerView() {
         val scanResultRecyclerView = binding.scanResultsRv
         scanResultRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        scanResultsAdapter = ScanResultsAdapter() {
-            //TODO
+        scanResultsAdapter = ScanResultsAdapter(this::onClickScanResultsAdapter)
+        scanResultRecyclerView.adapter = scanResultsAdapter
+    }
 
-            //BLEConnectionForegroundService.gattDevice = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
-    //
-    //            val bluetoothGatt = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
-    //            BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address ?: "NULL"] = bluetoothGatt
+    private fun onClickScanResultsAdapter(it: BluetoothDevice) {
+        //TODO
+
+        //BLEConnectionForegroundService.gattDevice = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
+        //
+        //            val bluetoothGatt = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
+        //            BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address ?: "NULL"] = bluetoothGatt
 
 
 //            scanResultsAdapter.notifyItemChanged(viewModel.scanResults.indexOfFirst { device -> device.address == it.address })
 
-           // scanResultsAdapter.notifyItemChanged(viewModel.getChangedElementIndex(it))
-            if (viewModel.selectedScanResults.contains(it)) {
-                viewModel.selectedScanResults.remove(it)
-            } else {
-                viewModel.selectedScanResults.add(it)
-            }
-
-
+        // scanResultsAdapter.notifyItemChanged(viewModel.getChangedElementIndex(it))
+        if (viewModel.selectedScanResults.contains(it)) {
+            viewModel.selectedScanResults.remove(it)
+        } else {
+            viewModel.selectedScanResults.add(it)
         }
-        scanResultRecyclerView.adapter = scanResultsAdapter
     }
 
     private fun clearDevicesLists() {
