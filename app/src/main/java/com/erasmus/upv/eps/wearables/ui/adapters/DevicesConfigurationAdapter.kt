@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.databinding.ItemViewDevicesConfigurationBinding
 import com.erasmus.upv.eps.wearables.model.BLEDevice
+import com.erasmus.upv.eps.wearables.model.BLEDeviceWithGestures
 import com.erasmus.upv.eps.wearables.model.Gesture
 
-class DevicesConfigurationAdapter(private val devices: List<BLEDevice>,
+class DevicesConfigurationAdapter(private val devices: List<BLEDeviceWithGestures>,
                                   private val context: Context,
                                   private val onGestureClick: (device: BLEDevice, gesture: Gesture) -> Unit
                                   ) : RecyclerView.Adapter<DevicesConfigurationAdapter.DevicesConfigurationViewHolder>() {
@@ -22,15 +23,12 @@ class DevicesConfigurationAdapter(private val devices: List<BLEDevice>,
     }
 
     override fun onBindViewHolder(holder: DevicesConfigurationViewHolder, position: Int) {
-        holder.binding.deviceNameTv.text = devices[position].name
+        holder.binding.deviceNameTv.text = devices[position].bleDevice.name
         val rv = holder.binding.deviceGestureRv
         rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        //rv.adapter = GestureConfigurationAdapter(devices[position].gestures){
-        rv.adapter = GestureConfigurationAdapter(emptyList()){
-                onGestureClick.invoke(devices[position], it)
+        rv.adapter = GestureConfigurationAdapter(devices[position].gestures){
+                onGestureClick.invoke(devices[position].bleDevice, it)
             }
-
-
     }
 
     override fun getItemCount(): Int = devices.size
