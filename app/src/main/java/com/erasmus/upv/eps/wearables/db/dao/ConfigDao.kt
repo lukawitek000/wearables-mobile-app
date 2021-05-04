@@ -1,9 +1,7 @@
 package com.erasmus.upv.eps.wearables.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Transaction
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import com.erasmus.upv.eps.wearables.model.BLEDevice
 import com.erasmus.upv.eps.wearables.model.BLEDeviceWithGestures
 import com.erasmus.upv.eps.wearables.model.Gesture
@@ -16,6 +14,17 @@ interface ConfigDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGestures(gestures: List<Gesture>)
+
+
+    @Transaction
+    @Query("SELECT * FROM BLEDevice")
+    suspend fun getBLEDevicesWithGestures(): List<BLEDeviceWithGestures>
+
+    @Query("SELECT EXISTS(SELECT * FROM BLEDevice WHERE address = :bleDeviceAddress)")
+    fun isDeviceInDatabase(bleDeviceAddress: String): Boolean
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertBLEDeviceConfig(bleDevice: BLEDevice)
 
 
 }

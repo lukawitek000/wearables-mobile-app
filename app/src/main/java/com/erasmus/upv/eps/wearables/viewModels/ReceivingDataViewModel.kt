@@ -45,10 +45,13 @@ class ReceivingDataViewModel
     var selectedPlayerId = 0L
     var selectedAction: Actions? = null
 
-    var devicesWithGestures = emptyList<BLEDeviceWithGestures>()
+    var devicesWithGestures = mutableListOf<BLEDeviceWithGestures>()
+
+    val savedDevicesAndGestures = MutableLiveData<List<BLEDeviceWithGestures>>()
 
     fun setDevicesWithGestures(){
-        devicesWithGestures = getSelectedBLEDevicesWithGestures()
+        devicesWithGestures.addAll(getSelectedBLEDevicesWithGestures())
+        devicesWithGestures.addAll(savedDevicesAndGestures.value!!)
     }
 
 
@@ -126,12 +129,19 @@ class ReceivingDataViewModel
 
     fun saveDevicesAndGestureConfiguration() {
         viewModelScope.launch {
-            configRepository.insertBLEDevice(devicesWithGestures.map { it.bleDevice })
-            val gestures = mutableListOf<Gesture>()
-            for(device in devicesWithGestures) {
-                gestures.addAll(device.gestures)
-            }
-            configRepository.insertGesturesConfig(gestures)
+//            configRepository.insertBLEDevice(devicesWithGestures.map { it.bleDevice })
+//            val gestures = mutableListOf<Gesture>()
+//            for(device in devicesWithGestures) {
+//                gestures.addAll(device.gestures)
+//            }
+//            configRepository.insertGesturesConfig(gestures)
+            configRepository.insertBLEDeviceWithGesture(devicesWithGestures)
+        }
+    }
+
+    fun getDevicesWithGestures(){
+        viewModelScope.launch {
+            savedDevicesAndGestures.value = configRepository.getBLEDevicesWithGestures()
         }
     }
 

@@ -51,7 +51,7 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringToActions(text: String): Actions {
+    fun fromStringToActions(text: String): Actions? {
         return when {
             text.startsWith(footballActionsPrefix) -> {
                 enumValueOf<FootballActions>(text.subSequence(footballActionsPrefix.length, text.length).toString())
@@ -63,7 +63,7 @@ class Converters {
                 enumValueOf<HandballActions>(text.subSequence(handballActionsPrefix.length, text.length).toString())
             }
             else -> {
-                throw Exception()
+                null
             }
         }
     }

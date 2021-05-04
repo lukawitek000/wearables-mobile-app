@@ -23,7 +23,7 @@ class ConfigureDevicesFragment : Fragment() {
 
 
     private lateinit var binding: FragmentConfigureDevicesBinding
-
+    private lateinit var deviceAdapter: DevicesConfigurationAdapter
     private val viewModel: ReceivingDataViewModel by hiltNavGraphViewModels(R.id.receiving_data_nested_graph)
 
     override fun onCreateView(
@@ -32,10 +32,19 @@ class ConfigureDevicesFragment : Fragment() {
     ): View {
         binding = FragmentConfigureDevicesBinding.inflate(inflater, container, false)
         Timber.d("selected devices ${viewModel.selectedScanResults}")
-        viewModel.setDevicesWithGestures()
         setUpRecyclerView()
+        getSavedDeviceConfiguration()
         handleDoneButton()
         return binding.root
+    }
+
+    private fun getSavedDeviceConfiguration() {
+        viewModel.getDevicesWithGestures()
+        viewModel.savedDevicesAndGestures.observe(viewLifecycleOwner){
+            viewModel.setDevicesWithGestures()
+            deviceAdapter.notifyDataSetChanged()
+            Timber.d("get selected and saved devices ${viewModel.devicesWithGestures}")
+        }
     }
 
 
@@ -50,9 +59,10 @@ class ConfigureDevicesFragment : Fragment() {
     private fun setUpRecyclerView() {
         val rv = binding.devicesConfigRv
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        rv.adapter = DevicesConfigurationAdapter(viewModel.devicesWithGestures, requireContext()) { device, gesture ->
+        deviceAdapter = DevicesConfigurationAdapter(viewModel.devicesWithGestures, requireContext()) { device, gesture ->
             ConfigureGestureDialogFragment(device, gesture).show(childFragmentManager, ConfigureGestureDialogFragment.TAG)
         }
+        rv.adapter = deviceAdapter
     }
 
 
