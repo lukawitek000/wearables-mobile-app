@@ -50,8 +50,18 @@ class ReceivingDataViewModel
     val savedDevicesAndGestures = MutableLiveData<List<BLEDeviceWithGestures>>()
 
     fun setDevicesWithGestures(){
-        devicesWithGestures.addAll(getSelectedBLEDevicesWithGestures())
-        devicesWithGestures.addAll(savedDevicesAndGestures.value!!)
+        val selectedDevices = getSelectedBLEDevicesWithGestures().toMutableList()
+        if(savedDevicesAndGestures.value != null) {
+            for (savedDevice in savedDevicesAndGestures.value!!){
+                selectedDevices.removeIf { it.bleDevice.address == savedDevice.bleDevice.address }
+                selectedDevices.add(savedDevice)
+            }
+//
+//                devicesWithGestures.addAll(getSelectedBLEDevicesWithGestures())
+//            devicesWithGestures.addAll(savedDevicesAndGestures.value!!)
+        }
+        devicesWithGestures.clear()
+        devicesWithGestures.addAll(selectedDevices)
     }
 
 
