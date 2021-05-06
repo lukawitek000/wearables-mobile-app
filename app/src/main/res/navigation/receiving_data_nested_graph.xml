@@ -36,5 +36,14 @@
         android:id="@+id/currentMatchFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.CurrentMatchFragment"
         android:label="Current Match"
-        tools:layout="@layout/fragment_current_match" />
+        tools:layout="@layout/fragment_current_match" >
+
+        <action
+            android:id="@+id/action_currentMatchFragment_to_matchesFragment"
+            app:destination="@+id/matchesFragment"
+            app:popUpTo="@+id/matchesFragment"
+            app:popUpToInclusive="true"
+            />
+
+    </fragment>
 </navigation>

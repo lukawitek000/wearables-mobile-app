@@ -1,19 +1,22 @@
 package com.erasmus.upv.eps.wearables.ui.fragments
 
-import android.os.Binder
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCurrentMatchBinding
 import com.erasmus.upv.eps.wearables.model.LiveAction
-import com.erasmus.upv.eps.wearables.model.Response
 import com.erasmus.upv.eps.wearables.ui.adapters.LiveActionsAdapter
-import com.erasmus.upv.eps.wearables.ui.adapters.ResponseDataAdapter
 import com.erasmus.upv.eps.wearables.ui.dialogs.SelectPlayerDialogFragment
 import com.erasmus.upv.eps.wearables.ui.dialogs.SelectTeamDialogFragment
 
@@ -22,11 +25,49 @@ class CurrentMatchFragment : Fragment() {
 
     private lateinit var binding: FragmentCurrentMatchBinding
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = FragmentCurrentMatchBinding.inflate(
                 inflater, container, false
         )
+
+
+        setUpCustomBackPress()
+        mockDialogsForChoosingPlayersAndTeams()
+        setUpRecyclerView()
+
+
+        return binding.root
+    }
+
+    private fun setUpCustomBackPress() {
+        val callback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                buildBackPressedAlertDialog().show()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
+    }
+
+    private fun buildBackPressedAlertDialog(): AlertDialog {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
+        builder.setTitle("Warning")
+        builder.setMessage("If you left this screen the statistics recording will fail. Do you want to exit?")
+        builder.apply {
+            setPositiveButton("Yes") { _, _ ->
+                findNavController().navigate(R.id.action_currentMatchFragment_to_matchesFragment)
+                Toast.makeText(requireContext(), "Go back", Toast.LENGTH_SHORT).show()
+            }
+            setNegativeButton("No" ){ dialog, _ ->
+                dialog.dismiss()
+            }
+        }
+        return builder.create()
+    }
+
+    private fun mockDialogsForChoosingPlayersAndTeams() {
         binding.simulateWhichTeamBn.setOnClickListener {
             SelectTeamDialogFragment().show(childFragmentManager, SelectTeamDialogFragment.TAG)
         }
@@ -35,13 +76,12 @@ class CurrentMatchFragment : Fragment() {
         binding.simulateWhichPlayerBn.setOnClickListener {
             SelectPlayerDialogFragment().show(childFragmentManager, SelectPlayerDialogFragment.TAG)
         }
+    }
 
+    private fun setUpRecyclerView() {
         val rv = binding.liveActionsRv
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         rv.adapter = LiveActionsAdapter(liveActions)
-
-
-        return binding.root
     }
 
 
