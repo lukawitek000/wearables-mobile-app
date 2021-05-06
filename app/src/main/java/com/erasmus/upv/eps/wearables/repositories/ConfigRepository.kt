@@ -48,5 +48,12 @@ constructor(private val configDao: ConfigDao){
         }
     }
 
+    suspend fun deleteAllDevicesAndGestures() {
+        withContext(Dispatchers.IO){
+            configDao.deleteAllDevices()
+            configDao.deleteAllGestures()
+        }
+    }
+
 
 }

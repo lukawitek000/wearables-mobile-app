@@ -26,5 +26,11 @@ interface ConfigDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBLEDeviceConfig(bleDevice: BLEDevice)
 
+    @Query("DELETE FROM BLEDevice")
+    fun deleteAllDevices()
+
+    @Query("DELETE FROM Gesture")
+    fun deleteAllGestures()
+
 
 }

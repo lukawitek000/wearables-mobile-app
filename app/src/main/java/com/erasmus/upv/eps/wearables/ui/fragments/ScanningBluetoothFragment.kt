@@ -15,10 +15,8 @@ import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -68,6 +66,7 @@ class ScanningBluetoothFragment : Fragment() {
         handleGoingToConfigurationDevices()
         handleScanButton()
         displaySavedDevices()
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -344,6 +343,24 @@ class ScanningBluetoothFragment : Fragment() {
             }
         }
 
+
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.scan_devices_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.delete_all_saved_devices -> {
+                viewModel.deleteAllDevicesAndGestures()
+                Toast.makeText(requireContext(), "Devices deleted", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 
     }
 }

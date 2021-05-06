@@ -146,5 +146,13 @@ class ReceivingDataViewModel
     }
 
 
+    fun deleteAllDevicesAndGestures(){
+        viewModelScope.launch {
+            configRepository.deleteAllDevicesAndGestures()
+            savedDevicesAndGestures.value = emptyList()
+        }
+    }
+
+
 }
 
