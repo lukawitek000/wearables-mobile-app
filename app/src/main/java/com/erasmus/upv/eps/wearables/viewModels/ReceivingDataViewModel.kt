@@ -53,8 +53,9 @@ class ReceivingDataViewModel
         val selectedDevices = getSelectedBLEDevicesWithGestures().toMutableList()
         if(savedDevicesAndGestures.value != null) {
             for (savedDevice in savedDevicesAndGestures.value!!){
-                selectedDevices.removeIf { it.bleDevice.address == savedDevice.bleDevice.address }
-                selectedDevices.add(savedDevice)
+                if(selectedDevices.removeIf { it.bleDevice.address == savedDevice.bleDevice.address }) {
+                    selectedDevices.add(savedDevice)
+                }
             }
 //
 //                devicesWithGestures.addAll(getSelectedBLEDevicesWithGestures())
@@ -71,6 +72,13 @@ class ReceivingDataViewModel
 
 
     fun addNewScanResult(device: BluetoothDevice){
+        if(savedDevicesAndGestures.value != null) {
+            for (savedDevice in savedDevicesAndGestures.value!!){
+                if(savedDevice.bleDevice.address == device.address){
+                    return
+                }
+            }
+        }
         scanResults.add(device)
         scanResultsLiveData.value = scanResults
     }

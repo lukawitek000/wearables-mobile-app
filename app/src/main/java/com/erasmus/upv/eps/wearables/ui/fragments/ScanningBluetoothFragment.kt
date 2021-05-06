@@ -145,6 +145,7 @@ class ScanningBluetoothFragment : Fragment() {
             val args = ScanningBluetoothFragmentArgs.fromBundle(requireArguments())
             viewModel.matchId = args.matchId
             binding.configureDevicesBt.isEnabled = false
+            binding.scanBt.isEnabled = false
             getMatchDetails()
             //Toast.makeText(requireContext(), "Received $matchId", Toast.LENGTH_SHORT).show()
         }
@@ -156,6 +157,7 @@ class ScanningBluetoothFragment : Fragment() {
             getHomeTeamWithPlayers(it.teams)
             getGuestTeamWithPlayers(it.teams)
             binding.configureDevicesBt.isEnabled = true
+            binding.scanBt.isEnabled = true
         }
     }
 
