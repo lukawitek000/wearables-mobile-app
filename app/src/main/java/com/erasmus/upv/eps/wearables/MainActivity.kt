@@ -78,6 +78,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.createMatchFragment -> setBottomNavigationVisibility(View.GONE)
                 R.id.createTeamFragment -> setBottomNavigationVisibility(View.GONE)
                 R.id.createPlayerFragment -> setBottomNavigationVisibility(View.GONE)
+                R.id.scanningBluetoothFragment -> setBottomNavigationVisibility(View.GONE)
+                R.id.configureDevicesFragment -> setBottomNavigationVisibility(View.GONE)
+                R.id.currentMatchFragment -> setBottomNavigationVisibility(View.GONE)
                 else -> setBottomNavigationVisibility(View.VISIBLE)
             }
         }

@@ -105,7 +105,11 @@ class ScanningBluetoothFragment : Fragment() {
 //                BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address
 //                        ?: "NULL"] = bluetoothGatt
 //            }
-            findNavController().navigate(R.id.action_scanningBluetoothFragment_to_configureDevicesFragment)
+            if(viewModel.selectedScanResults.isEmpty()){
+                Toast.makeText(requireContext(), "Choose BLE Devices to connect with", Toast.LENGTH_SHORT).show()
+            }else{
+                findNavController().navigate(R.id.action_scanningBluetoothFragment_to_configureDevicesFragment)
+            }
         }
     }
 
