@@ -14,5 +14,10 @@ object DateTimeFormatter {
         return dateFormatter.format(value)
     }
 
+    fun displayMinutesAndSeconds(value: Long): String{
+        val timeFormat = SimpleDateFormat("mm:ss")
+        return timeFormat.format(value)
+    }
+
 
 }

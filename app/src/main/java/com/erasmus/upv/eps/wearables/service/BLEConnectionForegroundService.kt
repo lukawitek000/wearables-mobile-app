@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothGatt
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
@@ -40,6 +41,38 @@ class BLEConnectionForegroundService : LifecycleService() {
 
 
         var isServiceRunning: Boolean = false
+
+       // var wholeMatchTime = 0L
+
+        var matchStartTime = 0L
+
+        val matchTime = MutableLiveData<Long>()
+
+        private var timer: CountDownTimer? = null
+
+        fun createTimer(matchTimeInMinutes: Int){
+            val wholeMatchTime = (matchTimeInMinutes * 60 * 1000).toLong()
+            timer = object : CountDownTimer(wholeMatchTime, 1000){
+                override fun onTick(millisUntilFinished: Long) {
+                    matchTime.value = wholeMatchTime - millisUntilFinished
+                }
+
+                override fun onFinish() {
+                    matchTime.value = wholeMatchTime
+                }
+
+            }
+        }
+
+
+        fun startTimer(){
+            timer?.start()
+        }
+        fun cancelTimer(){
+            timer?.cancel()
+            matchTime.value = 0L
+        }
+
 
     }
 
@@ -85,9 +118,12 @@ class BLEConnectionForegroundService : LifecycleService() {
     private fun connectGatt() {
         BLEConnectionManager.responseList.observe(this){
             Timber.i("received data: $it")
-            receiveData.postValue(it)
+            if(matchTime.value != 0L) {
+                receiveData.postValue(it)
+            }
         }
     }
+
 
     private fun startForegroundService(){
         isServiceRunning = true
@@ -131,6 +167,10 @@ class BLEConnectionForegroundService : LifecycleService() {
                 .setDestination(R.id.currentMatchFragment)
                 .createPendingIntent()
     }
+
+
+
+
 
 
 }

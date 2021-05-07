@@ -15,15 +15,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCurrentMatchBinding
 import com.erasmus.upv.eps.wearables.model.LiveAction
+import com.erasmus.upv.eps.wearables.model.Response
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.LiveActionsAdapter
 import com.erasmus.upv.eps.wearables.ui.dialogs.SelectPlayerDialogFragment
 import com.erasmus.upv.eps.wearables.ui.dialogs.SelectTeamDialogFragment
+import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
 import timber.log.Timber
+import java.util.*
+import kotlin.concurrent.timer
+import kotlin.time.minutes
 
 
 class CurrentMatchFragment : Fragment() {
 
+    private lateinit var liveActionsAdapter: LiveActionsAdapter
     private lateinit var binding: FragmentCurrentMatchBinding
 
 
@@ -37,16 +43,48 @@ class CurrentMatchFragment : Fragment() {
         setUpCustomBackPress()
         mockDialogsForChoosingPlayersAndTeams()
         setUpRecyclerView()
+        handleStartMatchButton()
+        showMatchTime()
 
-//        BLEConnectionForegroundService.receiveData.observe(viewLifecycleOwner){
-//            Timber.i( "onCreateView: data changed $it")
-//        }
+        BLEConnectionForegroundService.receiveData.observe(viewLifecycleOwner){
+            Timber.i( "onCreateView: data changed $it")
+            liveActionsAdapter.submitList(
+                    convertReceivedDataToLiveActions(it)
+            )
+
+        }
         if(!BLEConnectionForegroundService.isServiceRunning) {
             sendCommandToBLEConnectionService(BLEConnectionForegroundService.START)
         }
 
         return binding.root
     }
+
+    private fun showMatchTime() {
+        BLEConnectionForegroundService.matchTime.observe(viewLifecycleOwner){
+            binding.matchTimerTv.text = DateTimeFormatter.displayMinutesAndSeconds(it)
+        }
+    }
+
+    private fun handleStartMatchButton() {
+        binding.startMatchBt.setOnClickListener {
+            if(BLEConnectionForegroundService.matchTime.value == null || BLEConnectionForegroundService.matchTime.value == 0L) {
+                BLEConnectionForegroundService.createTimer(90)
+                BLEConnectionForegroundService.startTimer()
+                binding.startMatchBt.text = "STOP MATCH"
+                BLEConnectionForegroundService.matchStartTime = System.currentTimeMillis()
+            }else{
+                BLEConnectionForegroundService.cancelTimer()
+                binding.startMatchBt.text = "START MATCH"
+            }
+        }
+    }
+
+    private fun convertReceivedDataToLiveActions(it: MutableList<Response>) =
+            it.map { response ->
+                val matchTime = Date(response.timeStamp - BLEConnectionForegroundService.matchStartTime)
+                LiveAction(DateTimeFormatter.displayMinutesAndSeconds(matchTime.time), response.data.toString(), response.device.name)
+            }
 
     private fun setUpCustomBackPress() {
         val callback = object : OnBackPressedCallback(true){
@@ -89,7 +127,8 @@ class CurrentMatchFragment : Fragment() {
     private fun setUpRecyclerView() {
         val rv = binding.liveActionsRv
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        rv.adapter = LiveActionsAdapter(liveActions)
+        liveActionsAdapter = LiveActionsAdapter()
+        rv.adapter = liveActionsAdapter
     }
 
 

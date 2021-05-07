@@ -71,7 +71,7 @@ object BLEConnectionManager {
 
     private fun addResultToLiveDataList(result: Response) {
         val tempList = responseList.value
-        tempList?.add(result)
+        tempList?.add(0, result)
         responseList.postValue(tempList)
     }
 
