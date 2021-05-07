@@ -43,8 +43,9 @@ class CurrentMatchFragment : Fragment() {
         setUpCustomBackPress()
         mockDialogsForChoosingPlayersAndTeams()
         setUpRecyclerView()
-        handleStartMatchButton()
+        //handleStartMatchButton()
         showMatchTime()
+        BLEConnectionForegroundService.matchStartTime = System.currentTimeMillis()
 
         BLEConnectionForegroundService.receiveData.observe(viewLifecycleOwner){
             Timber.i( "onCreateView: data changed $it")
@@ -66,19 +67,19 @@ class CurrentMatchFragment : Fragment() {
         }
     }
 
-    private fun handleStartMatchButton() {
-        binding.startMatchBt.setOnClickListener {
-            if(BLEConnectionForegroundService.matchTime.value == null || BLEConnectionForegroundService.matchTime.value == 0L) {
-                BLEConnectionForegroundService.createTimer(90)
-                BLEConnectionForegroundService.startTimer()
-                binding.startMatchBt.text = "STOP MATCH"
-                BLEConnectionForegroundService.matchStartTime = System.currentTimeMillis()
-            }else{
-                BLEConnectionForegroundService.cancelTimer()
-                binding.startMatchBt.text = "START MATCH"
-            }
-        }
-    }
+//    private fun handleStartMatchButton() {
+//        binding.startMatchBt.setOnClickListener {
+//            if(BLEConnectionForegroundService.matchTime.value == null || BLEConnectionForegroundService.matchTime.value == 0L) {
+//                BLEConnectionForegroundService.createTimer(90)
+//                BLEConnectionForegroundService.startTimer()
+//                binding.startMatchBt.text = "STOP MATCH"
+//                BLEConnectionForegroundService.matchStartTime = System.currentTimeMillis()
+//            }else{
+//                BLEConnectionForegroundService.cancelTimer()
+//                binding.startMatchBt.text = "START MATCH"
+//            }
+//        }
+//    }
 
     private fun convertReceivedDataToLiveActions(it: MutableList<Response>) =
             it.map { response ->
