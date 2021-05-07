@@ -112,4 +112,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_team_name_tv" />
 
+    <TextView
+        android:id="@+id/league_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="La liga"
+        app:layout_constraintEnd_toStartOf="@+id/guest_team_name_tv"
+        app:layout_constraintStart_toEndOf="@+id/home_team_name_tv"
+        app:layout_constraintTop_toBottomOf="@+id/sign_between_scores_tv" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

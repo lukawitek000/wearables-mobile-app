@@ -15,10 +15,15 @@ import com.erasmus.upv.eps.wearables.model.actions.HandballActions
 import com.erasmus.upv.eps.wearables.repositories.ConfigRepository
 import com.erasmus.upv.eps.wearables.repositories.MatchRepository
 import com.erasmus.upv.eps.wearables.repositories.TeamRepository
+import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
+import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
 import com.erasmus.upv.eps.wearables.util.Sports
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 @HiltViewModel
 class ReceivingDataViewModel
@@ -101,7 +106,7 @@ class ReceivingDataViewModel
         return BLEDevice(it.address, name)
     }
 
-    fun getSelectedBLEDevicesWithGestures(): List<BLEDeviceWithGestures> {
+    private fun getSelectedBLEDevicesWithGestures(): List<BLEDeviceWithGestures> {
         return selectedScanResults.map {
             BLEDeviceWithGestures(
                     createBLEDevice(it),
@@ -168,6 +173,37 @@ class ReceivingDataViewModel
         viewModelScope.launch {
             configRepository.deleteAllDevicesAndGestures()
             savedDevicesAndGestures.value = emptyList()
+        }
+    }
+
+    fun convertReceivedDataToLiveActions(responses: MutableList<Response>): List<LiveAction> {
+        return responses.map { response ->
+            val matchTime = Date(response.timeStamp - BLEConnectionForegroundService.matchStartTime)
+            val device = devicesWithGestures.first {
+                response.device.address == it.bleDevice.address
+            }
+            val gesture = device.gestures.first {
+                it.receivedData == (response.data % 10 + 1)
+            }
+            val action = gesture.action
+            val teamId = gesture.assignTeamId
+            val playerId = gesture.assignPlayerId
+            // TODO fix setting gestures, it was set as the previous one when user click to configure it but didn't
+            Timber.d("\nreceived data: \n action = $action \n teamId = $teamId \n playerId = $playerId")
+            if(teamId == 0L && playerId == 0L){
+                return@map LiveAction(DateTimeFormatter.displayMinutesAndSeconds(matchTime.time), action.toString(), response.device.name)
+            }
+
+            if(teamId != 0L){
+                // TODO show dialog for choosing teams
+            }
+
+            if(playerId != 0L){
+                // TODO show dialog for choosing player
+            }
+
+            LiveAction(DateTimeFormatter.displayMinutesAndSeconds(matchTime.time), action.toString(), response.device.name)
+
         }
     }
 

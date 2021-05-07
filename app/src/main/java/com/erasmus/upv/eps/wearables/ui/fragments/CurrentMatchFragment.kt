@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
@@ -21,6 +22,7 @@ import com.erasmus.upv.eps.wearables.ui.adapters.LiveActionsAdapter
 import com.erasmus.upv.eps.wearables.ui.dialogs.SelectPlayerDialogFragment
 import com.erasmus.upv.eps.wearables.ui.dialogs.SelectTeamDialogFragment
 import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
+import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import timber.log.Timber
 import java.util.*
 import kotlin.concurrent.timer
@@ -32,6 +34,8 @@ class CurrentMatchFragment : Fragment() {
     private lateinit var liveActionsAdapter: LiveActionsAdapter
     private lateinit var binding: FragmentCurrentMatchBinding
 
+    private val viewModel: ReceivingDataViewModel by hiltNavGraphViewModels(R.id.receiving_data_nested_graph)
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -40,6 +44,7 @@ class CurrentMatchFragment : Fragment() {
         )
 
 
+        populateUi()
         setUpCustomBackPress()
         mockDialogsForChoosingPlayersAndTeams()
         setUpRecyclerView()
@@ -49,9 +54,11 @@ class CurrentMatchFragment : Fragment() {
 
         BLEConnectionForegroundService.receiveData.observe(viewLifecycleOwner){
             Timber.i( "onCreateView: data changed $it")
-            liveActionsAdapter.submitList(
-                    convertReceivedDataToLiveActions(it)
-            )
+            if(it != null) {
+                liveActionsAdapter.submitList(
+                        viewModel.convertReceivedDataToLiveActions(it)
+                )
+            }
 
         }
         if(!BLEConnectionForegroundService.isServiceRunning) {
@@ -59,6 +66,12 @@ class CurrentMatchFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun populateUi() {
+        binding.homeTeamNameTv.text = viewModel.homeTeam.team.name
+        binding.guestTeamNameTv.text = viewModel.guestTeam.team.name
+        binding.leagueNameTv.text = viewModel.match.league
     }
 
     private fun showMatchTime() {
@@ -81,11 +94,13 @@ class CurrentMatchFragment : Fragment() {
 //        }
 //    }
 
-    private fun convertReceivedDataToLiveActions(it: MutableList<Response>) =
-            it.map { response ->
-                val matchTime = Date(response.timeStamp - BLEConnectionForegroundService.matchStartTime)
-                LiveAction(DateTimeFormatter.displayMinutesAndSeconds(matchTime.time), response.data.toString(), response.device.name)
-            }
+
+//
+//    private fun convertReceivedDataToLiveActions(it: MutableList<Response>) =
+//            it.map { response ->
+//                val matchTime = Date(response.timeStamp - BLEConnectionForegroundService.matchStartTime)
+//                LiveAction(DateTimeFormatter.displayMinutesAndSeconds(matchTime.time), response.data.toString(), response.device.name)
+//            }
 
     private fun setUpCustomBackPress() {
         val callback = object : OnBackPressedCallback(true){
@@ -152,19 +167,3 @@ class CurrentMatchFragment : Fragment() {
 
 
 }
-
-
-private val liveActions = listOf<LiveAction>(
-        LiveAction("1:11", "Goal", "none"),
-        LiveAction("21:11", "Foul", "none"),
-        LiveAction("1:22", "Offside", "sdfds"),
-        LiveAction("9:51", "Goal", "none"),
-        LiveAction("7:00", "Assist", "gdg"),
-        LiveAction("1:44", "Foul", "none"),
-        LiveAction("12:11", "Goal", "dfgdf"),
-        LiveAction("90:11", "Offside", "none"),
-        LiveAction("13:11", "Save", "none"),
-        LiveAction("51:11", "Assist", "egeg"),
-
-
-)
