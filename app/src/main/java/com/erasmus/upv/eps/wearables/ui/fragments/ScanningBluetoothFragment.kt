@@ -18,12 +18,11 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
@@ -32,8 +31,8 @@ import com.erasmus.upv.eps.wearables.model.BLEDeviceWithGestures
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.ScanResultsAdapter
-import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
+import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -46,7 +45,6 @@ class ScanningBluetoothFragment : Fragment() {
 
     private lateinit var scanResultsAdapter: ScanResultsAdapter
     private val viewModel: ReceivingDataViewModel by hiltNavGraphViewModels(R.id.receiving_data_nested_graph)
-  // private val viewModel: ReceivingDataViewModel by viewModels()
 
     companion object{
         private const val TAG = "ScanningBluetoothFrag"
@@ -65,12 +63,12 @@ class ScanningBluetoothFragment : Fragment() {
         setUpRecyclerView()
         handleGoingToConfigurationDevices()
         handleScanButton()
-        displaySavedDevices()
+        setUpSavedDevicesRecyclerView()
         setHasOptionsMenu(true)
         return binding.root
     }
 
-    private fun displaySavedDevices() {
+    private fun setUpSavedDevicesRecyclerView() {
         val rv = binding.savedDevicesRv
         rv.layoutManager = LinearLayoutManager(requireContext())
         val adapter = ScanResultsAdapter(this::onClickScanResultsAdapter)
@@ -100,14 +98,17 @@ class ScanningBluetoothFragment : Fragment() {
     private fun handleGoingToConfigurationDevices() {
         binding.configureDevicesBt.setOnClickListener {
             Timber.d("handleGoingToConfigurationDevices: ${viewModel.selectedScanResults}")
-//            for (device in viewModel.selectedScanResults) {
-//                val bluetoothGatt = device.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
-//                BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address
-//                        ?: "NULL"] = bluetoothGatt
-//            }
+
             if(viewModel.selectedScanResults.isEmpty()){
                 Toast.makeText(requireContext(), "Choose BLE Devices to connect with", Toast.LENGTH_SHORT).show()
             }else{
+                for (device in viewModel.selectedScanResults) {
+                    val bluetoothGatt = device.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
+                    val address = bluetoothGatt.device.address
+                    if(address != null) {
+                        BLEConnectionForegroundService.gattDevicesMap[address] = bluetoothGatt
+                    }
+                }
                 findNavController().navigate(R.id.action_scanningBluetoothFragment_to_configureDevicesFragment)
             }
         }
@@ -151,7 +152,6 @@ class ScanningBluetoothFragment : Fragment() {
             binding.configureDevicesBt.isEnabled = false
             binding.scanBt.isEnabled = false
             getMatchDetails()
-            //Toast.makeText(requireContext(), "Received $matchId", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -188,27 +188,22 @@ class ScanningBluetoothFragment : Fragment() {
     private fun promptEnableBluetooth(){
         if(!bluetoothAdapter.isEnabled){
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            startActivityForResult(enableBluetoothIntent, ENABLE_BLUETOOTH_REQUEST_CODE)
+            bleResultLauncher.launch(enableBluetoothIntent)
         }
     }
 
+    //check every time when fragment is shown if bluetooth is enabled
     override fun onResume() {
         super.onResume()
         promptEnableBluetooth()
     }
 
-
-    //check if enabling bluetooth has succeed
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode){
-            ENABLE_BLUETOOTH_REQUEST_CODE -> {
-                if(requestCode != Activity.RESULT_OK){
-                    promptEnableBluetooth()
-                }
-            }
+    var bleResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode != Activity.RESULT_OK) {
+            promptEnableBluetooth()
         }
     }
+
 
 
     private val hasLocationPermissionGranted
@@ -222,11 +217,8 @@ class ScanningBluetoothFragment : Fragment() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !hasLocationPermissionGranted){
             requestLocationPermission()
         }else if(isLocationEnabled || Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-            //viewModel.scanResults.clear()
             viewModel.clearScanResults()
-            scanResultsAdapter.notifyDataSetChanged()
-
-            bleScanner.startScan(null, scanSettings, scanCallback)
+            bleScanner.startScan(null, scanSettings, scanCallback) // TODO add filters to scan only for our watches
             isScanning = true
 
         }
@@ -284,8 +276,9 @@ class ScanningBluetoothFragment : Fragment() {
 
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             super.onScanResult(callbackType, result)
-            if(!viewModel.isDeviceAlreadySaved(result.device)){
-                viewModel.addNewScanResult(result.device)
+            val device = result.device
+            if(!viewModel.isDeviceAlreadySaved(device)){
+                viewModel.addNewScanResult(device)
                 viewModel.scanResultsLiveData.observe(viewLifecycleOwner){
                     scanResultsAdapter.submitList(it.toMutableList())
                 }

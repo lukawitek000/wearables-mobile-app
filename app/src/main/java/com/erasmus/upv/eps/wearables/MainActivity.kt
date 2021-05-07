@@ -11,6 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.erasmus.upv.eps.wearables.databinding.ActivityMainBinding
+import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -119,7 +120,9 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun navigateToMatchesFragment() {
-        if(!isFirstLaunchOfApp){
+        if(BLEConnectionForegroundService.isServiceRunning){
+            navController.navigate(R.id.currentMatchFragment)
+        }else if(!isFirstLaunchOfApp){
             navController.navigate(R.id.action_tutorialFragment_to_matchesFragment)
         }
     }

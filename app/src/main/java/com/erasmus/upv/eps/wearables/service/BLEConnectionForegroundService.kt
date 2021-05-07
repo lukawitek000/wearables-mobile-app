@@ -18,28 +18,23 @@ import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.model.Response
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
+import timber.log.Timber
 
 class BLEConnectionForegroundService : LifecycleService() {
 
 
 
     companion object{
-        private const val TAG = "BLEConnectionService"
 
         private const val NOTIFICATION_CHANNEL_NAME = "BLE_connection_notification_name"
         private const val NOTIFICATION_CHANNEL_ID = "BLE_connection_notification_channel_id"
         private const val NOTIFICATION_ID = 420
 
+
+        const val START = "START"
+        const val STOP = "STOP"
+
         val receiveData = MutableLiveData<MutableList<Response>>()
-        fun initValues(){
-            receiveData.value = (emptyList<Response>().toMutableList())
-            BLEConnectionManager.responseList.value?.clear()
-           // BLEConnectionManager.responseList = BLEConnectionManager.initResponseList()
-           // BLEConnectionManager.responseList.value =  receiveData.value
-        }
-
-        //var gattDevice: BluetoothGatt? = null
-
 
         var gattDevicesMap: HashMap<String, BluetoothGatt?> = HashMap<String, BluetoothGatt?>()
 
@@ -48,6 +43,10 @@ class BLEConnectionForegroundService : LifecycleService() {
 
     }
 
+    private fun initValues(){
+        receiveData.value = (emptyList<Response>().toMutableList())
+        BLEConnectionManager.responseList.value?.clear()
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -56,17 +55,17 @@ class BLEConnectionForegroundService : LifecycleService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.i(TAG, "onStartCommand: $intent ${intent?.action}")
+        Timber.i( "onStartCommand: $intent ${intent?.action}")
         intent?.let{
             when(intent.action){
-                "START" -> {
+                START -> {
                     connectGatt()
                     startForegroundService()
                 }
-                "STOP" -> {
+                STOP -> {
                     stopService()
                 }
-                else -> Log.i(TAG, "onStartCommand: wrong action")
+                else -> Timber.i( "onStartCommand: wrong action")
             }
         }
         return super.onStartCommand(intent, flags, startId)
@@ -75,7 +74,6 @@ class BLEConnectionForegroundService : LifecycleService() {
     private fun stopService(){
         isServiceRunning = false
         initValues()
-       // gattDevice?.disconnect()
         gattDevicesMap.forEach {
             it.value?.disconnect()
         }
@@ -86,13 +84,14 @@ class BLEConnectionForegroundService : LifecycleService() {
 
     private fun connectGatt() {
         BLEConnectionManager.responseList.observe(this){
+            Timber.i("received data: $it")
             receiveData.postValue(it)
         }
     }
 
     private fun startForegroundService(){
         isServiceRunning = true
-        Log.i(TAG, "startForegroundService: start service")
+        Timber.i("startForegroundService: start service")
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             createNotificationChannel()
@@ -129,7 +128,7 @@ class BLEConnectionForegroundService : LifecycleService() {
         return NavDeepLinkBuilder(applicationContext)
                 .setComponentName(MainActivity::class.java)
                 .setGraph(R.navigation.nav_graph)
-                .setDestination(R.id.responseDataListFragment)
+                .setDestination(R.id.currentMatchFragment)
                 .createPendingIntent()
     }
 

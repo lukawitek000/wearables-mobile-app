@@ -14,6 +14,7 @@ import com.erasmus.upv.eps.wearables.databinding.FragmentConfigureDevicesBinding
 import com.erasmus.upv.eps.wearables.model.BLEDevice
 import com.erasmus.upv.eps.wearables.ui.adapters.DevicesConfigurationAdapter
 import com.erasmus.upv.eps.wearables.ui.dialogs.ConfigureGestureDialogFragment
+import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -52,6 +53,7 @@ class ConfigureDevicesFragment : Fragment() {
         binding.doneBt.setOnClickListener {
             Timber.d("check gesture config ${viewModel.devicesWithGestures}")
             viewModel.saveDevicesAndGestureConfiguration()
+            BLEConnectionManager.discoverServicesConnectedDevices()
             findNavController().navigate(R.id.action_configureDevicesFragment_to_currentMatchFragment)
         }
     }
