@@ -13,16 +13,41 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/close_select_player_dialog_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/pick_player_label_tv" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/close_select_player_dialog_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
         android:src="@drawable/ic_close"
         android:tint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registered_action_player_tv" />
+
+    <TextView
+        android:id="@+id/pick_player_label_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/pick_player"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/select_player_rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registered_action_player_tv" />
+
+    <TextView
+        android:id="@+id/registered_action_player_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#93A2F8"
+        android:paddingVertical="16dp"
+        android:text="@string/registered_action"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

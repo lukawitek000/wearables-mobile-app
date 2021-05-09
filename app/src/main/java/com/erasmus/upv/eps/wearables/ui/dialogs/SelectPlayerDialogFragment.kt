@@ -33,9 +33,14 @@ class SelectPlayerDialogFragment : BottomSheetDialogFragment() {
                 inflater, container, false
         )
         isCancelable = false
+        setRegisteredActionText()
         handleNotChoosingPlayer()
         setUpPlayerRecyclerView()
         return binding.root
+    }
+
+    private fun setRegisteredActionText() {
+        binding.registeredActionPlayerTv.text = getString(R.string.registered_action, viewModel.getLastActionRecorded())
     }
 
     private fun handleNotChoosingPlayer() {
@@ -54,7 +59,6 @@ class SelectPlayerDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun selectPlayer(player: Player){
-        Toast.makeText(requireContext(), "Selected ${player.name} player", Toast.LENGTH_SHORT).show()
         viewModel.selectPlayer(player.playerId)
         dismiss()
     }

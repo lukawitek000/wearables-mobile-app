@@ -216,8 +216,12 @@ class ReceivingDataViewModel
     val askedPlayerId = MutableLiveData<Long>()
     private lateinit var lastData: Response
     private lateinit var lastGesture: Gesture
-
     var isDataCleared = false
+
+    fun getLastActionRecorded(): String{
+        return lastGesture.action.toString()
+    }
+
 
     fun addNewLiveAction(lastData: Response) {
         this.lastData = lastData

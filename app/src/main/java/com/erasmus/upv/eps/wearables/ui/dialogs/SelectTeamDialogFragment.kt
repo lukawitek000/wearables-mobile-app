@@ -30,22 +30,36 @@ class SelectTeamDialogFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DialogFragmentSelectTeamBinding.inflate(inflater, container, false)
-        binding.team1Bt.text = viewModel.homeTeam.team.name
-        binding.team2Bt.text = viewModel.guestTeam.team.name
-        binding.team1Bt.setOnClickListener {
-            Toast.makeText(requireContext(), "${binding.team1Bt.text} selected", Toast.LENGTH_SHORT).show()
-            Timber.d("Team 1 selected")
-            viewModel.selectHomeTeam()
-            dismiss()
-        }
+        isCancelable = false
+        setTeamNamesTexts()
+        setRegisteredActionText()
+        setHomeTeamButtonListener()
+        setGuestTeamButtonListener()
+
+        return binding.root
+    }
+
+    private fun setRegisteredActionText() {
+        binding.registerActionTitleTv.text = getString(R.string.registered_action, viewModel.getLastActionRecorded())
+    }
+
+    private fun setGuestTeamButtonListener() {
         binding.team2Bt.setOnClickListener {
-            Toast.makeText(requireContext(), "${binding.team2Bt.text} selected", Toast.LENGTH_SHORT).show()
-            Timber.d("Team 2 selected")
             viewModel.selectGuestTeam()
             dismiss()
         }
+    }
 
-        return binding.root
+    private fun setHomeTeamButtonListener() {
+        binding.team1Bt.setOnClickListener {
+            viewModel.selectHomeTeam()
+            dismiss()
+        }
+    }
+
+    private fun setTeamNamesTexts() {
+        binding.team1Bt.text = viewModel.homeTeam.team.name
+        binding.team2Bt.text = viewModel.guestTeam.team.name
     }
 
 

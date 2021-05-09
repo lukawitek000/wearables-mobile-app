@@ -9,4 +9,7 @@
     <string name="team_updated">Team updated</string>
     <string name="match_created">Match created</string>
     <string name="match_updated">Match updated</string>
+    <string name="registered_action">Registered %1$s</string>
+    <string name="pick_team">Pick team</string>
+    <string name="pick_player">Pick player</string>
 </resources>
