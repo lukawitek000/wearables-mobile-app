@@ -52,20 +52,44 @@ class CurrentMatchFragment : Fragment() {
         showMatchTime()
         BLEConnectionForegroundService.matchStartTime = System.currentTimeMillis()
 
-        BLEConnectionForegroundService.receiveData.observe(viewLifecycleOwner){
-            Timber.i( "onCreateView: data changed $it")
-            if(it != null) {
-                liveActionsAdapter.submitList(
-                        viewModel.convertReceivedDataToLiveActions(it)
-                )
-            }
+        observeReceivedData()
+        askForATeam()
+        observeRecordedLiveAction()
 
-        }
+
+
         if(!BLEConnectionForegroundService.isServiceRunning) {
             sendCommandToBLEConnectionService(BLEConnectionForegroundService.START)
         }
 
         return binding.root
+    }
+
+    private fun observeRecordedLiveAction() {
+        viewModel.liveActions.observe(viewLifecycleOwner){
+            Timber.d("Live actions = $it")
+            liveActionsAdapter.submitList(it)
+        }
+    }
+
+    private fun askForATeam() {
+        viewModel.askedTeamId.observe(viewLifecycleOwner){
+            if(it == 0L){
+                SelectTeamDialogFragment().show(childFragmentManager, SelectTeamDialogFragment.TAG)
+            }
+        }
+    }
+
+    private fun observeReceivedData() {
+        BLEConnectionForegroundService.receiveData.observe(viewLifecycleOwner) {
+            Timber.i("onCreateView: data changed $it")
+            if (it != null && it.isNotEmpty()) {
+
+                viewModel.addNewLiveAction(it.first())
+
+            }
+
+        }
     }
 
     private fun populateUi() {

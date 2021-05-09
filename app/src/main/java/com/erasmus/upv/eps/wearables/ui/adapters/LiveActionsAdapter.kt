@@ -1,5 +1,6 @@
 package com.erasmus.upv.eps.wearables.ui.adapters
 
+import android.bluetooth.BluetoothDevice
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -26,6 +27,10 @@ class LiveActionsAdapter() : ListAdapter<LiveAction, LiveActionsAdapter.LiveActi
         holder.binding.timeTv.text = getItem(position).time
         holder.binding.eventTv.text = getItem(position).event
         holder.binding.detailsTv.text = getItem(position).details
+    }
+
+    override fun submitList(list: MutableList<LiveAction>?) {
+        super.submitList(list?.let { ArrayList(it) })
     }
 
 

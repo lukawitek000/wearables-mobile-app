@@ -54,6 +54,10 @@ class ReceivingDataViewModel
 
     val savedDevicesAndGestures = MutableLiveData<List<BLEDeviceWithGestures>>()
 
+
+    val liveActions = MutableLiveData<MutableList<LiveAction>>()
+
+
     fun setDevicesWithGestures(){
         val selectedDevices = getSelectedBLEDevicesWithGestures().toMutableList()
         if(savedDevicesAndGestures.value != null) {
@@ -73,6 +77,7 @@ class ReceivingDataViewModel
 
     init {
         scanResultsLiveData.value = ArrayList()
+        liveActions.value = ArrayList()
     }
 
 
@@ -205,6 +210,60 @@ class ReceivingDataViewModel
             LiveAction(DateTimeFormatter.displayMinutesAndSeconds(matchTime.time), action.toString(), response.device.name)
 
         }
+    }
+
+    val askedTeamId = MutableLiveData<Long>()
+    private lateinit var lastData: Response
+    private lateinit var lastGesture: Gesture
+
+    fun addNewLiveAction(lastData: Response) {
+        this.lastData = lastData
+
+        val device = devicesWithGestures.first {
+            lastData.device.address == it.bleDevice.address
+        }
+        val gesture = device.gestures.first {
+            it.receivedData == (lastData.data % 10 + 1)
+        }
+        lastGesture = gesture
+        if(gesture.assignTeamId == 0L){
+            askedTeamId.value = 0L
+        }else {
+            askedTeamId.value = lastGesture.assignTeamId
+            saveLastAction()
+        }
+    }
+
+    private fun saveLastAction() {
+        val matchTime = Date(lastData.timeStamp - BLEConnectionForegroundService.matchStartTime)
+        val extraInfo = formExtraInfo()
+        val lastLiveAction = LiveAction(DateTimeFormatter.displayMinutesAndSeconds(matchTime.time), lastGesture.action.toString(), extraInfo)
+        Timber.d("last live action $lastLiveAction")
+        liveActions.value?.add(0, lastLiveAction)
+        liveActions.notifyObserver()
+    }
+
+    private fun formExtraInfo():String  {
+        val teamName = if(askedTeamId.value == homeTeam.team.teamId){
+            homeTeam.team.name
+        }else{
+            guestTeam.team.name
+        }
+        return "${this.lastData.device.name}, team = $teamName"
+    }
+
+    private fun <T> MutableLiveData<T>.notifyObserver(){
+        this.value = this.value
+    }
+
+    fun selectHomeTeam() {
+        askedTeamId.value = homeTeam.team.teamId
+        saveLastAction()
+    }
+
+    fun selectGuestTeam() {
+        askedTeamId.value = guestTeam.team.teamId
+        saveLastAction()
     }
 
 
