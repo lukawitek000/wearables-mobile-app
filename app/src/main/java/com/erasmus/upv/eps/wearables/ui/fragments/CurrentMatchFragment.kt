@@ -54,6 +54,7 @@ class CurrentMatchFragment : Fragment() {
 
         observeReceivedData()
         askForATeam()
+        askForAPlayer()
         observeRecordedLiveAction()
 
 
@@ -72,9 +73,17 @@ class CurrentMatchFragment : Fragment() {
         }
     }
 
+    private fun askForAPlayer() {
+        viewModel.askedPlayerId.observe(viewLifecycleOwner){
+            if(it == 0L && !viewModel.isDataCleared){
+                SelectPlayerDialogFragment().show(childFragmentManager, SelectPlayerDialogFragment.TAG)
+            }
+        }
+    }
+
     private fun askForATeam() {
         viewModel.askedTeamId.observe(viewLifecycleOwner){
-            if(it == 0L){
+            if(it == 0L && !viewModel.isDataCleared){
                 SelectTeamDialogFragment().show(childFragmentManager, SelectTeamDialogFragment.TAG)
             }
         }

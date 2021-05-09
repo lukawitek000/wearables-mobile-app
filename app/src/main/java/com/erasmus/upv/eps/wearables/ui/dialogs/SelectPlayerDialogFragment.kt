@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.DialogFragmentSelectPlayerBinding
 import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.ui.adapters.PlayersShortAdapter
+import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SelectPlayerDialogFragment : BottomSheetDialogFragment() {
 
     companion object {
@@ -20,6 +23,7 @@ class SelectPlayerDialogFragment : BottomSheetDialogFragment() {
     }
 
     private lateinit var binding: DialogFragmentSelectPlayerBinding
+    private val viewModel: ReceivingDataViewModel by hiltNavGraphViewModels(R.id.receiving_data_nested_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,45 +32,32 @@ class SelectPlayerDialogFragment : BottomSheetDialogFragment() {
         binding = DialogFragmentSelectPlayerBinding.inflate(
                 inflater, container, false
         )
+        isCancelable = false
+        handleNotChoosingPlayer()
+        setUpPlayerRecyclerView()
+        return binding.root
+    }
 
-        val rv = binding.selectPlayerRv
-        rv.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
-        val adapter = PlayersShortAdapter(){
-            Toast.makeText(requireContext(), "Selected ${it.name} player", Toast.LENGTH_SHORT).show()
+    private fun handleNotChoosingPlayer() {
+        binding.closeSelectPlayerDialogIv.setOnClickListener {
+            viewModel.dismissSelectingPlayer()
             dismiss()
         }
+    }
 
-        adapter.submitList(players)
+    private fun setUpPlayerRecyclerView() {
+        val rv = binding.selectPlayerRv
+        rv.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
+        val adapter = PlayersShortAdapter(this::selectPlayer)
+        adapter.submitList(viewModel.getPlayersFromChosenTeam())
         rv.adapter = adapter
-        return binding.root
+    }
+
+    private fun selectPlayer(player: Player){
+        Toast.makeText(requireContext(), "Selected ${player.name} player", Toast.LENGTH_SHORT).show()
+        viewModel.selectPlayer(player.playerId)
+        dismiss()
     }
 
 
 }
-
-private val players = listOf<Player>(
-        Player(
-                1L, 1L,"Luke", "Football", 1, "Gk"
-        ),
-        Player(
-                2L,1L, "Piotr", "Football", 12, "Gk"
-        ),
-        Player(
-                3L, 1L,"qweqwe", "Football", 120, "Gk"
-        ),
-        Player(
-                3L, 1L,"ertg", "Football", 1200, "Gk"
-        ),
-        Player(
-                3L, 1L,"dsfg", "Football", 12000, "Gk"
-        ),
-        Player(
-                3L, 1L,"sdhf", "Football", 120000, "Gk"
-        ),
-        Player(
-                3L, 1L,"dghs", "Football", 1200000, "Gk"
-        ),
-        Player(
-                3L, 1L,"xcv", "Football", 12000000, "Gk"
-        ),
-)

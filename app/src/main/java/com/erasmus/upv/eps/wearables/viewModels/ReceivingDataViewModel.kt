@@ -213,8 +213,11 @@ class ReceivingDataViewModel
     }
 
     val askedTeamId = MutableLiveData<Long>()
+    val askedPlayerId = MutableLiveData<Long>()
     private lateinit var lastData: Response
     private lateinit var lastGesture: Gesture
+
+    var isDataCleared = false
 
     fun addNewLiveAction(lastData: Response) {
         this.lastData = lastData
@@ -226,11 +229,19 @@ class ReceivingDataViewModel
             it.receivedData == (lastData.data % 10 + 1)
         }
         lastGesture = gesture
-        if(gesture.assignTeamId == 0L){
-            askedTeamId.value = 0L
-        }else {
-            askedTeamId.value = lastGesture.assignTeamId
-            saveLastAction()
+        when {
+            gesture.assignTeamId == 0L -> {
+                askedTeamId.value = 0L
+            }
+            gesture.assignPlayerId == 0L -> {
+                askedTeamId.value = lastGesture.assignTeamId
+                askedPlayerId.value = 0L
+            }
+            else -> {
+                askedTeamId.value = lastGesture.assignTeamId
+                askedPlayerId.value = lastGesture.assignPlayerId
+                saveLastAction()
+            }
         }
     }
 
@@ -239,17 +250,34 @@ class ReceivingDataViewModel
         val extraInfo = formExtraInfo()
         val lastLiveAction = LiveAction(DateTimeFormatter.displayMinutesAndSeconds(matchTime.time), lastGesture.action.toString(), extraInfo)
         Timber.d("last live action $lastLiveAction")
+        clearTeamAndPlayerData()
         liveActions.value?.add(0, lastLiveAction)
         liveActions.notifyObserver()
     }
 
+    private fun clearTeamAndPlayerData() {
+        isDataCleared = true
+        askedPlayerId.value = 0L
+        askedTeamId.value = 0L
+        isDataCleared = false
+    }
+
     private fun formExtraInfo():String  {
-        val teamName = if(askedTeamId.value == homeTeam.team.teamId){
-            homeTeam.team.name
+        var teamName = ""
+        var player: Player? = null
+        if(askedTeamId.value == homeTeam.team.teamId){
+            teamName = homeTeam.team.name
+            player = homeTeam.players.find { it.playerId == askedPlayerId.value }
         }else{
-            guestTeam.team.name
+            teamName = guestTeam.team.name
+            player = guestTeam.players.find { it.playerId == askedPlayerId.value }
         }
-        return "${this.lastData.device.name}, team = $teamName"
+
+        return if(player != null) {
+            "${this.lastData.device.name}, team = $teamName, player = $player"
+        }else {
+            "${this.lastData.device.name}, team = $teamName"
+        }
     }
 
     private fun <T> MutableLiveData<T>.notifyObserver(){
@@ -263,6 +291,29 @@ class ReceivingDataViewModel
 
     fun selectGuestTeam() {
         askedTeamId.value = guestTeam.team.teamId
+        saveLastAction()
+    }
+
+    fun getPlayersFromChosenTeam(): List<Player> {
+        return when (askedTeamId.value) {
+            homeTeam.team.teamId -> {
+                homeTeam.players
+            }
+            guestTeam.team.teamId -> {
+                guestTeam.players
+            }
+            else -> {
+                emptyList()
+            }
+        }
+    }
+
+    fun selectPlayer(playerId: Long) {
+        askedPlayerId.value = playerId
+        saveLastAction()
+    }
+
+    fun dismissSelectingPlayer() {
         saveLastAction()
     }
 
