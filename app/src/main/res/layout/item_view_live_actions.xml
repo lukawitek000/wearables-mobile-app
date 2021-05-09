@@ -2,19 +2,22 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gridLayout"
     android:layout_width="match_parent"
+
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:layout_height="wrap_content">
+    android:columnCount="4"
+    android:rowCount="1">
 
     <TextView
         android:id="@+id/time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="11:11"
+        app:layout_constraintBaseline_toBaselineOf="@+id/event_tv"
         app:layout_constraintEnd_toStartOf="@+id/event_tv"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/event_tv"
@@ -22,7 +25,6 @@
         android:layout_height="wrap_content"
         android:text="Goal"
         app:layout_constraintEnd_toStartOf="@+id/details_tv"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/time_tv"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,9 +32,23 @@
         android:id="@+id/details_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:text="details"
+        app:layout_constraintBaseline_toBaselineOf="@+id/event_tv"
+        app:layout_constraintEnd_toStartOf="@+id/delete_live_action"
+        app:layout_constraintStart_toEndOf="@+id/event_tv" />
+
+
+    <ImageButton
+        android:id="@+id/delete_live_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_delete_forever"
+        android:tint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/event_tv"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/details_tv"
+        app:layout_constraintTop_toTopOf="@+id/details_tv" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
