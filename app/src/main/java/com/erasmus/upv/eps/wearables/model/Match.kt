@@ -1,5 +1,6 @@
 package com.erasmus.upv.eps.wearables.model
 
+import android.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalDate
@@ -14,7 +15,9 @@ data class Match(
     var city: String,
     var sport: String,
     var league: String,
-    var otherDetails: String
+    var otherDetails: String,
+    var homeTeamColor: Int,
+    var guestTeamColor: Int
 ){
     constructor(): this(
             matchId = 0L,
@@ -23,6 +26,8 @@ data class Match(
             city = "",
             sport = "",
             league = "",
-            otherDetails = ""
+            otherDetails = "",
+            homeTeamColor = Color.RED,
+            guestTeamColor = Color.GREEN
     )
 }

@@ -184,24 +184,33 @@
         app:layout_constraintTop_toBottomOf="@+id/select_team_label_tv">
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/home_team_color_cg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:singleSelection="true"
             app:singleLine="true">
 
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/home_team_color_red_c"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:checked="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#ff0000"
                 android:text="RED" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/home_team_color_green_c"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00ff00"
                 android:text="GREEN" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/home_team_color_blue_c"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#0000ff"
@@ -239,24 +248,33 @@
         app:layout_constraintTop_toTopOf="@+id/label_guest_team_tv">
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/guest_team_color_cg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:singleLine="true">
+            app:singleLine="true"
+            app:singleSelection="true">
 
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/guest_team_color_red_c"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#ff0000"
                 android:text="RED" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/guest_team_color_green_c"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:checked="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00ff00"
                 android:text="GREEN" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/guest_team_color_blue_c"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#0000ff"

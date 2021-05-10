@@ -131,7 +131,6 @@ class CreateTeamFragment : Fragment() {
             viewModel.receivedTeamId,
             binding.teamNameEt.text.toString(),
             getSelectedSport(),
-            Color.RED,
             binding.teamCountryEt.text.toString(),
             binding.teamCityEt.text.toString(),
             binding.teamInfoEt.text.toString()

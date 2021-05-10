@@ -2,6 +2,7 @@ package com.erasmus.upv.eps.wearables.ui.fragments
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -88,7 +89,29 @@ class CreateMatchFragment : Fragment() {
         setEditTexts(sharedViewModel.creatingMatch)
         setTeamsToSharedViewModel()
         populateTeamsLayouts()
+        setTeamColors()
         binding.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
+    }
+
+    private fun setTeamColors() {
+        binding.homeTeamColorCg.check(getHomeTeamColorChipId())
+        binding.guestTeamColorCg.check(getGuestTeamColorChipId())
+    }
+
+    private fun getGuestTeamColorChipId(): Int {
+        return when (sharedViewModel.creatingMatch.guestTeamColor) {
+            Color.RED -> R.id.guest_team_color_red_c
+            Color.BLUE -> R.id.guest_team_color_blue_c
+            else -> R.id.guest_team_color_green_c
+        }
+    }
+
+    private fun getHomeTeamColorChipId(): Int {
+        return when (sharedViewModel.creatingMatch.homeTeamColor) {
+            Color.RED -> R.id.home_team_color_red_c
+            Color.BLUE -> R.id.home_team_color_blue_c
+            else -> R.id.home_team_color_green_c
+        }
     }
 
     private fun setTeamsToSharedViewModel() {
@@ -183,6 +206,24 @@ class CreateMatchFragment : Fragment() {
         sharedViewModel.creatingMatch.sport = getSelectedSport()
         sharedViewModel.creatingMatch.league = binding.matchLeagueEt.text.toString()
         sharedViewModel.creatingMatch.otherDetails = binding.matchDetailsEt.text.toString()
+        sharedViewModel.creatingMatch.homeTeamColor = getHomeTeamColorFromChips()
+        sharedViewModel.creatingMatch.guestTeamColor = getGuestTeamColorFromChips()
+    }
+
+    private fun getGuestTeamColorFromChips(): Int {
+        return when(binding.guestTeamColorCg.checkedChipId){
+            R.id.guest_team_color_red_c -> Color.RED
+            R.id.guest_team_color_blue_c -> Color.BLUE
+            else -> Color.GREEN
+        }
+    }
+
+    private fun getHomeTeamColorFromChips(): Int {
+        return when(binding.homeTeamColorCg.checkedChipId){
+            R.id.home_team_color_red_c -> Color.RED
+            R.id.home_team_color_blue_c -> Color.BLUE
+            else -> Color.GREEN
+        }
     }
 
     private fun getSelectedSport(): String  = when(binding.sportRadioGroup.checkedRadioButtonId){

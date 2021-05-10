@@ -11,7 +11,6 @@ data class Team (
     var teamId: Long,
     val name: String,
     val sport: String,
-    val color: Int,
     val country: String,
     val city: String,
    // val logo: Uri?,
@@ -21,7 +20,6 @@ data class Team (
             teamId = 0L,
             name = "",
             sport = "",
-            color = Color.RED,
             country = "",
             city = "",
             others = "")
