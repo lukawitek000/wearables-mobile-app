@@ -54,11 +54,19 @@ class ReceivingDataViewModel
     val savedDevicesAndGestures = MutableLiveData<List<BLEDeviceWithGestures>>()
 
 
-    //val liveActions = MutableLiveData<MutableList<LiveAction>>()
-    //val liveActions = statisticsRepository.getLiveActionsForTheMatch(matchId).asLiveData()
-
     fun getLiveActionsForCurrentMatch(): LiveData<List<LiveAction>>{
         return statisticsRepository.getLiveActionsForTheMatch(matchId).asLiveData()
+    }
+
+
+    init {
+        scanResultsLiveData.value = ArrayList()
+    }
+
+    fun clearSelectedConfig() {
+        selectedTeamId = 0L
+        selectedPlayerId = 0L
+        selectedAction = null
     }
 
 
@@ -70,18 +78,9 @@ class ReceivingDataViewModel
                     selectedDevices.add(savedDevice)
                 }
             }
-//
-//                devicesWithGestures.addAll(getSelectedBLEDevicesWithGestures())
-//            devicesWithGestures.addAll(savedDevicesAndGestures.value!!)
         }
         devicesWithGestures.clear()
         devicesWithGestures.addAll(selectedDevices)
-    }
-
-
-    init {
-        scanResultsLiveData.value = ArrayList()
-        //liveActions.value = ArrayList()
     }
 
 
@@ -151,10 +150,10 @@ class ReceivingDataViewModel
         }
     }
 
-    fun getPlayersFromSelectedTeam(): List<Player> {
+    fun getPlayersNameFromSelectedTeam(): List<String> {
         return when(selectedTeamId) {
-            homeTeam.team.teamId -> homeTeam.players
-            guestTeam.team.teamId -> guestTeam.players
+            homeTeam.team.teamId -> homeTeam.players.map { it.name }
+            guestTeam.team.teamId -> guestTeam.players.map { it.name }
             else -> emptyList()
         }
     }
@@ -287,6 +286,62 @@ class ReceivingDataViewModel
     fun deleteLiveActionById(id: Long) {
         viewModelScope.launch {
             statisticsRepository.deleteLiveActionById(id)
+        }
+    }
+
+    fun getTeamNameById(assignTeamId: Long): CharSequence? {
+        return when (assignTeamId) {
+            homeTeam.team.teamId -> {
+                homeTeam.team.name
+            }
+            guestTeam.team.teamId -> {
+                guestTeam.team.name
+            }
+            else -> {
+                null
+            }
+        }
+    }
+
+    fun getTeamIdByTeamName(teamName: String?): Long {
+        return when (teamName) {
+            homeTeam.team.name -> {
+                homeTeam.team.teamId
+            }
+            guestTeam.team.name -> {
+                guestTeam.team.teamId
+            }
+            else -> {
+                0L
+            }
+        }
+    }
+
+    fun getPlayerNameById(playerId: Long): CharSequence? {
+        return when {
+            homeTeam.players.count { player -> player.playerId == playerId } > 0 -> {
+                homeTeam.players.find { it.playerId == playerId }?.name
+            }
+            guestTeam.players.count { player -> player.playerId == playerId } > 0 -> {
+                guestTeam.players.find { it.playerId == playerId }?.name
+            }
+            else -> {
+                null
+            }
+        }
+    }
+
+    fun getPlayerIdByPlayerName(playerName: String?): Long {
+        return when {
+            homeTeam.players.any { it.name == playerName } -> {
+                homeTeam.players.find { it.name == playerName }?.playerId ?: 0L
+            }
+            guestTeam.players.any { it.name == playerName } -> {
+                guestTeam.players.find { it.name == playerName }?.playerId ?: 0L
+            }
+            else -> {
+                0L
+            }
         }
     }
 

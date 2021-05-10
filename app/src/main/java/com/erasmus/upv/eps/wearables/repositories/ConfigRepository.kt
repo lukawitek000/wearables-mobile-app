@@ -37,6 +37,8 @@ constructor(private val configDao: ConfigDao){
                 if(!configDao.isDeviceInDatabase(it.bleDevice.address)){
                     insertBLEDevice(it.bleDevice)
                     insertGesturesConfig(it.gestures)
+                }else{
+                    insertGesturesConfig(it.gestures)
                 }
             }
         }

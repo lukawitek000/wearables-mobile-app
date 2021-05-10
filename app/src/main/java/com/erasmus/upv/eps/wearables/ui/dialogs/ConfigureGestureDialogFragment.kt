@@ -1,15 +1,13 @@
 package com.erasmus.upv.eps.wearables.ui.dialogs
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-import androidx.navigation.navGraphViewModels
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.DialogFragmentConfigureGestureBinding
 import com.erasmus.upv.eps.wearables.model.BLEDevice
@@ -18,6 +16,7 @@ import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import timber.log.Timber
+import java.util.*
 
 
 class ConfigureGestureDialogFragment(private val device: BLEDevice, private val gesture: Gesture) : BottomSheetDialogFragment() {
@@ -42,15 +41,20 @@ class ConfigureGestureDialogFragment(private val device: BLEDevice, private val 
 
         binding.configGestureNameTv.text = gesture.name
         binding.doneConfigGestureBn.setOnClickListener {
-            dismiss()
             Timber.d("Result ${viewModel.selectedTeamId}, ${viewModel.selectedPlayerId}, ${viewModel.selectedAction}")
             gesture.assignPlayerId = viewModel.selectedPlayerId
             gesture.assignTeamId = viewModel.selectedTeamId
             gesture.action = viewModel.selectedAction
+            dismiss()
         }
         configDropDownInputs()
 
         return binding.root
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        viewModel.clearSelectedConfig()
     }
 
     private fun configDropDownInputs() {
@@ -60,22 +64,34 @@ class ConfigureGestureDialogFragment(private val device: BLEDevice, private val 
     }
 
     private fun configSelectPlayerInput() {
-        val players = mutableListOf<Player>()
-        players.addAll(viewModel.getPlayersFromSelectedTeam())
+        val players = mutableListOf<String>()
+        players.addAll(viewModel.getPlayersNameFromSelectedTeam())
         val playersAdapter = ArrayAdapter(requireContext(), R.layout.input_list_item, players)
-        (binding.selectPlayerForGestureTf.editText as AutoCompleteTextView).setAdapter(playersAdapter)
-        (binding.selectPlayerForGestureTf.editText as AutoCompleteTextView).setOnItemClickListener { _, _, position, _ ->
-            viewModel.selectedPlayerId = playersAdapter.getItem(position)?.playerId ?: 0L
+        val editText = (binding.selectPlayerForGestureTf.editText as AutoCompleteTextView)
+        editText.setAdapter(playersAdapter)
+        editText.setOnItemClickListener { _, _, position, _ ->
+            viewModel.selectedPlayerId = viewModel.getPlayerIdByPlayerName(playersAdapter.getItem(position))
+        }
+        if(gesture.assignPlayerId != 0L){
+            viewModel.selectedPlayerId = gesture.assignPlayerId
+            editText.setText(viewModel.getPlayerNameById(gesture.assignPlayerId), false)
         }
     }
 
     private fun configSelectTeamInput() {
-        val teams = listOf(viewModel.homeTeam.team, viewModel.guestTeam.team)
+        val teams = listOf(viewModel.homeTeam.team.name, viewModel.guestTeam.team.name)
         val adapter = ArrayAdapter(requireContext(), R.layout.input_list_item, teams)
-        (binding.selectTeamForGestureTf.editText as AutoCompleteTextView).setAdapter(adapter)
-        (binding.selectTeamForGestureTf.editText as AutoCompleteTextView).setOnItemClickListener { _, _, position, _ ->
-            viewModel.selectedTeamId = adapter.getItem(position)?.teamId ?: 0L
+        val editText = (binding.selectTeamForGestureTf.editText as AutoCompleteTextView)
+        editText.setAdapter(adapter)
+        editText.setOnItemClickListener { _, _, position, _ ->
+            viewModel.selectedTeamId = viewModel.getTeamIdByTeamName(adapter.getItem(position))
             binding.selectPlayerForGestureTf.isEnabled = true
+            configSelectPlayerInput()
+            (binding.selectPlayerForGestureTf.editText as AutoCompleteTextView).setText("", false)
+        }
+        if(gesture.assignTeamId != 0L){
+            viewModel.selectedTeamId = gesture.assignTeamId
+            editText.setText(viewModel.getTeamNameById(gesture.assignTeamId), false)
             configSelectPlayerInput()
         }
     }
@@ -83,9 +99,14 @@ class ConfigureGestureDialogFragment(private val device: BLEDevice, private val 
     private fun configSelectActionInput() {
         val actions = viewModel.getActionsForAMatch()
         val adapter = ArrayAdapter(requireContext(), R.layout.input_list_item, actions)
-        (binding.selectActionTf.editText as AutoCompleteTextView).setAdapter(adapter)
-        (binding.selectActionTf.editText as AutoCompleteTextView).setOnItemClickListener { _, _, position, _ ->
+        val editText = (binding.selectActionTf.editText as AutoCompleteTextView)
+        editText.setAdapter(adapter)
+        editText.setOnItemClickListener { _, _, position, _ ->
             viewModel.selectedAction = adapter.getItem(position)
+        }
+        if(gesture.action != null){
+            viewModel.selectedAction = gesture.action
+            editText.setText(viewModel.selectedAction.toString(), false)
         }
     }
 
