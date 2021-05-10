@@ -30,14 +30,16 @@ object BLEConnectionManager {
                    // bluetoothGatt = gatt
                     if(gatt != null && !bluetoothGatts.containsKey(gatt.device?.address)){
                         bluetoothGatts[gatt.device.address] = gatt
-//                        bluetoothGatts[gatt.device.address]?.discoverServices()
+            //            bluetoothGatts[gatt.device.address]?.discoverServices()
                     }
                 }else if (newState == BluetoothGatt.STATE_DISCONNECTED){
                     Timber.w("onConnectionStateChange: disconnected address $deviceAddress name = $deviceName\"")
+                    bluetoothGatts.clear()
                     gatt?.close()
                 }
             }else{
                 Timber.e("onConnectionStateChange: error $status")
+                bluetoothGatts.clear()
                 gatt?.close()
             }
         }
