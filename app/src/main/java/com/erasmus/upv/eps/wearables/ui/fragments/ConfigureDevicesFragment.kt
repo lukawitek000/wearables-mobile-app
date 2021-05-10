@@ -1,10 +1,12 @@
 package com.erasmus.upv.eps.wearables.ui.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -43,9 +45,22 @@ class ConfigureDevicesFragment : Fragment() {
         viewModel.getDevicesWithGestures()
         viewModel.savedDevicesAndGestures.observe(viewLifecycleOwner){
             viewModel.setDevicesWithGestures()
+            if(viewModel.isConfigResetForUnknownTeam){
+                showDialogAboutResettingConfiguration()
+            }
             deviceAdapter.notifyDataSetChanged()
             Timber.d("get selected and saved devices ${viewModel.devicesWithGestures}")
         }
+    }
+
+    private fun showDialogAboutResettingConfiguration() {
+        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+        alertDialogBuilder.setTitle("Info")
+        alertDialogBuilder.setMessage("Gesture configuration for devices which are saved for teams which are not playing in the match have been reset.")
+        alertDialogBuilder.setPositiveButton("Ok"){dialog, _ ->
+            dialog.dismiss()
+        }
+        alertDialogBuilder.show()
     }
 
 

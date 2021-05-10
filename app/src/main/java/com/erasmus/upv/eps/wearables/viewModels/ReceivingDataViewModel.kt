@@ -53,6 +53,10 @@ class ReceivingDataViewModel
 
     val savedDevicesAndGestures = MutableLiveData<List<BLEDeviceWithGestures>>()
 
+//    val isConfigResetForHomeTeam = false
+//    val isConfigResetForGuestTeam = false
+
+    var isConfigResetForUnknownTeam = false
 
     fun getLiveActionsForCurrentMatch(): LiveData<List<LiveAction>>{
         return statisticsRepository.getLiveActionsForTheMatch(matchId).asLiveData()
@@ -71,16 +75,32 @@ class ReceivingDataViewModel
 
 
     fun setDevicesWithGestures(){
+        isConfigResetForUnknownTeam = false
         val selectedDevices = getSelectedBLEDevicesWithGestures().toMutableList()
         if(savedDevicesAndGestures.value != null) {
             for (savedDevice in savedDevicesAndGestures.value!!){
                 if(selectedDevices.removeIf { it.bleDevice.address == savedDevice.bleDevice.address }) {
                     selectedDevices.add(savedDevice)
                 }
+
+
+                for (gesture in savedDevice.gestures){
+                    if(gesture.assignTeamId != 0L && gesture.assignTeamId != guestTeam.team.teamId && gesture.assignTeamId != homeTeam.team.teamId){
+                        clearGestureConfig(gesture)
+                        isConfigResetForUnknownTeam = true
+                    }
+                }
+
             }
         }
         devicesWithGestures.clear()
         devicesWithGestures.addAll(selectedDevices)
+    }
+
+    private fun clearGestureConfig(gesture: Gesture) {
+        gesture.assignTeamId = 0L
+        gesture.assignPlayerId = 0L
+        gesture.action = null
     }
 
 
