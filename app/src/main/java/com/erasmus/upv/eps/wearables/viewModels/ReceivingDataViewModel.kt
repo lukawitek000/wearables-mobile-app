@@ -14,6 +14,7 @@ import com.erasmus.upv.eps.wearables.model.actions.FootballActions
 import com.erasmus.upv.eps.wearables.model.actions.HandballActions
 import com.erasmus.upv.eps.wearables.repositories.ConfigRepository
 import com.erasmus.upv.eps.wearables.repositories.MatchRepository
+import com.erasmus.upv.eps.wearables.repositories.StatisticsRepository
 import com.erasmus.upv.eps.wearables.repositories.TeamRepository
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
@@ -30,7 +31,8 @@ class ReceivingDataViewModel
     @Inject constructor(
         private val matchRepository: MatchRepository,
         private val teamRepository: TeamRepository,
-        private val configRepository: ConfigRepository
+        private val configRepository: ConfigRepository,
+        private val statisticsRepository: StatisticsRepository
         ): ViewModel() {
 
 
@@ -181,36 +183,6 @@ class ReceivingDataViewModel
         }
     }
 
-    fun convertReceivedDataToLiveActions(responses: MutableList<Response>): List<LiveAction> {
-        return responses.map { response ->
-            val matchTime = Date(response.timeStamp - BLEConnectionForegroundService.matchStartTime)
-            val device = devicesWithGestures.first {
-                response.device.address == it.bleDevice.address
-            }
-            val gesture = device.gestures.first {
-                it.receivedData == (response.data % 10 + 1)
-            }
-            val action = gesture.action
-            val teamId = gesture.assignTeamId
-            val playerId = gesture.assignPlayerId
-            // TODO fix setting gestures, it was set as the previous one when user click to configure it but didn't
-            Timber.d("\nreceived data: \n action = $action \n teamId = $teamId \n playerId = $playerId")
-            if(teamId == 0L && playerId == 0L){
-                return@map LiveAction(DateTimeFormatter.displayMinutesAndSeconds(matchTime.time), action.toString(), response.device.name)
-            }
-
-            if(teamId != 0L){
-                // TODO show dialog for choosing teams
-            }
-
-            if(playerId != 0L){
-                // TODO show dialog for choosing player
-            }
-
-            LiveAction(DateTimeFormatter.displayMinutesAndSeconds(matchTime.time), action.toString(), response.device.name)
-
-        }
-    }
 
     val askedTeamId = MutableLiveData<Long>()
     val askedPlayerId = MutableLiveData<Long>()
@@ -251,8 +223,11 @@ class ReceivingDataViewModel
 
     private fun saveLastAction() {
         val matchTime = Date(lastData.timeStamp - BLEConnectionForegroundService.matchStartTime)
-        val extraInfo = formExtraInfo()
-        val lastLiveAction = LiveAction(DateTimeFormatter.displayMinutesAndSeconds(matchTime.time), lastGesture.action.toString(), extraInfo)
+      //  val extraInfo = formExtraInfo()
+        val time = DateTimeFormatter.displayMinutesAndSeconds(matchTime.time)
+//        val lastLiveAction = LiveAction(, lastGesture.action.toString(), extraInfo)
+        val lastLiveAction = LiveAction(0L, matchId, askedTeamId.value ?: 0L,
+                askedPlayerId.value ?: 0L, time, lastGesture.action)
         Timber.d("last live action $lastLiveAction")
         clearTeamAndPlayerData()
         liveActions.value?.add(0, lastLiveAction)
@@ -265,24 +240,7 @@ class ReceivingDataViewModel
         askedTeamId.value = 0L
         isDataCleared = false
     }
-
-    private fun formExtraInfo():String  {
-        var teamName = ""
-        var player: Player? = null
-        if(askedTeamId.value == homeTeam.team.teamId){
-            teamName = homeTeam.team.name
-            player = homeTeam.players.find { it.playerId == askedPlayerId.value }
-        }else{
-            teamName = guestTeam.team.name
-            player = guestTeam.players.find { it.playerId == askedPlayerId.value }
-        }
-
-        return if(player != null) {
-            "${this.lastData.device.name}, team = $teamName, player = $player"
-        }else {
-            "${this.lastData.device.name}, team = $teamName"
-        }
-    }
+    
 
     private fun <T> MutableLiveData<T>.notifyObserver(){
         this.value = this.value

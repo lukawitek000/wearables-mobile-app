@@ -25,8 +25,8 @@ class LiveActionsAdapter() : ListAdapter<LiveAction, LiveActionsAdapter.LiveActi
 
     override fun onBindViewHolder(holder: LiveActionsViewHolder, position: Int) {
         holder.binding.timeTv.text = getItem(position).time
-        holder.binding.eventTv.text = getItem(position).event
-        holder.binding.detailsTv.text = getItem(position).details
+        holder.binding.eventTv.text = getItem(position).action.toString()
+        holder.binding.detailsTv.text = "team = ${getItem(position).teamId} player = ${getItem(position).playerId}"
     }
 
     override fun submitList(list: MutableList<LiveAction>?) {
