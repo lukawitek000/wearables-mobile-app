@@ -309,7 +309,7 @@ class ReceivingDataViewModel
         }
     }
 
-    fun getTeamNameById(assignTeamId: Long): CharSequence? {
+    fun getTeamNameById(assignTeamId: Long): String? {
         return when (assignTeamId) {
             homeTeam.team.teamId -> {
                 homeTeam.team.name
@@ -337,7 +337,7 @@ class ReceivingDataViewModel
         }
     }
 
-    fun getPlayerNameById(playerId: Long): CharSequence? {
+    fun getPlayerNameById(playerId: Long): String? {
         return when {
             homeTeam.players.count { player -> player.playerId == playerId } > 0 -> {
                 homeTeam.players.find { it.playerId == playerId }?.name
@@ -373,6 +373,7 @@ class ReceivingDataViewModel
             match.guestTeamColor
         }
     }
+
 
 }
 

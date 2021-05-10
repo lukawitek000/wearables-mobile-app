@@ -176,7 +176,12 @@ class CurrentMatchFragment : Fragment() {
     private fun setUpRecyclerView() {
         val rv = binding.liveActionsRv
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        liveActionsAdapter = LiveActionsAdapter(this::deleteLiveAction, viewModel::getTeamColor)
+        liveActionsAdapter = LiveActionsAdapter(
+            this::deleteLiveAction,
+            viewModel::getTeamColor,
+            viewModel::getPlayerNameById,
+            viewModel::getTeamNameById
+        )
         rv.adapter = liveActionsAdapter
     }
 

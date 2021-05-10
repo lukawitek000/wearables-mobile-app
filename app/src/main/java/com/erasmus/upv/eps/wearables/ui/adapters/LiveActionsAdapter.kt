@@ -12,7 +12,10 @@ import com.erasmus.upv.eps.wearables.model.LiveAction
 
 class LiveActionsAdapter(
     private val onDeleteClick: (liveAction: LiveAction) -> Unit,
-    private val getTeamColor: (teamId: Long) -> Int)
+    private val getTeamColor: (teamId: Long) -> Int,
+    private val getPlayerNameById: (playerId: Long) -> String?,
+    private val getTeamNameById: (teamId: Long) -> String?
+)
     : ListAdapter<LiveAction, LiveActionsAdapter.LiveActionsViewHolder>(LiveActionsComparator()){
 
 
@@ -30,9 +33,9 @@ class LiveActionsAdapter(
         val currentLiveAction = getItem(position)
         holder.binding.timeTv.text = currentLiveAction.time
         holder.binding.eventTv.text = currentLiveAction.action.toString()
-        holder.binding.teamTv.text = currentLiveAction.teamId.toString()
+        holder.binding.teamTv.text = getTeamNameById.invoke(currentLiveAction.teamId)
         holder.binding.teamTv.setBackgroundColor(getTeamColor.invoke(currentLiveAction.teamId))
-        holder.binding.playerTv.text = currentLiveAction.playerId.toString()
+        holder.binding.playerTv.text = getPlayerNameById.invoke(currentLiveAction.playerId)
 
         holder.binding.deleteLiveAction.setOnClickListener { onDeleteClick.invoke(getItem(position)) }
 
