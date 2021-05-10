@@ -19,4 +19,7 @@ interface StatisticsDao {
     @Query("SELECT * FROM LiveAction WHERE matchId == :matchId")
     fun getLiveActionsForTheMatch(matchId: Long): Flow<List<LiveAction>>
 
+    @Query("DELETE FROM LiveAction WHERE id == :id")
+    suspend fun deleteLiveActionById(id: Long)
+
 }

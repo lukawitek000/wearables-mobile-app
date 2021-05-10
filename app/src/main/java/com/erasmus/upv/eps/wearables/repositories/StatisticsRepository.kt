@@ -21,5 +21,11 @@ constructor(
         return statisticsDao.getLiveActionsForTheMatch(matchId)
     }
 
+    suspend fun deleteLiveActionById(id: Long) {
+        withContext(Dispatchers.IO){
+            statisticsDao.deleteLiveActionById(id)
+        }
+    }
+
 
 }

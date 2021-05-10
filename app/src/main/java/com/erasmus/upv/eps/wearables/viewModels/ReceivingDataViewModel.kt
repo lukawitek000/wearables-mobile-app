@@ -284,6 +284,12 @@ class ReceivingDataViewModel
         saveLastAction()
     }
 
+    fun deleteLiveActionById(id: Long) {
+        viewModelScope.launch {
+            statisticsRepository.deleteLiveActionById(id)
+        }
+    }
+
 
 }
 

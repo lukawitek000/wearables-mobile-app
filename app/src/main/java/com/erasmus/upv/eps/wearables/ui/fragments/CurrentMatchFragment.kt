@@ -176,8 +176,12 @@ class CurrentMatchFragment : Fragment() {
     private fun setUpRecyclerView() {
         val rv = binding.liveActionsRv
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        liveActionsAdapter = LiveActionsAdapter()
+        liveActionsAdapter = LiveActionsAdapter(this::deleteLiveAction)
         rv.adapter = liveActionsAdapter
+    }
+
+    private fun deleteLiveAction(liveAction: LiveAction){
+        viewModel.deleteLiveActionById(liveAction.id)
     }
 
 

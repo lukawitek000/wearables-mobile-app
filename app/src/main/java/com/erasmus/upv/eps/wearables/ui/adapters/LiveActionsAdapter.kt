@@ -10,7 +10,7 @@ import com.erasmus.upv.eps.wearables.databinding.FragmentCurrentMatchBinding
 import com.erasmus.upv.eps.wearables.databinding.ItemViewLiveActionsBinding
 import com.erasmus.upv.eps.wearables.model.LiveAction
 
-class LiveActionsAdapter() : ListAdapter<LiveAction, LiveActionsAdapter.LiveActionsViewHolder>(LiveActionsComparator()){
+class LiveActionsAdapter(private val onDeleteClick: (liveAction: LiveAction) -> Unit) : ListAdapter<LiveAction, LiveActionsAdapter.LiveActionsViewHolder>(LiveActionsComparator()){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LiveActionsViewHolder {
@@ -27,6 +27,9 @@ class LiveActionsAdapter() : ListAdapter<LiveAction, LiveActionsAdapter.LiveActi
         holder.binding.timeTv.text = getItem(position).time
         holder.binding.eventTv.text = getItem(position).action.toString()
         holder.binding.detailsTv.text = "team = ${getItem(position).teamId} player = ${getItem(position).playerId}"
+
+        holder.binding.deleteLiveAction.setOnClickListener { onDeleteClick.invoke(getItem(position)) }
+
     }
 
 //    override fun submitList(list: MutableList<LiveAction>?) {
