@@ -19,7 +19,10 @@ import timber.log.Timber
 import java.util.*
 
 
-class ConfigureGestureDialogFragment(private val device: BLEDevice, private val gesture: Gesture) : BottomSheetDialogFragment() {
+class ConfigureGestureDialogFragment(
+    private val device: BLEDevice,
+    private val gesture: Gesture,
+    private val updateColors: () -> Unit) : BottomSheetDialogFragment() {
 
 
     companion object {
@@ -54,6 +57,7 @@ class ConfigureGestureDialogFragment(private val device: BLEDevice, private val 
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
+        updateColors.invoke()
         viewModel.clearSelectedConfig()
     }
 

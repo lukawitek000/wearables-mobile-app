@@ -77,9 +77,14 @@ class ConfigureDevicesFragment : Fragment() {
         val rv = binding.devicesConfigRv
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         deviceAdapter = DevicesConfigurationAdapter(viewModel.devicesWithGestures, requireContext()) { device, gesture ->
-            ConfigureGestureDialogFragment(device, gesture).show(childFragmentManager, ConfigureGestureDialogFragment.TAG)
+            ConfigureGestureDialogFragment(device, gesture, this::updateColor).show(childFragmentManager, ConfigureGestureDialogFragment.TAG)
         }
         rv.adapter = deviceAdapter
+    }
+
+
+    private fun updateColor(){
+        deviceAdapter.notifyDataSetChanged()
     }
 
 

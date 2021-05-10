@@ -1,7 +1,10 @@
 package com.erasmus.upv.eps.wearables.ui.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.databinding.ItemViewGestureConfigurationBinding
 import com.erasmus.upv.eps.wearables.model.Gesture
@@ -19,8 +22,29 @@ class GestureConfigurationAdapter(private val gestures: List<Gesture>,
     }
 
     override fun onBindViewHolder(holder: GestureConfigurationViewHolder, position: Int) {
-        holder.binding.gestureNameTv.text = gestures[position].name
-        holder.itemView.setOnClickListener { onClick.invoke(gestures[position]) }
+        val currentGesture = gestures[position]
+        holder.binding.gestureNameTv.text = currentGesture.name
+        holder.itemView.setOnClickListener { onClick.invoke(currentGesture) }
+        changeColorOfBackgroundForConfiguredGesture(currentGesture, holder.binding.gestureCardView)
+    }
+
+    private fun changeColorOfBackgroundForConfiguredGesture(
+        currentGesture: Gesture,
+        cardView: CardView
+    ) {
+        if(currentGesture.action != null ){
+            if(currentGesture.assignTeamId != 0L){
+                if(currentGesture.assignPlayerId != 0L){
+                    cardView.setBackgroundColor(Color.GREEN)
+                }else{
+                    cardView.setBackgroundColor(Color.rgb(255, 165, 0))
+                }
+            }else{
+                cardView.setBackgroundColor(Color.YELLOW)
+            }
+        }else{
+            cardView.setBackgroundColor(Color.RED)
+        }
     }
 
     override fun getItemCount(): Int = gestures.size
