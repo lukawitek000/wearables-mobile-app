@@ -122,17 +122,6 @@ class ScanningBluetoothFragment : Fragment() {
     }
 
     private fun onClickScanResultsAdapter(it: BluetoothDevice) {
-        //TODO
-
-        //BLEConnectionForegroundService.gattDevice = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
-        //
-        //            val bluetoothGatt = it.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
-        //            BLEConnectionForegroundService.gattDevicesMap[bluetoothGatt.device.address ?: "NULL"] = bluetoothGatt
-
-
-//            scanResultsAdapter.notifyItemChanged(viewModel.scanResults.indexOfFirst { device -> device.address == it.address })
-
-        // scanResultsAdapter.notifyItemChanged(viewModel.getChangedElementIndex(it))
         if (viewModel.selectedScanResults.contains(it)) {
             viewModel.selectedScanResults.remove(it)
         } else {
@@ -277,7 +266,7 @@ class ScanningBluetoothFragment : Fragment() {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             super.onScanResult(callbackType, result)
             val device = result.device
-            if(!viewModel.isDeviceAlreadySaved(device)){
+            if(!viewModel.isDeviceAlreadySaved(device) && device.name != null){
                 viewModel.addNewScanResult(device)
                 viewModel.scanResultsLiveData.observe(viewLifecycleOwner){
                     scanResultsAdapter.submitList(it.toMutableList())
