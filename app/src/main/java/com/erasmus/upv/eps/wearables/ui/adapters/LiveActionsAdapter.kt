@@ -29,9 +29,9 @@ class LiveActionsAdapter() : ListAdapter<LiveAction, LiveActionsAdapter.LiveActi
         holder.binding.detailsTv.text = "team = ${getItem(position).teamId} player = ${getItem(position).playerId}"
     }
 
-    override fun submitList(list: MutableList<LiveAction>?) {
-        super.submitList(list?.let { ArrayList(it) })
-    }
+//    override fun submitList(list: MutableList<LiveAction>?) {
+//        super.submitList(list?.let { ArrayList(it) })
+//    }
 
 
     inner class LiveActionsViewHolder(val binding: ItemViewLiveActionsBinding) : RecyclerView.ViewHolder(binding.root)

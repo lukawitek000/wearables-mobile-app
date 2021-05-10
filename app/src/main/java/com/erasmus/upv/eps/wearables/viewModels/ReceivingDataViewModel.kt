@@ -1,10 +1,7 @@
 package com.erasmus.upv.eps.wearables.viewModels
 
 import android.bluetooth.BluetoothDevice
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.room.PrimaryKey
 import com.erasmus.upv.eps.wearables.db.dao.MatchDao
 import com.erasmus.upv.eps.wearables.model.*
@@ -57,7 +54,12 @@ class ReceivingDataViewModel
     val savedDevicesAndGestures = MutableLiveData<List<BLEDeviceWithGestures>>()
 
 
-    val liveActions = MutableLiveData<MutableList<LiveAction>>()
+    //val liveActions = MutableLiveData<MutableList<LiveAction>>()
+    //val liveActions = statisticsRepository.getLiveActionsForTheMatch(matchId).asLiveData()
+
+    fun getLiveActionsForCurrentMatch(): LiveData<List<LiveAction>>{
+        return statisticsRepository.getLiveActionsForTheMatch(matchId).asLiveData()
+    }
 
 
     fun setDevicesWithGestures(){
@@ -79,7 +81,7 @@ class ReceivingDataViewModel
 
     init {
         scanResultsLiveData.value = ArrayList()
-        liveActions.value = ArrayList()
+        //liveActions.value = ArrayList()
     }
 
 
@@ -222,16 +224,19 @@ class ReceivingDataViewModel
     }
 
     private fun saveLastAction() {
-        val matchTime = Date(lastData.timeStamp - BLEConnectionForegroundService.matchStartTime)
-      //  val extraInfo = formExtraInfo()
-        val time = DateTimeFormatter.displayMinutesAndSeconds(matchTime.time)
+        viewModelScope.launch {
+            val matchTime = Date(lastData.timeStamp - BLEConnectionForegroundService.matchStartTime)
+            //  val extraInfo = formExtraInfo()
+            val time = DateTimeFormatter.displayMinutesAndSeconds(matchTime.time)
 //        val lastLiveAction = LiveAction(, lastGesture.action.toString(), extraInfo)
-        val lastLiveAction = LiveAction(0L, matchId, askedTeamId.value ?: 0L,
-                askedPlayerId.value ?: 0L, time, lastGesture.action)
-        Timber.d("last live action $lastLiveAction")
-        clearTeamAndPlayerData()
-        liveActions.value?.add(0, lastLiveAction)
-        liveActions.notifyObserver()
+            val lastLiveAction = LiveAction(0L, matchId, askedTeamId.value ?: 0L,
+                    askedPlayerId.value ?: 0L, time, lastGesture.action)
+            Timber.d("last live action $lastLiveAction")
+            clearTeamAndPlayerData()
+            statisticsRepository.insertLastLiveAction(lastLiveAction)
+//            liveActions.value?.add(0, lastLiveAction)
+//            liveActions.notifyObserver()
+        }
     }
 
     private fun clearTeamAndPlayerData() {
@@ -240,7 +245,7 @@ class ReceivingDataViewModel
         askedTeamId.value = 0L
         isDataCleared = false
     }
-    
+
 
     private fun <T> MutableLiveData<T>.notifyObserver(){
         this.value = this.value

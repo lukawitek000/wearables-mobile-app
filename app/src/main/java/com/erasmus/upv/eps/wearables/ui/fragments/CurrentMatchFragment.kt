@@ -67,7 +67,7 @@ class CurrentMatchFragment : Fragment() {
     }
 
     private fun observeRecordedLiveAction() {
-        viewModel.liveActions.observe(viewLifecycleOwner){
+        viewModel.getLiveActionsForCurrentMatch().observe(viewLifecycleOwner){
             Timber.d("Live actions = $it")
             liveActionsAdapter.submitList(it)
         }
