@@ -12,41 +12,61 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="11:11"
-        app:layout_constraintBaseline_toBaselineOf="@+id/event_tv"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/event_tv"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/event_tv"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/event_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Goal"
-        app:layout_constraintEnd_toStartOf="@+id/details_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/team_tv"
+        app:layout_constraintEnd_toStartOf="@+id/team_tv"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/time_tv"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/team_tv" />
 
     <TextView
-        android:id="@+id/details_tv"
+        android:id="@+id/team_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:text="details"
-        app:layout_constraintBaseline_toBaselineOf="@+id/event_tv"
-        app:layout_constraintEnd_toStartOf="@+id/delete_live_action"
-        app:layout_constraintStart_toEndOf="@+id/event_tv" />
+        android:text="Team 1"
+        app:layout_constraintBottom_toBottomOf="@+id/player_tv"
+        app:layout_constraintEnd_toStartOf="@+id/player_tv"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/event_tv"
+        app:layout_constraintTop_toTopOf="@+id/player_tv" />
 
 
     <ImageButton
         android:id="@+id/delete_live_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
         android:background="@android:color/transparent"
+        android:padding="8dp"
         android:src="@drawable/ic_delete_forever"
         android:tint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/details_tv"
-        app:layout_constraintTop_toTopOf="@+id/details_tv" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/player_tv"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/player_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player 1"
+        app:layout_constraintBottom_toBottomOf="@+id/delete_live_action"
+        app:layout_constraintEnd_toStartOf="@+id/delete_live_action"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/team_tv"
+        app:layout_constraintTop_toTopOf="@+id/delete_live_action" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

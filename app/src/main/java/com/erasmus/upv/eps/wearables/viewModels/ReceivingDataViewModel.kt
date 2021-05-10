@@ -366,5 +366,13 @@ class ReceivingDataViewModel
     }
 
 
+    fun getTeamColor(teamId: Long): Int{
+        return if(teamId == homeTeam.team.teamId){
+            match.homeTeamColor
+        }else{
+            match.guestTeamColor
+        }
+    }
+
 }
 

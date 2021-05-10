@@ -35,8 +35,14 @@ class SelectTeamDialogFragment : BottomSheetDialogFragment() {
         setRegisteredActionText()
         setHomeTeamButtonListener()
         setGuestTeamButtonListener()
+        setButtonsColors()
 
         return binding.root
+    }
+
+    private fun setButtonsColors() {
+        binding.team1Bt.setBackgroundColor(viewModel.match.homeTeamColor)
+        binding.team2Bt.setBackgroundColor(viewModel.match.guestTeamColor)
     }
 
     private fun setRegisteredActionText() {

@@ -10,7 +10,10 @@ import com.erasmus.upv.eps.wearables.databinding.FragmentCurrentMatchBinding
 import com.erasmus.upv.eps.wearables.databinding.ItemViewLiveActionsBinding
 import com.erasmus.upv.eps.wearables.model.LiveAction
 
-class LiveActionsAdapter(private val onDeleteClick: (liveAction: LiveAction) -> Unit) : ListAdapter<LiveAction, LiveActionsAdapter.LiveActionsViewHolder>(LiveActionsComparator()){
+class LiveActionsAdapter(
+    private val onDeleteClick: (liveAction: LiveAction) -> Unit,
+    private val getTeamColor: (teamId: Long) -> Int)
+    : ListAdapter<LiveAction, LiveActionsAdapter.LiveActionsViewHolder>(LiveActionsComparator()){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LiveActionsViewHolder {
@@ -24,9 +27,12 @@ class LiveActionsAdapter(private val onDeleteClick: (liveAction: LiveAction) -> 
     }
 
     override fun onBindViewHolder(holder: LiveActionsViewHolder, position: Int) {
-        holder.binding.timeTv.text = getItem(position).time
-        holder.binding.eventTv.text = getItem(position).action.toString()
-        holder.binding.detailsTv.text = "team = ${getItem(position).teamId} player = ${getItem(position).playerId}"
+        val currentLiveAction = getItem(position)
+        holder.binding.timeTv.text = currentLiveAction.time
+        holder.binding.eventTv.text = currentLiveAction.action.toString()
+        holder.binding.teamTv.text = currentLiveAction.teamId.toString()
+        holder.binding.teamTv.setBackgroundColor(getTeamColor.invoke(currentLiveAction.teamId))
+        holder.binding.playerTv.text = currentLiveAction.playerId.toString()
 
         holder.binding.deleteLiveAction.setOnClickListener { onDeleteClick.invoke(getItem(position)) }
 
