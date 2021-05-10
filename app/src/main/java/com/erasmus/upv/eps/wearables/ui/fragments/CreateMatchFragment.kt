@@ -90,6 +90,7 @@ class CreateMatchFragment : Fragment() {
         setTeamsToSharedViewModel()
         populateTeamsLayouts()
         setTeamColors()
+        binding.doneCreatingMatchFb.isEnabled = true
         binding.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
     }
 
