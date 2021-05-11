@@ -244,8 +244,10 @@ class ReceivingDataViewModel
 
     private fun saveLastAction() {
         viewModelScope.launch {
-            val matchTime = Date(lastData.timeStamp - BLEConnectionForegroundService.matchStartTime)
+//            val matchTime = Date(lastData.timeStamp - BLEConnectionForegroundService.matchStartTime)
             //  val extraInfo = formExtraInfo()
+
+            val matchTime = Date(lastData.timeStamp - 0L)
             val time = DateTimeFormatter.displayMinutesAndSeconds(matchTime.time)
 //        val lastLiveAction = LiveAction(, lastGesture.action.toString(), extraInfo)
             val lastLiveAction = LiveAction(0L, matchId, askedTeamId.value ?: 0L,

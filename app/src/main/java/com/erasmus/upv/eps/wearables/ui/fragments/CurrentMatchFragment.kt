@@ -3,7 +3,6 @@ package com.erasmus.upv.eps.wearables.ui.fragments
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,17 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCurrentMatchBinding
 import com.erasmus.upv.eps.wearables.model.LiveAction
-import com.erasmus.upv.eps.wearables.model.Response
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.LiveActionsAdapter
 import com.erasmus.upv.eps.wearables.ui.dialogs.SelectPlayerDialogFragment
 import com.erasmus.upv.eps.wearables.ui.dialogs.SelectTeamDialogFragment
 import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
+import com.erasmus.upv.eps.wearables.util.MatchTimer
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import timber.log.Timber
 import java.util.*
-import kotlin.concurrent.timer
-import kotlin.time.minutes
 
 
 class CurrentMatchFragment : Fragment() {
@@ -48,9 +45,8 @@ class CurrentMatchFragment : Fragment() {
         setUpCustomBackPress()
         mockDialogsForChoosingPlayersAndTeams()
         setUpRecyclerView()
-        //handleStartMatchButton()
+        handleStartMatchTimerButton()
         showMatchTime()
-        BLEConnectionForegroundService.matchStartTime = System.currentTimeMillis()
 
         observeReceivedData()
         askForATeam()
@@ -65,6 +61,7 @@ class CurrentMatchFragment : Fragment() {
 
         return binding.root
     }
+
 
     private fun observeRecordedLiveAction() {
         viewModel.getLiveActionsForCurrentMatch().observe(viewLifecycleOwner){
@@ -108,10 +105,28 @@ class CurrentMatchFragment : Fragment() {
     }
 
     private fun showMatchTime() {
-        BLEConnectionForegroundService.matchTime.observe(viewLifecycleOwner){
+//        BLEConnectionForegroundService.matchTime.observe(viewLifecycleOwner){
+//            binding.matchTimerTv.text = DateTimeFormatter.displayMinutesAndSeconds(it)
+//        }
+
+        MatchTimer.matchTimeInSeconds.observe(viewLifecycleOwner){
             binding.matchTimerTv.text = DateTimeFormatter.displayMinutesAndSeconds(it)
         }
     }
+
+    private fun handleStartMatchTimerButton(){
+        binding.startMatchBt.setOnClickListener {
+            if(MatchTimer.isTimerRunning()){
+                MatchTimer.stopTimer()
+                binding.startMatchBt.text = "START MATCH"
+            }else {
+                MatchTimer.configTimer(45 * 60, 2)
+                MatchTimer.startTimer()
+                binding.startMatchBt.text = "STOP MATCH"
+            }
+        }
+    }
+
 
 //    private fun handleStartMatchButton() {
 //        binding.startMatchBt.setOnClickListener {
