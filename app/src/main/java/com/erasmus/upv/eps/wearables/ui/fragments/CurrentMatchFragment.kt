@@ -113,7 +113,12 @@ class CurrentMatchFragment : Fragment() {
         }
         MatchTimer.isMatchIntervalCompleted.observe(viewLifecycleOwner){
             if(it){
-                binding.startMatchBt.text = "START MATCH"
+                if(MatchTimer.intervalsLeft > 0){
+                    binding.startMatchBt.text = "Start next interval"
+                }else {
+                    binding.startMatchBt.text = "MATCH COMPLETED"
+                    binding.startMatchBt.isEnabled = false
+                }
             }
         }
     }
@@ -124,7 +129,9 @@ class CurrentMatchFragment : Fragment() {
                 MatchTimer.stopTimer()
                 binding.startMatchBt.text = "START MATCH"
             }else {
-                MatchTimer.configTimer(  10, 2)
+                if(!MatchTimer.isMatchIntervalCompleted.value!!) {
+                    MatchTimer.configTimer(10, 2)
+                }
                 MatchTimer.startTimer()
                 binding.startMatchBt.text = "STOP MATCH"
             }
@@ -172,6 +179,7 @@ class CurrentMatchFragment : Fragment() {
             setPositiveButton("Yes") { _, _ ->
                 stopService()
                 findNavController().navigate(R.id.action_currentMatchFragment_to_matchesFragment)
+                MatchTimer.resetTimer()
                 Toast.makeText(requireContext(), "Go back", Toast.LENGTH_SHORT).show()
             }
             setNegativeButton("No" ){ dialog, _ ->

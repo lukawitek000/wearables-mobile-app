@@ -10,18 +10,21 @@ object MatchTimer {
 
 
     private var intervalDuration = 0L
-    private var intervals = 0
+    var intervalsLeft = 0
 
     private var job: Deferred<Unit>? = null
 
-    private val secondInMillis = 1000L
+    private const val secondInMillis = 1000L
 
-    val isMatchIntervalCompleted = MutableLiveData<Boolean>()
+    private var intervals = 0
+
+    val isMatchIntervalCompleted = MutableLiveData<Boolean>(false)
 
 
 
     fun configTimer(intervalDurationInSeconds: Long, intervals: Int){
         this.intervalDuration = intervalDurationInSeconds
+        this.intervalsLeft = intervals
         this.intervals = intervals
         matchTimeInMillis.value = 0L
         isMatchIntervalCompleted.value = false
@@ -35,14 +38,16 @@ object MatchTimer {
     fun startTimer(){
         job = CoroutineScope(Dispatchers.Default).launchPeriodicAsync(secondInMillis){
             matchTimeInMillis.postValue(matchTimeInMillis.value?.plus(secondInMillis))
-            if(matchTimeInMillis.value!! >= (intervalDuration * secondInMillis) - secondInMillis){
+            val elapsedTime = (matchTimeInMillis.value!! - ((intervals - intervalsLeft) * intervalDuration * secondInMillis))
+            val intervalTime = (intervalDuration * secondInMillis) - secondInMillis
+            if(elapsedTime >= intervalTime){
+                intervalsLeft--
                 isMatchIntervalCompleted.postValue(true)
                 job?.cancel()
             }
         }
-
-
     }
+
 
 
     fun stopTimer(){
@@ -51,6 +56,13 @@ object MatchTimer {
 
     fun pauseTimer(){
 
+    }
+
+    fun resetTimer(){
+        this.intervalsLeft = 0
+        this.isMatchIntervalCompleted.value = false
+        this.intervalDuration = 0L
+        this.matchTimeInMillis.value = 0L
     }
 
 
