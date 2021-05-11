@@ -163,12 +163,9 @@ class CurrentMatchFragment : Fragment() {
         })
     }
 
-    private val intervalDurationInSeconds = 10L
-    private  val intervals = 2
-
     private fun initTimeSlider() {
         binding.matchTimeSl.value = 0.0f
-        binding.matchTimeSl.valueTo = (intervalDurationInSeconds * 1000L * intervals).toFloat()
+        binding.matchTimeSl.valueTo = (viewModel.match.matchPartDuration * 60 * 1000L * viewModel.match.matchParts).toFloat()
         binding.matchTimeSl.stepSize = 1000f
         binding.matchTimeSl.setLabelFormatter{
             DateTimeFormatter.displayMinutesAndSeconds(it.toLong())
@@ -184,7 +181,7 @@ class CurrentMatchFragment : Fragment() {
                 setPauseTimerButtonText()
             }else {
                 if(!MatchTimer.isMatchIntervalCompleted.value!!) {
-                    MatchTimer.configTimer(intervalDurationInSeconds, intervals)
+                    MatchTimer.configTimer(viewModel.match.matchPartDuration * 60, viewModel.match.matchParts)
                 }
                 restartMatchTimer()
                 MatchTimer.startTimer()
@@ -197,7 +194,7 @@ class CurrentMatchFragment : Fragment() {
     private fun restartMatchTimer() {
         if (MatchTimer.intervalsLeft == 0) {
             MatchTimer.resetTimer()
-            MatchTimer.configTimer(intervalDurationInSeconds, intervals)
+            MatchTimer.configTimer(viewModel.match.matchPartDuration * 60, viewModel.match.matchParts)
         }
     }
 

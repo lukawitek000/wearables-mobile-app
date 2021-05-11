@@ -24,6 +24,7 @@ import com.erasmus.upv.eps.wearables.util.TeamCreated
 import com.erasmus.upv.eps.wearables.viewModels.CreateMatchViewModel
 import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Exception
 import java.util.*
 
 @AndroidEntryPoint
@@ -54,6 +55,8 @@ class CreateMatchFragment : Fragment() {
 
         return binding.root
     }
+
+
 
     private fun enableSavingMatchButton() {
         binding.doneCreatingMatchFb.isEnabled = sharedViewModel.areBothTeamsAdded()
@@ -132,6 +135,8 @@ class CreateMatchFragment : Fragment() {
         binding.matchCityEt.setText(match.city)
         binding.matchLeagueEt.setText(match.league)
         binding.matchDetailsEt.setText(match.otherDetails)
+        binding.matchPartsDurationEt.setText(match.matchPartDuration.toString())
+        binding.matchPartsNumberEt.setText(match.matchParts)
     }
 
     private fun setSportRadioButton(sport: String): Int {
@@ -209,6 +214,24 @@ class CreateMatchFragment : Fragment() {
         sharedViewModel.creatingMatch.otherDetails = binding.matchDetailsEt.text.toString()
         sharedViewModel.creatingMatch.homeTeamColor = getHomeTeamColorFromChips()
         sharedViewModel.creatingMatch.guestTeamColor = getGuestTeamColorFromChips()
+        sharedViewModel.creatingMatch.matchParts = getNumberOfMatchParts()
+        sharedViewModel.creatingMatch.matchPartDuration = getMatchPartDuration()
+    }
+
+    private fun getMatchPartDuration(): Long {
+        return try {
+            binding.matchPartsDurationEt.text.toString().toLong()
+        }catch (e: Exception){
+            0L
+        }
+    }
+
+    private fun getNumberOfMatchParts(): Int {
+        return try {
+            binding.matchPartsNumberEt.text.toString().toInt()
+        }catch (e: Exception){
+            0
+        }
     }
 
     private fun getGuestTeamColorFromChips(): Int {

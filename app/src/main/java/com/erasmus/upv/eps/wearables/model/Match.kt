@@ -17,7 +17,9 @@ data class Match(
     var league: String,
     var otherDetails: String,
     var homeTeamColor: Int,
-    var guestTeamColor: Int
+    var guestTeamColor: Int,
+    var matchParts: Int,
+    var matchPartDuration: Long
 ){
     constructor(): this(
             matchId = 0L,
@@ -28,6 +30,8 @@ data class Match(
             league = "",
             otherDetails = "",
             homeTeamColor = Color.RED,
-            guestTeamColor = Color.GREEN
+            guestTeamColor = Color.GREEN,
+            matchParts = 0,
+            matchPartDuration = 0L
     )
 }
