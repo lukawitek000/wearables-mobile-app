@@ -115,10 +115,23 @@ class CurrentMatchFragment : Fragment() {
             if(it){
                 if(MatchTimer.intervalsLeft > 0){
                     binding.startMatchBt.text = "Start next interval"
+                    binding.pauseTimerBt.isEnabled = false
                 }else {
                     binding.startMatchBt.text = "MATCH COMPLETED"
                     binding.startMatchBt.isEnabled = false
+                    binding.pauseTimerBt.isEnabled = false
                 }
+            }
+        }
+        binding.pauseTimerBt.isEnabled = false
+
+        binding.pauseTimerBt.setOnClickListener {
+            if(MatchTimer.isTimerPaused){
+                MatchTimer.resumeTimer()
+                binding.pauseTimerBt.text = "Pause"
+            }else{
+                MatchTimer.pauseTimer()
+                binding.pauseTimerBt.text = "Resume"
             }
         }
     }
@@ -128,12 +141,15 @@ class CurrentMatchFragment : Fragment() {
             if(MatchTimer.isTimerRunning()){
                 MatchTimer.stopTimer()
                 binding.startMatchBt.text = "START MATCH"
+                binding.pauseTimerBt.isEnabled = false
+                binding.pauseTimerBt.text = "Pause"
             }else {
                 if(!MatchTimer.isMatchIntervalCompleted.value!!) {
                     MatchTimer.configTimer(10, 2)
                 }
                 MatchTimer.startTimer()
                 binding.startMatchBt.text = "STOP MATCH"
+                binding.pauseTimerBt.isEnabled = true
             }
         }
     }

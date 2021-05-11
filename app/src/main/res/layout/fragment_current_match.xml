@@ -7,15 +7,28 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.CurrentMatchFragment">
 
+    <Button
+        android:id="@+id/pause_timer_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pause"
+        app:layout_constraintBottom_toBottomOf="@+id/start_match_bt"
+        app:layout_constraintEnd_toStartOf="@+id/match_timer_tv"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/start_match_bt"
+        app:layout_constraintTop_toTopOf="@+id/start_match_bt" />
+
     <TextView
         android:id="@+id/match_timer_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="00:00"
-        app:layout_constraintBottom_toBottomOf="@+id/start_match_bt"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pause_timer_bt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/start_match_bt"
-        app:layout_constraintTop_toTopOf="@+id/start_match_bt" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/pause_timer_bt"
+        app:layout_constraintTop_toTopOf="@+id/pause_timer_bt" />
 
     <TextView
         android:id="@+id/home_team_score_tv"
@@ -109,6 +122,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="start match"
+        app:layout_constraintEnd_toStartOf="@+id/pause_timer_bt"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_team_name_tv" />
 
