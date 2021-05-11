@@ -1,13 +1,12 @@
 package com.erasmus.upv.eps.wearables.util
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
 
 object MatchTimer {
 
 
-    val matchTimeInSeconds =  MutableLiveData<Long>()
+    val matchTimeInMillis =  MutableLiveData<Long>()
 
 
     private var intervalDuration = 0L
@@ -15,12 +14,17 @@ object MatchTimer {
 
     private var job: Deferred<Unit>? = null
 
+    private val secondInMillis = 1000L
+
+    val isMatchIntervalCompleted = MutableLiveData<Boolean>()
 
 
-    fun configTimer(intervalDuration: Long, intervals: Int){
-        this.intervalDuration = intervalDuration
+
+    fun configTimer(intervalDurationInSeconds: Long, intervals: Int){
+        this.intervalDuration = intervalDurationInSeconds
         this.intervals = intervals
-        matchTimeInSeconds.value = 0L
+        matchTimeInMillis.value = 0L
+        isMatchIntervalCompleted.value = false
     }
 
     fun isTimerRunning(): Boolean{
@@ -29,8 +33,12 @@ object MatchTimer {
 
 
     fun startTimer(){
-        job = CoroutineScope(Dispatchers.Default).launchPeriodicAsync(1000L){
-            matchTimeInSeconds.postValue(matchTimeInSeconds.value?.plus(1))
+        job = CoroutineScope(Dispatchers.Default).launchPeriodicAsync(secondInMillis){
+            matchTimeInMillis.postValue(matchTimeInMillis.value?.plus(secondInMillis))
+            if(matchTimeInMillis.value!! >= (intervalDuration * secondInMillis) - secondInMillis){
+                isMatchIntervalCompleted.postValue(true)
+                job?.cancel()
+            }
         }
 
 

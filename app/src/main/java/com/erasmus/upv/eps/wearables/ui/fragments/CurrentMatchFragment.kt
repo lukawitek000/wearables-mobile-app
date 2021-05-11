@@ -23,7 +23,6 @@ import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
 import com.erasmus.upv.eps.wearables.util.MatchTimer
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import timber.log.Timber
-import java.util.*
 
 
 class CurrentMatchFragment : Fragment() {
@@ -109,8 +108,13 @@ class CurrentMatchFragment : Fragment() {
 //            binding.matchTimerTv.text = DateTimeFormatter.displayMinutesAndSeconds(it)
 //        }
 
-        MatchTimer.matchTimeInSeconds.observe(viewLifecycleOwner){
+        MatchTimer.matchTimeInMillis.observe(viewLifecycleOwner){
             binding.matchTimerTv.text = DateTimeFormatter.displayMinutesAndSeconds(it)
+        }
+        MatchTimer.isMatchIntervalCompleted.observe(viewLifecycleOwner){
+            if(it){
+                binding.startMatchBt.text = "START MATCH"
+            }
         }
     }
 
@@ -120,7 +124,7 @@ class CurrentMatchFragment : Fragment() {
                 MatchTimer.stopTimer()
                 binding.startMatchBt.text = "START MATCH"
             }else {
-                MatchTimer.configTimer(45 * 60, 2)
+                MatchTimer.configTimer(  10, 2)
                 MatchTimer.startTimer()
                 binding.startMatchBt.text = "STOP MATCH"
             }
