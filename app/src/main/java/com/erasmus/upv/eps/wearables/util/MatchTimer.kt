@@ -25,7 +25,7 @@ object MatchTimer {
 
 
     fun configTimer(intervalDurationInSeconds: Long, intervals: Int){
-        this.intervalDuration = intervalDurationInSeconds
+        this.intervalDuration = intervalDurationInSeconds * secondInMillis
         this.intervalsLeft = intervals
         this.intervals = intervals
         matchTimeInMillis.value = 0L
@@ -42,8 +42,8 @@ object MatchTimer {
             if(!isTimerPaused) {
                 matchTimeInMillis.postValue(matchTimeInMillis.value?.plus(secondInMillis))
                 val elapsedTime =
-                    (matchTimeInMillis.value!! - ((intervals - intervalsLeft) * intervalDuration * secondInMillis))
-                val intervalTime = (intervalDuration * secondInMillis) - secondInMillis
+                    (matchTimeInMillis.value!! - ((intervals - intervalsLeft) * intervalDuration))
+                val intervalTime = (intervalDuration) - secondInMillis
                 if (elapsedTime >= intervalTime) {
                     intervalsLeft--
                     isMatchIntervalCompleted.postValue(true)
@@ -92,8 +92,8 @@ object MatchTimer {
     }
 
     fun setTimerValue(value: Float) {
-        val currentIntervalMinTime = (intervals - intervalsLeft) * intervalDuration * secondInMillis
-        val currentIntervalMaxTime = (intervals - (intervalsLeft-1)) * intervalDuration * secondInMillis
+        val currentIntervalMinTime = (intervals - intervalsLeft) * intervalDuration
+        val currentIntervalMaxTime = (intervals - (intervalsLeft-1)) * intervalDuration
         if(value > currentIntervalMaxTime){
             intervalsLeft--
             setTimerValue(value)

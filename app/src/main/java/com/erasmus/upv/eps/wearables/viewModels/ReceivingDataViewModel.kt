@@ -15,6 +15,7 @@ import com.erasmus.upv.eps.wearables.repositories.StatisticsRepository
 import com.erasmus.upv.eps.wearables.repositories.TeamRepository
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
+import com.erasmus.upv.eps.wearables.util.MatchTimer
 import com.erasmus.upv.eps.wearables.util.Sports
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -180,12 +181,6 @@ class ReceivingDataViewModel
 
     fun saveDevicesAndGestureConfiguration() {
         viewModelScope.launch {
-//            configRepository.insertBLEDevice(devicesWithGestures.map { it.bleDevice })
-//            val gestures = mutableListOf<Gesture>()
-//            for(device in devicesWithGestures) {
-//                gestures.addAll(device.gestures)
-//            }
-//            configRepository.insertGesturesConfig(gestures)
             configRepository.insertBLEDeviceWithGesture(devicesWithGestures)
         }
     }
@@ -218,6 +213,7 @@ class ReceivingDataViewModel
 
     fun addNewLiveAction(lastData: Response) {
         this.lastData = lastData
+        this.lastData.timeStamp = MatchTimer.matchTimeInMillis.value ?: 0L
 
         val device = devicesWithGestures.first {
             lastData.device.address == it.bleDevice.address
@@ -244,19 +240,12 @@ class ReceivingDataViewModel
 
     private fun saveLastAction() {
         viewModelScope.launch {
-//            val matchTime = Date(lastData.timeStamp - BLEConnectionForegroundService.matchStartTime)
-            //  val extraInfo = formExtraInfo()
-
-            val matchTime = Date(lastData.timeStamp - 0L)
-            val time = DateTimeFormatter.displayMinutesAndSeconds(matchTime.time)
-//        val lastLiveAction = LiveAction(, lastGesture.action.toString(), extraInfo)
+            val time = DateTimeFormatter.displayMinutesAndSeconds(lastData.timeStamp)
             val lastLiveAction = LiveAction(0L, matchId, askedTeamId.value ?: 0L,
                     askedPlayerId.value ?: 0L, time, lastGesture.action)
             Timber.d("last live action $lastLiveAction")
             clearTeamAndPlayerData()
             statisticsRepository.insertLastLiveAction(lastLiveAction)
-//            liveActions.value?.add(0, lastLiveAction)
-//            liveActions.notifyObserver()
         }
     }
 
@@ -265,11 +254,6 @@ class ReceivingDataViewModel
         askedPlayerId.value = 0L
         askedTeamId.value = 0L
         isDataCleared = false
-    }
-
-
-    private fun <T> MutableLiveData<T>.notifyObserver(){
-        this.value = this.value
     }
 
     fun selectHomeTeam() {

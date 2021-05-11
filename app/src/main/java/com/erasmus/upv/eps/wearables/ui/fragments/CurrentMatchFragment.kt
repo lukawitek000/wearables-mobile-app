@@ -106,43 +106,48 @@ class CurrentMatchFragment : Fragment() {
     }
 
     private fun showMatchTime() {
-//        BLEConnectionForegroundService.matchTime.observe(viewLifecycleOwner){
-//            binding.matchTimerTv.text = DateTimeFormatter.displayMinutesAndSeconds(it)
-//        }
-
         MatchTimer.matchTimeInMillis.observe(viewLifecycleOwner){
             binding.matchTimerTv.text = DateTimeFormatter.displayMinutesAndSeconds(it)
             if(it <= binding.matchTimeSl.valueTo) {
                 binding.matchTimeSl.value = (it).toFloat()
             }
         }
-        MatchTimer.isMatchIntervalCompleted.observe(viewLifecycleOwner){
-            if(it){
-                if(MatchTimer.intervalsLeft > 0){
+        showMatchCompleted()
+        handlePauseMatchTime()
+        initTimeSlider()
+        timeSliderListener()
+
+    }
+
+    private fun showMatchCompleted() {
+        MatchTimer.isMatchIntervalCompleted.observe(viewLifecycleOwner) {
+            if (it) {
+                if (MatchTimer.intervalsLeft > 0) {
                     binding.startMatchBt.text = "Start next interval"
                     binding.pauseTimerBt.isEnabled = false
-                }else {
-                    binding.startMatchBt.text = "MATCH COMPLETED"
-                    binding.startMatchBt.isEnabled = false
+                } else {
+                    binding.startMatchBt.text = "Restart"
                     binding.pauseTimerBt.isEnabled = false
                 }
             }
         }
-        binding.pauseTimerBt.isEnabled = false
+    }
 
+    private fun handlePauseMatchTime() {
+        binding.pauseTimerBt.isEnabled = false
         binding.pauseTimerBt.setOnClickListener {
-            if(MatchTimer.isTimerPaused){
+            if (MatchTimer.isTimerPaused) {
                 MatchTimer.resumeTimer()
-                binding.pauseTimerBt.text = "Pause"
-            }else{
+                setPauseTimerButtonText()
+            } else {
                 MatchTimer.pauseTimer()
-                binding.pauseTimerBt.text = "Resume"
+                setPauseTimerButtonText()
             }
         }
+    }
 
-        initTimeSlider()
-        timeSliderListener()
-
+    private fun setPauseTimerButtonText() {
+        binding.pauseTimerBt.text = if(MatchTimer.isTimerPaused) "Resume" else "Pause"
     }
 
     private fun timeSliderListener() {
@@ -155,8 +160,6 @@ class CurrentMatchFragment : Fragment() {
                 Timber.d("match time slider changes end ${slider.value}")
                 MatchTimer.setTimerValue(slider.value)
             }
-
-
         })
     }
 
@@ -178,11 +181,12 @@ class CurrentMatchFragment : Fragment() {
                 MatchTimer.stopTimer()
                 binding.startMatchBt.text = "START MATCH"
                 binding.pauseTimerBt.isEnabled = false
-                binding.pauseTimerBt.text = "Pause"
+                setPauseTimerButtonText()
             }else {
                 if(!MatchTimer.isMatchIntervalCompleted.value!!) {
                     MatchTimer.configTimer(intervalDurationInSeconds, intervals)
                 }
+                restartMatchTimer()
                 MatchTimer.startTimer()
                 binding.startMatchBt.text = "STOP MATCH"
                 binding.pauseTimerBt.isEnabled = true
@@ -190,28 +194,13 @@ class CurrentMatchFragment : Fragment() {
         }
     }
 
+    private fun restartMatchTimer() {
+        if (MatchTimer.intervalsLeft == 0) {
+            MatchTimer.resetTimer()
+            MatchTimer.configTimer(intervalDurationInSeconds, intervals)
+        }
+    }
 
-//    private fun handleStartMatchButton() {
-//        binding.startMatchBt.setOnClickListener {
-//            if(BLEConnectionForegroundService.matchTime.value == null || BLEConnectionForegroundService.matchTime.value == 0L) {
-//                BLEConnectionForegroundService.createTimer(90)
-//                BLEConnectionForegroundService.startTimer()
-//                binding.startMatchBt.text = "STOP MATCH"
-//                BLEConnectionForegroundService.matchStartTime = System.currentTimeMillis()
-//            }else{
-//                BLEConnectionForegroundService.cancelTimer()
-//                binding.startMatchBt.text = "START MATCH"
-//            }
-//        }
-//    }
-
-
-//
-//    private fun convertReceivedDataToLiveActions(it: MutableList<Response>) =
-//            it.map { response ->
-//                val matchTime = Date(response.timeStamp - BLEConnectionForegroundService.matchStartTime)
-//                LiveAction(DateTimeFormatter.displayMinutesAndSeconds(matchTime.time), response.data.toString(), response.device.name)
-//            }
 
     private fun setUpCustomBackPress() {
         val callback = object : OnBackPressedCallback(true){
@@ -220,8 +209,8 @@ class CurrentMatchFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-
     }
+
 
     private fun buildBackPressedAlertDialog(): AlertDialog {
         val builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
