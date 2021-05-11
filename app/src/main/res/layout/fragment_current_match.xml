@@ -30,6 +30,18 @@
         app:layout_constraintStart_toEndOf="@+id/pause_timer_bt"
         app:layout_constraintTop_toTopOf="@+id/pause_timer_bt" />
 
+    <com.google.android.material.slider.Slider
+        android:id="@+id/match_time_sl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_match_bt" />
+
+
     <TextView
         android:id="@+id/home_team_score_tv"
         android:layout_width="wrap_content"
@@ -96,7 +108,7 @@
         app:layout_constraintBottom_toTopOf="@+id/simulate_which_player_bn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_match_bt" />
+        app:layout_constraintTop_toBottomOf="@+id/match_time_sl" />
 
     <Button
         android:id="@+id/simulate_which_team_bn"

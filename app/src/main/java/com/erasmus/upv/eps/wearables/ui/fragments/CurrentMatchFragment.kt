@@ -22,6 +22,8 @@ import com.erasmus.upv.eps.wearables.ui.dialogs.SelectTeamDialogFragment
 import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
 import com.erasmus.upv.eps.wearables.util.MatchTimer
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
+import com.google.android.material.slider.RangeSlider
+import com.google.android.material.slider.Slider
 import timber.log.Timber
 
 
@@ -110,6 +112,9 @@ class CurrentMatchFragment : Fragment() {
 
         MatchTimer.matchTimeInMillis.observe(viewLifecycleOwner){
             binding.matchTimerTv.text = DateTimeFormatter.displayMinutesAndSeconds(it)
+            if(it <= binding.matchTimeSl.valueTo) {
+                binding.matchTimeSl.value = (it).toFloat()
+            }
         }
         MatchTimer.isMatchIntervalCompleted.observe(viewLifecycleOwner){
             if(it){
@@ -134,6 +139,37 @@ class CurrentMatchFragment : Fragment() {
                 binding.pauseTimerBt.text = "Resume"
             }
         }
+
+        initTimeSlider()
+        timeSliderListener()
+
+    }
+
+    private fun timeSliderListener() {
+        binding.matchTimeSl.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {
+               Timber.d("match time slider start touch ${slider.value}")
+            }
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                Timber.d("match time slider changes end ${slider.value}")
+                MatchTimer.setTimerValue(slider.value)
+            }
+
+
+        })
+    }
+
+    private val intervalDurationInSeconds = 10L
+    private  val intervals = 2
+
+    private fun initTimeSlider() {
+        binding.matchTimeSl.value = 0.0f
+        binding.matchTimeSl.valueTo = (intervalDurationInSeconds * 1000L * intervals).toFloat()
+        binding.matchTimeSl.stepSize = 1000f
+        binding.matchTimeSl.setLabelFormatter{
+            DateTimeFormatter.displayMinutesAndSeconds(it.toLong())
+        }
     }
 
     private fun handleStartMatchTimerButton(){
@@ -145,7 +181,7 @@ class CurrentMatchFragment : Fragment() {
                 binding.pauseTimerBt.text = "Pause"
             }else {
                 if(!MatchTimer.isMatchIntervalCompleted.value!!) {
-                    MatchTimer.configTimer(10, 2)
+                    MatchTimer.configTimer(intervalDurationInSeconds, intervals)
                 }
                 MatchTimer.startTimer()
                 binding.startMatchBt.text = "STOP MATCH"

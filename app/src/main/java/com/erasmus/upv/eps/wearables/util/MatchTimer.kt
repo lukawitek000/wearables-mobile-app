@@ -91,9 +91,19 @@ object MatchTimer {
         }
     }
 
-
-
-
+    fun setTimerValue(value: Float) {
+        val currentIntervalMinTime = (intervals - intervalsLeft) * intervalDuration * secondInMillis
+        val currentIntervalMaxTime = (intervals - (intervalsLeft-1)) * intervalDuration * secondInMillis
+        if(value > currentIntervalMaxTime){
+            intervalsLeft--
+            setTimerValue(value)
+        }else if(value < currentIntervalMinTime){
+            intervalsLeft++
+            setTimerValue(value)
+        }else{
+            matchTimeInMillis.value = value.toLong()
+        }
+    }
 
 
 }
