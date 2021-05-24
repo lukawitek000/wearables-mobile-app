@@ -40,26 +40,18 @@ class ReceivingDataViewModel
 
     val scanResultsLiveData = MutableLiveData<List<BluetoothDevice>>()
 
-    var matchId = BLEConnectionForegroundService.matchId
-    set(value) {
-        BLEConnectionForegroundService.matchId = value
-        field = value
-    }
+    var matchId = 0L
 
 
-    var match = BLEConnectionForegroundService.match
-    var homeTeam = BLEConnectionForegroundService.homeTeam
-    var guestTeam = BLEConnectionForegroundService.guestTeam
+    var match = Match()
+    var homeTeam = TeamWithPlayers(Team(), listOf())
+    var guestTeam = TeamWithPlayers(Team(), listOf())
 
     var selectedTeamId = 0L
     var selectedPlayerId = 0L
     var selectedAction: Actions? = null
 
-    var devicesWithGestures = BLEConnectionForegroundService.devicesWithGestures
-    set(value) {
-        BLEConnectionForegroundService.devicesWithGestures = value
-        field = value
-    }
+    var devicesWithGestures = mutableListOf<BLEDeviceWithGestures>()
 
     val savedDevicesAndGestures = MutableLiveData<List<BLEDeviceWithGestures>>()
 
@@ -75,13 +67,6 @@ class ReceivingDataViewModel
 
     init {
         scanResultsLiveData.value = ArrayList()
-    }
-
-    override fun onCleared() {
-        BLEConnectionForegroundService.match = match
-        BLEConnectionForegroundService.homeTeam = homeTeam
-        BLEConnectionForegroundService.guestTeam = guestTeam
-        super.onCleared()
     }
 
     fun clearSelectedConfig() {

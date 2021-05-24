@@ -43,12 +43,6 @@ class BLEConnectionForegroundService : LifecycleService() {
 
 
         var isServiceRunning: Boolean = false
-
-        var matchId = 0L
-        var devicesWithGestures = mutableListOf<BLEDeviceWithGestures>()
-        var match = Match()
-        var homeTeam = TeamWithPlayers(Team(), listOf())
-        var guestTeam = TeamWithPlayers(Team(), listOf())
     }
 
 
@@ -140,16 +134,15 @@ class BLEConnectionForegroundService : LifecycleService() {
                 .setContentTitle("Match Statistics are recorded")
     }
 
-    private fun getPendingIntent(): PendingIntent {
-        return NavDeepLinkBuilder(applicationContext)
-                .setComponentName(MainActivity::class.java)
-                .setGraph(R.navigation.nav_graph)
-                .setDestination(R.id.currentMatchFragment)
-                .createPendingIntent()
-    }
 
-
-
+    //TODO open app from notification
+//    private fun getPendingIntent(): PendingIntent {
+//        return NavDeepLinkBuilder(applicationContext)
+//                .setComponentName(MainActivity::class.java)
+//                .setGraph(R.navigation.nav_graph)
+//                .setDestination(R.id.currentMatchFragment)
+//                .createPendingIntent()
+//    }
 
 
 
