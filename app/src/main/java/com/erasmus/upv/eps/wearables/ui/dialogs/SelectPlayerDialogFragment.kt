@@ -53,7 +53,7 @@ class SelectPlayerDialogFragment : BottomSheetDialogFragment() {
     private fun setUpPlayerRecyclerView() {
         val rv = binding.selectPlayerRv
         rv.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
-        val adapter = PlayersShortAdapter(this::selectPlayer)
+        val adapter = PlayersShortAdapter(this::selectPlayer, isDeletable = false)
         adapter.submitList(viewModel.getPlayersFromChosenTeam())
         rv.adapter = adapter
     }

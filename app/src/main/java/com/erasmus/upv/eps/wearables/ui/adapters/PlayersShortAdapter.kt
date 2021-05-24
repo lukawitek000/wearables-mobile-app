@@ -1,6 +1,7 @@
 package com.erasmus.upv.eps.wearables.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,8 @@ import com.erasmus.upv.eps.wearables.ui.adapters.comparators.PlayersComparator
 
 class PlayersShortAdapter(
         private val choosePlayer: (player: Player) -> Unit = {},
-        private val deletePlayer: (player: Player) -> Unit = {}
+        private val deletePlayer: (player: Player) -> Unit = {},
+        private val isDeletable: Boolean = true
                           ) : ListAdapter<Player, PlayersShortAdapter.PlayersShortViewHolder>(PlayersComparator()) {
 
 
@@ -29,8 +31,12 @@ class PlayersShortAdapter(
         holder.itemView.setOnClickListener {
             choosePlayer.invoke(getItem(position))
         }
-        holder.binding.deletePlayerIv.setOnClickListener {
-            deletePlayer.invoke(getItem(position))
+        if(isDeletable) {
+            holder.binding.deletePlayerIv.setOnClickListener {
+                deletePlayer.invoke(getItem(position))
+            }
+        }else{
+            holder.binding.deletePlayerIv.visibility = View.GONE
         }
     }
 
