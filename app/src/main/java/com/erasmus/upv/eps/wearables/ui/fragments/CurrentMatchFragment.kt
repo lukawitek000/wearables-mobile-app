@@ -69,6 +69,7 @@ class CurrentMatchFragment : Fragment() {
         BLEConnectionManager.isConnectionChanged.observe(viewLifecycleOwner){
             if(it){
                 Timber.d("Connected devices: ${BLEConnectionManager.getBluetoothConnectedGatts()}")
+                binding.numberOfConnectedDevicesTv.text = BLEConnectionManager.getBluetoothConnectedGatts().size.toString()
             }
         }
     }

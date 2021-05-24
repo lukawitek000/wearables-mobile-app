@@ -106,7 +106,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/number_of_connected_devices_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/match_time_sl" />
@@ -132,5 +132,15 @@
         app:layout_constraintEnd_toStartOf="@+id/guest_team_name_tv"
         app:layout_constraintStart_toEndOf="@+id/home_team_name_tv"
         app:layout_constraintTop_toBottomOf="@+id/sign_between_scores_tv" />
+
+    <TextView
+        android:id="@+id/number_of_connected_devices_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
