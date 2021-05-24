@@ -19,6 +19,8 @@ import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.model.*
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
+import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
+import com.erasmus.upv.eps.wearables.util.MatchTimer
 import timber.log.Timber
 
 class BLEConnectionForegroundService : LifecycleService() {
@@ -47,8 +49,9 @@ class BLEConnectionForegroundService : LifecycleService() {
         var match = Match()
         var homeTeam = TeamWithPlayers(Team(), listOf())
         var guestTeam = TeamWithPlayers(Team(), listOf())
-
     }
+
+
 
     private fun initValues(){
         receiveData.value = (emptyList<Response>().toMutableList())
@@ -103,8 +106,16 @@ class BLEConnectionForegroundService : LifecycleService() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             createNotificationChannel()
         }
+        observeTime()
         startForeground(NOTIFICATION_ID, getNotificationBuilder().build())
 
+    }
+
+    private fun observeTime() {
+        MatchTimer.matchTimeInMillis.observe(this){
+            val nn = getNotificationBuilder().setContentText(DateTimeFormatter.displayMinutesAndSeconds(it))
+            notificationManager.notify(NOTIFICATION_ID, nn.build())
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -126,9 +137,7 @@ class BLEConnectionForegroundService : LifecycleService() {
                 .setAutoCancel(false)
                 .setOngoing(true)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("BLE Connection")
-                .setContentText("BLEDevice connected to ....")
-                .setContentIntent(getPendingIntent())
+                .setContentTitle("Match Statistics are recorded")
     }
 
     private fun getPendingIntent(): PendingIntent {
