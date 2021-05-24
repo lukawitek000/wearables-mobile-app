@@ -228,14 +228,14 @@ class CurrentMatchFragment : Fragment() {
     }
 
     private fun mockDialogsForChoosingPlayersAndTeams() {
-        binding.simulateWhichTeamBn.setOnClickListener {
-            SelectTeamDialogFragment().show(childFragmentManager, SelectTeamDialogFragment.TAG)
-        }
-
-
-        binding.simulateWhichPlayerBn.setOnClickListener {
-            SelectPlayerDialogFragment().show(childFragmentManager, SelectPlayerDialogFragment.TAG)
-        }
+//        binding.simulateWhichTeamBn.setOnClickListener {
+//            SelectTeamDialogFragment().show(childFragmentManager, SelectTeamDialogFragment.TAG)
+//        }
+//
+//
+//        binding.simulateWhichPlayerBn.setOnClickListener {
+//            SelectPlayerDialogFragment().show(childFragmentManager, SelectPlayerDialogFragment.TAG)
+//        }
     }
 
     private fun setUpRecyclerView() {

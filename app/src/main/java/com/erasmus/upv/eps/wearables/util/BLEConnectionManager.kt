@@ -82,6 +82,7 @@ object BLEConnectionManager {
         val batteryServiceUuid = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb")
         val batteryLevelCharUuid = UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb")
         for(gatt in bluetoothGatts.values){
+            gatt?.printGattTable()
             val batteryLevelChar = gatt?.getService(batteryServiceUuid)?.getCharacteristic(batteryLevelCharUuid)
             enableNotifications(batteryLevelChar!!, gatt)
         }
@@ -132,5 +133,22 @@ object BLEConnectionManager {
 
     private fun BluetoothGattCharacteristic.isIndicatable(): Boolean =
         containsProperty(BluetoothGattCharacteristic.PROPERTY_INDICATE)
+
+
+
+    private fun BluetoothGatt.printGattTable() {
+        if (services.isEmpty()) {
+            Timber.d( "No service and characteristic available, call discoverServices() first?")
+            return
+        }
+        services.forEach { service ->
+            val characteristicsTable = service.characteristics.joinToString(
+                separator = "\n|--",
+                prefix = "|--"
+            ) { it.uuid.toString() }
+            Timber.d( "\nService ${service.uuid}\nCharacteristics:\n$characteristicsTable"
+            )
+        }
+    }
 
 }
