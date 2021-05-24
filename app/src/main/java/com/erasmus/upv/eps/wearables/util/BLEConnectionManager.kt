@@ -12,7 +12,17 @@ import kotlin.collections.HashMap
 
 object BLEConnectionManager {
 
-    private var bluetoothGatts = HashMap<String, BluetoothGatt?>()
+
+
+
+    private val bluetoothGatts = HashMap<String, BluetoothGatt?>()
+    val isConnectionChanged = MutableLiveData<Boolean>(false)
+
+
+    fun getBluetoothConnectedGatts(): List<BluetoothGatt?>{
+        return bluetoothGatts.values.toList()
+    }
+
 
     var responseList: MutableLiveData<MutableList<Response>> = MutableLiveData(emptyList<Response>().toMutableList())
 
@@ -42,6 +52,8 @@ object BLEConnectionManager {
                 bluetoothGatts.clear()
                 gatt?.close()
             }
+
+            isConnectionChanged.postValue(true)
         }
 
         override fun onServicesDiscovered(gatt: BluetoothGatt?, status: Int) {

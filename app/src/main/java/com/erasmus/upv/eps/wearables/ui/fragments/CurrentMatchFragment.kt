@@ -19,6 +19,7 @@ import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.LiveActionsAdapter
 import com.erasmus.upv.eps.wearables.ui.dialogs.SelectPlayerDialogFragment
 import com.erasmus.upv.eps.wearables.ui.dialogs.SelectTeamDialogFragment
+import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
 import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
 import com.erasmus.upv.eps.wearables.util.MatchTimer
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
@@ -53,6 +54,7 @@ class CurrentMatchFragment : Fragment() {
         askForATeam()
         askForAPlayer()
         observeRecordedLiveAction()
+        observeConnectedDevices()
 
 
 
@@ -61,6 +63,14 @@ class CurrentMatchFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun observeConnectedDevices() {
+        BLEConnectionManager.isConnectionChanged.observe(viewLifecycleOwner){
+            if(it){
+                Timber.d("Connected devices: ${BLEConnectionManager.getBluetoothConnectedGatts()}")
+            }
+        }
     }
 
 
