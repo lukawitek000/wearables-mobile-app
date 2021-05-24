@@ -290,6 +290,12 @@ class ReceivingDataViewModel
         saveLastAction()
     }
 
+
+    fun dismissSelectingTeam() {
+        clearTeamAndPlayerData()
+    }
+
+
     fun deleteLiveActionById(id: Long) {
         viewModelScope.launch {
             statisticsRepository.deleteLiveActionById(id)
@@ -360,6 +366,7 @@ class ReceivingDataViewModel
             match.guestTeamColor
         }
     }
+
 
 
 }

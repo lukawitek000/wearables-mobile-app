@@ -36,8 +36,16 @@ class SelectTeamDialogFragment : BottomSheetDialogFragment() {
         setHomeTeamButtonListener()
         setGuestTeamButtonListener()
         setButtonsColors()
+        handleNotChoosingTeam()
 
         return binding.root
+    }
+
+    private fun handleNotChoosingTeam() {
+        binding.closeSelectTeamDialogIv.setOnClickListener {
+            viewModel.dismissSelectingTeam()
+            dismiss()
+        }
     }
 
     private fun setButtonsColors() {

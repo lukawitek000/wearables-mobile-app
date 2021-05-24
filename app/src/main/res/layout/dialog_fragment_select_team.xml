@@ -7,6 +7,17 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
+    <ImageButton
+        android:id="@+id/close_select_team_dialog_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_close"
+        android:tint="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_action_title_tv" />
+
     <TextView
         android:id="@+id/register_action_title_tv"
         android:layout_width="0dp"
