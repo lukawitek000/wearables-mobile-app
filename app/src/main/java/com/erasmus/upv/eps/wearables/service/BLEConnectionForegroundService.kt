@@ -17,7 +17,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavDeepLinkBuilder
 import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
-import com.erasmus.upv.eps.wearables.model.Response
+import com.erasmus.upv.eps.wearables.model.*
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
 import timber.log.Timber
 
@@ -41,6 +41,12 @@ class BLEConnectionForegroundService : LifecycleService() {
 
 
         var isServiceRunning: Boolean = false
+
+        var matchId = 0L
+        var devicesWithGestures = mutableListOf<BLEDeviceWithGestures>()
+        var match = Match()
+        var homeTeam = TeamWithPlayers(Team(), listOf())
+        var guestTeam = TeamWithPlayers(Team(), listOf())
 
     }
 

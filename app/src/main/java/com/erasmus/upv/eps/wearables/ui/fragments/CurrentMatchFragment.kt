@@ -176,7 +176,12 @@ class CurrentMatchFragment : Fragment() {
 
     private fun initTimeSlider() {
         binding.matchTimeSl.value = 0.0f
-        binding.matchTimeSl.valueTo = (viewModel.match.matchPartDuration * 60 * 1000L * viewModel.match.matchParts).toFloat()
+        val valueTo = (viewModel.match.matchPartDuration * 60 * 1000L * viewModel.match.matchParts).toFloat()
+        binding.matchTimeSl.valueTo = if(valueTo <= 0.0f){
+            1000f
+        }else{
+            valueTo
+        }
         binding.matchTimeSl.stepSize = 1000f
         binding.matchTimeSl.setLabelFormatter{
             DateTimeFormatter.displayMinutesAndSeconds(it.toLong())
