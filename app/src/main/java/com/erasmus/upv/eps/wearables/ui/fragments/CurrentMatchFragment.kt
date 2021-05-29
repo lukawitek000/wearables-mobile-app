@@ -239,8 +239,7 @@ class CurrentMatchFragment : Fragment() {
             setPositiveButton("Yes") { _, _ ->
                 stopService()
                 findNavController().navigate(R.id.action_currentMatchFragment_to_matchesFragment)
-                MatchTimer.resetTimer()
-                Toast.makeText(requireContext(), "Go back", Toast.LENGTH_SHORT).show()
+                MatchTimer.stopTimer()
             }
             setNegativeButton("No" ){ dialog, _ ->
                 dialog.dismiss()
