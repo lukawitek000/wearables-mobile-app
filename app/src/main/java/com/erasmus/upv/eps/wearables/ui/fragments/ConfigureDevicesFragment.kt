@@ -21,6 +21,9 @@ import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+
+//TODO: Keep position of recycler view when gesture is configured
+
 @AndroidEntryPoint
 class ConfigureDevicesFragment : Fragment() {
 
