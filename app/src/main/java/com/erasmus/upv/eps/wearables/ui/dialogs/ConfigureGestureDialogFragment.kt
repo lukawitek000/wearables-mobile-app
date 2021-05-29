@@ -70,6 +70,7 @@ class ConfigureGestureDialogFragment(
     private fun configSelectPlayerInput() {
         val players = mutableListOf<String>()
         players.addAll(viewModel.getPlayersNameFromSelectedTeam())
+        players.add("NONE")
         val playersAdapter = ArrayAdapter(requireContext(), R.layout.input_list_item, players)
         val editText = (binding.selectPlayerForGestureTf.editText as AutoCompleteTextView)
         editText.setAdapter(playersAdapter)
@@ -83,7 +84,7 @@ class ConfigureGestureDialogFragment(
     }
 
     private fun configSelectTeamInput() {
-        val teams = listOf(viewModel.homeTeam.team.name, viewModel.guestTeam.team.name)
+        val teams = listOf(viewModel.homeTeam.team.name, viewModel.guestTeam.team.name, "NONE")
         val adapter = ArrayAdapter(requireContext(), R.layout.input_list_item, teams)
         val editText = (binding.selectTeamForGestureTf.editText as AutoCompleteTextView)
         editText.setAdapter(adapter)
