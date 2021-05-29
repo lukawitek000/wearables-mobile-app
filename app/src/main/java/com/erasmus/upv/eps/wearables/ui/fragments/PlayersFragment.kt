@@ -100,9 +100,17 @@ class PlayersFragment : Fragment() {
 
     private fun listenToDbChanges() {
         viewModel.getAllPlayers().observe(viewLifecycleOwner){
+            val playersList = filterPlayers(it)
             playersAdapter.submitList(
-                filterPlayers(it)
+                playersList
             )
+            if(playersList.isEmpty()){
+                binding.playersRv.visibility = View.GONE
+                binding.noPlayersInfoTv.visibility = View.VISIBLE
+            }else{
+                binding.playersRv.visibility = View.VISIBLE
+                binding.noPlayersInfoTv.visibility = View.GONE
+            }
         }
     }
 
