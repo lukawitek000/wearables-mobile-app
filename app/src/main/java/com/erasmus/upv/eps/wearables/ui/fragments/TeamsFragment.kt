@@ -54,7 +54,15 @@ class TeamsFragment : Fragment() {
 
     private fun loadDataFromDb() {
         viewModel.getAllTeams().observe(viewLifecycleOwner){
-            adapter.submitList(filterTeams(it))
+            val teams = filterTeams(it)
+            adapter.submitList(teams)
+            if(teams.isEmpty()){
+                binding.teamsRv.visibility = View.GONE
+                binding.noTeamsInfoTv.visibility = View.VISIBLE
+            }else{
+                binding.teamsRv.visibility = View.VISIBLE
+                binding.noTeamsInfoTv.visibility = View.GONE
+            }
         }
     }
 
