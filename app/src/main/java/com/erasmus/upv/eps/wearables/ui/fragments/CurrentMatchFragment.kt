@@ -12,6 +12,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCurrentMatchBinding
 import com.erasmus.upv.eps.wearables.model.LiveAction
@@ -268,6 +269,11 @@ class CurrentMatchFragment : Fragment() {
             viewModel::getPlayerNameById,
             viewModel::getTeamNameById
         )
+        liveActionsAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                rv.smoothScrollToPosition(0)
+            }
+        })
         rv.adapter = liveActionsAdapter
     }
 
