@@ -57,6 +57,11 @@ class CurrentMatchFragment : Fragment() {
         observeConnectedDevices()
 
 
+        binding.numberOfConnectedDevicesTv.setOnClickListener {
+            BLEConnectionManager.readGesture()
+        }
+
+
 
         if(!BLEConnectionForegroundService.isServiceRunning) {
             sendCommandToBLEConnectionService(BLEConnectionForegroundService.START)
