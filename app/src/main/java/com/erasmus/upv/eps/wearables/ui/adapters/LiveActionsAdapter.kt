@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.databinding.FragmentCurrentMatchBinding
 import com.erasmus.upv.eps.wearables.databinding.ItemViewLiveActionsBinding
 import com.erasmus.upv.eps.wearables.model.LiveAction
+import timber.log.Timber
 
 class LiveActionsAdapter(
     private val onDeleteClick: (liveAction: LiveAction) -> Unit,
@@ -36,21 +37,22 @@ class LiveActionsAdapter(
         holder.binding.teamTv.text = getTeamNameById.invoke(currentLiveAction.teamId)
         holder.binding.teamTv.setBackgroundColor(getTeamColor.invoke(currentLiveAction.teamId))
         holder.binding.playerTv.text = getPlayerNameById.invoke(currentLiveAction.playerId)
-
-        holder.binding.deleteLiveAction.setOnClickListener { onDeleteClick.invoke(getItem(position)) }
+        holder.binding.deleteLiveAction.setOnClickListener {
+            onDeleteClick.invoke(currentLiveAction)
+        }
 
     }
 
-//    override fun submitList(list: MutableList<LiveAction>?) {
-//        super.submitList(list?.let { ArrayList(it) })
-//    }
+    override fun submitList(list: MutableList<LiveAction>?) {
+        super.submitList(list?.let { ArrayList(it) })
+    }
 
 
     inner class LiveActionsViewHolder(val binding: ItemViewLiveActionsBinding) : RecyclerView.ViewHolder(binding.root)
 
     class LiveActionsComparator: DiffUtil.ItemCallback<LiveAction>(){
         override fun areItemsTheSame(oldItem: LiveAction, newItem: LiveAction): Boolean {
-            return oldItem.time == newItem.time
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: LiveAction, newItem: LiveAction): Boolean {

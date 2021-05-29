@@ -61,7 +61,7 @@ class ReceivingDataViewModel
     var isConfigResetForUnknownTeam = false
 
     fun getLiveActionsForCurrentMatch(): LiveData<List<LiveAction>>{
-        return statisticsRepository.getLiveActionsForTheMatch(matchId).asLiveData()
+        return statisticsRepository.getLiveActionsForTheMatch(matchId)
     }
 
 

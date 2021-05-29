@@ -5,7 +5,8 @@
     android:id="@+id/current_match_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.CurrentMatchFragment">
+    tools:context=".ui.fragments.CurrentMatchFragment"
+    android:keepScreenOn="true">
 
     <Button
         android:id="@+id/pause_timer_bt"

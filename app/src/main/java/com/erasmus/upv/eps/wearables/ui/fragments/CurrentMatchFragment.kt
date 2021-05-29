@@ -83,7 +83,7 @@ class CurrentMatchFragment : Fragment() {
     private fun observeRecordedLiveAction() {
         viewModel.getLiveActionsForCurrentMatch().observe(viewLifecycleOwner){
             Timber.d("Live actions = $it")
-            liveActionsAdapter.submitList(it)
+            liveActionsAdapter.submitList(it.toMutableList())
         }
     }
 
@@ -273,6 +273,7 @@ class CurrentMatchFragment : Fragment() {
 
     private fun deleteLiveAction(liveAction: LiveAction){
         viewModel.deleteLiveActionById(liveAction.id)
+        //liveActionsAdapter.notifyDataSetChanged()
     }
 
 

@@ -16,8 +16,8 @@ interface StatisticsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLiveAction(liveAction: LiveAction): Long
 
-    @Query("SELECT * FROM LiveAction WHERE matchId == :matchId")
-    fun getLiveActionsForTheMatch(matchId: Long): Flow<List<LiveAction>>
+    @Query("SELECT * FROM LiveAction WHERE matchId == :matchId ORDER BY id DESC")
+    fun getLiveActionsForTheMatch(matchId: Long): LiveData<List<LiveAction>>
 
     @Query("DELETE FROM LiveAction WHERE id == :id")
     suspend fun deleteLiveActionById(id: Long)

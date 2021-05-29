@@ -17,7 +17,7 @@ constructor(
         }
     }
 
-    fun getLiveActionsForTheMatch(matchId: Long): Flow<List<LiveAction>> {
+    fun getLiveActionsForTheMatch(matchId: Long): LiveData<List<LiveAction>> {
         return statisticsDao.getLiveActionsForTheMatch(matchId)
     }
 
