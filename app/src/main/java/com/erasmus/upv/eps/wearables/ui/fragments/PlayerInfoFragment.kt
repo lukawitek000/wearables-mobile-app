@@ -13,6 +13,9 @@ import com.erasmus.upv.eps.wearables.databinding.FragmentPlayerInfoBinding
 import com.erasmus.upv.eps.wearables.viewModels.PlayersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+
+//TODO show info in edit/update screen ?? but how
+
 @AndroidEntryPoint
 class PlayerInfoFragment : Fragment() {
 

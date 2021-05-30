@@ -13,6 +13,9 @@ import com.erasmus.upv.eps.wearables.databinding.FragmentMatchInfoBinding
 import com.erasmus.upv.eps.wearables.viewModels.MatchesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+
+// TODO show match info but how???
+
 @AndroidEntryPoint
 class MatchInfoFragment : Fragment() {
 

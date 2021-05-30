@@ -28,6 +28,8 @@ import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import timber.log.Timber
 
+// TODO why here is no @AndroidEntryPoint and it's working???
+// TODO do not show receive data which is not defined
 
 class CurrentMatchFragment : Fragment() {
 

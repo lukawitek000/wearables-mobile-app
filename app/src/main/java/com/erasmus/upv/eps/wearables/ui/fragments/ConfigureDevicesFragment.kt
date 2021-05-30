@@ -23,6 +23,8 @@ import timber.log.Timber
 
 
 //TODO: Keep position of recycler view when gesture is configured
+// TODO show info about connecting to the devices
+
 
 @AndroidEntryPoint
 class ConfigureDevicesFragment : Fragment() {

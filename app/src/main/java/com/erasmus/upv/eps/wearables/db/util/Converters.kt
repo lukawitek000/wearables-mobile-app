@@ -21,12 +21,9 @@ class Converters {
         return value.time
     }
 
-//    @TypeConverter
-//    fun fromFootballActionsToString(actions: FootballActions): String = actions.name
-//
-//    @TypeConverter
-//    fun fromStringToFootballActions(text: String): FootballActions = enumValueOf(text)
-//
+
+    // TODO find better why of saving actions to database
+
 
     private val footballActionsPrefix = "FootballActions"
     private val basketballActionsPrefix = "BasketballActions"

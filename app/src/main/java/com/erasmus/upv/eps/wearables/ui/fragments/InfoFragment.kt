@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.erasmus.upv.eps.wearables.R
 
+//TODO do we need this?? what should be here
 
 class InfoFragment : Fragment() {
 

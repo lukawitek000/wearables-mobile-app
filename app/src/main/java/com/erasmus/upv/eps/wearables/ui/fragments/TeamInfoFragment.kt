@@ -16,6 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.lang.Exception
 
+
+//TODO show team info in edit/update fragment ???
+
 @AndroidEntryPoint
 class TeamInfoFragment : Fragment() {
 
