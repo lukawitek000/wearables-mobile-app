@@ -14,7 +14,8 @@ import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
 
 class DevicesConfigurationAdapter(private val devices: List<BLEDeviceWithGestures>,
                                   private val context: Context,
-                                  private val onGestureClick: (device: BLEDevice, gesture: Gesture) -> Unit
+                                  private val onGestureClick: (device: BLEDevice, gesture: Gesture) -> Unit,
+                                  private val reconnectDevice: (address: String) -> Unit
                                   ) : RecyclerView.Adapter<DevicesConfigurationAdapter.DevicesConfigurationViewHolder>() {
 
 
@@ -31,11 +32,27 @@ class DevicesConfigurationAdapter(private val devices: List<BLEDeviceWithGesture
         holder.binding.deviceNameTv.text = device.bleDevice.name
         val gattsStatus = BLEConnectionManager.bluetoothGattsStatus.value ?: emptyMap<String, BLEConnectionManager.GattStatus>()
         if(!gattsStatus.containsKey(device.bleDevice.address) || gattsStatus[device.bleDevice.address] == BLEConnectionManager.GattStatus.CONNECTING){
-            holder.binding.connectingPb.visibility = View.VISIBLE
-            holder.binding.deviceGestureRv.visibility = View.GONE
-        }else {
-            holder.binding.connectingPb.visibility = View.GONE
-            holder.binding.deviceGestureRv.visibility = View.VISIBLE
+            holder.binding.apply {
+                connectingPb.visibility = View.VISIBLE
+                deviceGestureRv.visibility = View.GONE
+                failInfoL.visibility = View.GONE
+            }
+        }else if(gattsStatus[device.bleDevice.address] == BLEConnectionManager.GattStatus.DISCONNECTED) {
+            holder.binding.apply {
+                connectingPb.visibility = View.GONE
+                deviceGestureRv.visibility = View.GONE
+                failInfoL.visibility = View.VISIBLE
+
+                reconnectBleDeviceBt.setOnClickListener {
+                    reconnectDevice.invoke(device.bleDevice.address)
+                }
+            }
+        }else{
+            holder.binding.apply {
+                connectingPb.visibility = View.GONE
+                deviceGestureRv.visibility = View.VISIBLE
+                failInfoL.visibility = View.GONE
+            }
             val rv = holder.binding.deviceGestureRv
             rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             rv.adapter = GestureConfigurationAdapter(device.gestures) {

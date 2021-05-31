@@ -1,6 +1,7 @@
 package com.erasmus.upv.eps.wearables.ui.fragments
 
 import android.app.AlertDialog
+import android.bluetooth.BluetoothDevice
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentConfigureDevicesBinding
 import com.erasmus.upv.eps.wearables.model.BLEDevice
+import com.erasmus.upv.eps.wearables.model.Gesture
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.DevicesConfigurationAdapter
 import com.erasmus.upv.eps.wearables.ui.dialogs.ConfigureGestureDialogFragment
@@ -66,13 +68,21 @@ class ConfigureDevicesFragment : Fragment() {
 
     private fun connectToSelectedDevices() {
         for (device in viewModel.selectedScanResults) {
-            val bluetoothGatt = device.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
-            BLEConnectionManager.updateGattStatus(bluetoothGatt.device.address, BLEConnectionManager.GattStatus.CONNECTING)
+            connectBLEDevice(device)
 //            val address = bluetoothGatt.device.address
 //            if(address != null) {
 //                BLEConnectionForegroundService.gattDevicesMap[address] = bluetoothGatt
 //            }
         }
+    }
+
+    private fun connectBLEDevice(device: BluetoothDevice) {
+        val bluetoothGatt =
+            device.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
+        BLEConnectionManager.updateGattStatus(
+            bluetoothGatt.device.address,
+            BLEConnectionManager.GattStatus.CONNECTING
+        )
     }
 
     private fun getSavedDeviceConfiguration() {
@@ -110,15 +120,25 @@ class ConfigureDevicesFragment : Fragment() {
     private fun setUpRecyclerView() {
         val rv = binding.devicesConfigRv
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        deviceAdapter = DevicesConfigurationAdapter(viewModel.devicesWithGestures, requireContext()) { device, gesture ->
-            ConfigureGestureDialogFragment(device, gesture, this::updateColor).show(childFragmentManager, ConfigureGestureDialogFragment.TAG)
-        }
+        deviceAdapter = DevicesConfigurationAdapter(viewModel.devicesWithGestures, requireContext(),
+            onGestureClick = this::onGestureClick, reconnectDevice = this::reconnectBLEDevice)
         rv.adapter = deviceAdapter
     }
 
 
     private fun updateColor(){
         deviceAdapter.notifyDataSetChanged()
+    }
+
+    private fun onGestureClick(device: BLEDevice, gesture: Gesture){
+        ConfigureGestureDialogFragment(device, gesture, this::updateColor).show(childFragmentManager, ConfigureGestureDialogFragment.TAG)
+    }
+
+    private fun reconnectBLEDevice(address: String){
+        val bluetoothDevice = viewModel.selectedScanResults.firstOrNull {
+            it.address == address
+        } ?: return
+        connectBLEDevice(bluetoothDevice)
     }
 
 

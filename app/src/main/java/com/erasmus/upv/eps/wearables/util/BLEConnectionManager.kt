@@ -72,6 +72,8 @@ object BLEConnectionManager {
             isConnectionChanged.postValue(true)
         }
 
+
+
         override fun onServicesDiscovered(gatt: BluetoothGatt?, status: Int) {
             super.onServicesDiscovered(gatt, status)
             Timber.i( "onServicesDiscovered: discovered ${gatt?.device?.address}, ${gatt?.device?.name}")

@@ -31,7 +31,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/device_name_tv"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ProgressBar
         android:id="@+id/connecting_pb"
@@ -46,6 +46,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/device_name_tv" />
+
+    <LinearLayout
+        android:id="@+id/fail_info_l"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/device_name_tv">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Connection with device failed."
+            android:layout_gravity="center_horizontal"
+            />
+
+        <Button
+            android:id="@+id/reconnect_ble_device_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Try again"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal"
+            />
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
