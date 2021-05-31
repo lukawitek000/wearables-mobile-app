@@ -77,7 +77,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/team_name_et"
-                    android:inputType="text"
+                    android:inputType="text|textCapWords"
                     android:imeOptions="actionNext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -93,7 +93,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/team_country_et"
-                    android:inputType="text"
+                    android:inputType="text|textCapWords"
                     android:imeOptions="actionNext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -109,7 +109,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/team_city_et"
-                    android:inputType="text"
+                    android:inputType="text|textCapWords"
                     android:imeOptions="actionNext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -125,7 +125,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/team_info_et"
-                    android:inputType="text"
+                    android:inputType="text|textCapSentences"
                     android:imeOptions="actionDone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
