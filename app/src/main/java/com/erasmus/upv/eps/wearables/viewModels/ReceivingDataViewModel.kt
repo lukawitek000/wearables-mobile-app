@@ -259,12 +259,18 @@ class ReceivingDataViewModel
 
     fun selectHomeTeam() {
         askedTeamId.value = homeTeam.team.teamId
-        saveLastAction()
+        askForPlayer()
+        //saveLastAction()
     }
 
     fun selectGuestTeam() {
         askedTeamId.value = guestTeam.team.teamId
-        saveLastAction()
+        askForPlayer()
+        //saveLastAction()
+    }
+
+    private fun askForPlayer(){
+        askedPlayerId.value = 0L
     }
 
     fun getPlayersFromChosenTeam(): List<Player> {
