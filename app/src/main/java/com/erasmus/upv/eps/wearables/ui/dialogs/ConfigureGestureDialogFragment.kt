@@ -13,6 +13,9 @@ import com.erasmus.upv.eps.wearables.databinding.DialogFragmentConfigureGestureB
 import com.erasmus.upv.eps.wearables.model.BLEDevice
 import com.erasmus.upv.eps.wearables.model.Gesture
 import com.erasmus.upv.eps.wearables.model.Player
+import com.erasmus.upv.eps.wearables.model.actions.Actions
+import com.erasmus.upv.eps.wearables.model.actions.FootballActions
+import com.erasmus.upv.eps.wearables.model.actions.NONE
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import timber.log.Timber
@@ -77,7 +80,7 @@ class ConfigureGestureDialogFragment(
         editText.setOnItemClickListener { _, _, position, _ ->
             viewModel.selectedPlayerId = viewModel.getPlayerIdByPlayerName(playersAdapter.getItem(position))
         }
-        if(gesture.assignPlayerId != 0L){
+        if(gesture.assignPlayerId != 0L && gesture.action != null){
             viewModel.selectedPlayerId = gesture.assignPlayerId
             editText.setText(viewModel.getPlayerNameById(gesture.assignPlayerId), false)
         }
@@ -92,22 +95,38 @@ class ConfigureGestureDialogFragment(
             viewModel.selectedTeamId = viewModel.getTeamIdByTeamName(adapter.getItem(position))
             binding.selectPlayerForGestureTf.isEnabled = true
             configSelectPlayerInput()
-            (binding.selectPlayerForGestureTf.editText as AutoCompleteTextView).setText("", false)
+            resetPlayerInput()
         }
-        if(gesture.assignTeamId != 0L){
+        if(gesture.assignTeamId != 0L && gesture.action != null){
             viewModel.selectedTeamId = gesture.assignTeamId
             editText.setText(viewModel.getTeamNameById(gesture.assignTeamId), false)
             configSelectPlayerInput()
         }
     }
 
+    private fun resetPlayerInput(){
+        (binding.selectPlayerForGestureTf.editText as AutoCompleteTextView).setText("", false)
+    }
+
+    private fun resetTeamInput(){
+        (binding.selectTeamForGestureTf.editText as AutoCompleteTextView).setText("", false)
+        resetPlayerInput()
+    }
+
     private fun configSelectActionInput() {
-        val actions = viewModel.getActionsForAMatch()
+        val actions = viewModel.getActionsForAMatch().toMutableList()
+        actions.add(NONE.NONE)
         val adapter = ArrayAdapter(requireContext(), R.layout.input_list_item, actions)
         val editText = (binding.selectActionTf.editText as AutoCompleteTextView)
         editText.setAdapter(adapter)
         editText.setOnItemClickListener { _, _, position, _ ->
-            viewModel.selectedAction = adapter.getItem(position)
+            val action = adapter.getItem(position)
+            viewModel.selectedAction = if(action == NONE.NONE){
+                resetTeamInput()
+                null
+            } else {
+                action
+            }
         }
         if(gesture.action != null){
             viewModel.selectedAction = gesture.action
