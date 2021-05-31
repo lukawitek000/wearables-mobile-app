@@ -222,6 +222,9 @@ class ReceivingDataViewModel
         val gesture = device.gestures.first {
             it.receivedData == (lastData.data % 10 + 1)
         }
+        if(gesture.action == null){
+            return
+        }
         lastGesture = gesture
         when {
             gesture.assignTeamId == 0L -> {

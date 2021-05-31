@@ -48,7 +48,6 @@ class CurrentMatchFragment : Fragment() {
 
         populateUi()
         setUpCustomBackPress()
-        mockDialogsForChoosingPlayersAndTeams()
         setUpRecyclerView()
         handleStartMatchTimerButton()
         showMatchTime()
@@ -250,16 +249,6 @@ class CurrentMatchFragment : Fragment() {
         return builder.create()
     }
 
-    private fun mockDialogsForChoosingPlayersAndTeams() {
-//        binding.simulateWhichTeamBn.setOnClickListener {
-//            SelectTeamDialogFragment().show(childFragmentManager, SelectTeamDialogFragment.TAG)
-//        }
-//
-//
-//        binding.simulateWhichPlayerBn.setOnClickListener {
-//            SelectPlayerDialogFragment().show(childFragmentManager, SelectPlayerDialogFragment.TAG)
-//        }
-    }
 
     private fun setUpRecyclerView() {
         val rv = binding.liveActionsRv
