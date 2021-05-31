@@ -14,5 +14,7 @@ data class Gesture (
         var action: Actions?, // meaning, assign statistic to gesture
         var assignTeamId: Long,
         var assignPlayerId: Long,
-        val bleDeviceId: String
+        val bleDeviceId: String,
+        var shouldAskAboutTeam: Boolean,
+        var shouldAskAboutPlayer: Boolean
         )

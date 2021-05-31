@@ -52,10 +52,11 @@ class ConfigureGestureDialogFragment(
             gesture.assignPlayerId = viewModel.selectedPlayerId
             gesture.assignTeamId = viewModel.selectedTeamId
             gesture.action = viewModel.selectedAction
+
             dismiss()
         }
         configDropDownInputs()
-
+        configCheckBoxes()
         return binding.root
     }
 
@@ -124,7 +125,6 @@ class ConfigureGestureDialogFragment(
         val editText = (binding.selectActionTf.editText as AutoCompleteTextView)
         editText.setAdapter(adapter)
         editText.setOnItemClickListener { _, _, position, _ ->
-            val actionName = adapter.getItem(position)
             val action = adapter.getItemAsAction(position)
             viewModel.selectedAction = if(action == NONE.NONE){
                 resetTeamInput()
@@ -139,8 +139,23 @@ class ConfigureGestureDialogFragment(
         }
     }
 
+    private fun configCheckBoxes() {
+        Timber.d("should ask team ${gesture.shouldAskAboutTeam} player ${gesture.shouldAskAboutPlayer}")
+        binding.doNotAskAboutTeamCb.isChecked = !gesture.shouldAskAboutTeam
+        binding.doNotAskAboutPlayerCb.isChecked = !gesture.shouldAskAboutPlayer
+        setCheckBoxesListeners()
+    }
 
-
+    private fun setCheckBoxesListeners() {
+        binding.doNotAskAboutTeamCb.setOnCheckedChangeListener { _, isChecked ->
+            Timber.d("ask about team ${gesture.shouldAskAboutTeam} is CHecked = $isChecked")
+            gesture.shouldAskAboutTeam = !isChecked
+        }
+        binding.doNotAskAboutPlayerCb.setOnCheckedChangeListener { _, isChecked ->
+            Timber.d("should ask about player ${gesture.shouldAskAboutPlayer} is CHecked = $isChecked ")
+            gesture.shouldAskAboutPlayer = !isChecked
+        }
+    }
 
 
 }

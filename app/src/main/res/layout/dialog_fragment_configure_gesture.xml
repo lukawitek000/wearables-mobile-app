@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/select_player_for_gesture_tf" />
+        app:layout_constraintTop_toBottomOf="@+id/do_not_ask_about_player_cb" />
 
     <TextView
         android:id="@+id/config_gesture_name_tv"
@@ -88,7 +88,7 @@
         android:hint="Select player for the gesture"
         app:layout_constraintEnd_toEndOf="@+id/select_team_for_gesture_tf"
         app:layout_constraintStart_toStartOf="@+id/select_team_for_gesture_tf"
-        app:layout_constraintTop_toBottomOf="@+id/select_team_for_gesture_tf">
+        app:layout_constraintTop_toBottomOf="@+id/do_not_ask_about_team_cb">
 
         <AutoCompleteTextView
             android:layout_width="match_parent"
@@ -96,5 +96,23 @@
             android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <CheckBox
+        android:id="@+id/do_not_ask_about_player_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Don't ask"
+        app:layout_constraintStart_toStartOf="@+id/select_player_for_gesture_tf"
+        app:layout_constraintTop_toBottomOf="@+id/select_player_for_gesture_tf" />
+
+    <CheckBox
+        android:id="@+id/do_not_ask_about_team_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Don't ask"
+        app:layout_constraintStart_toStartOf="@+id/select_team_for_gesture_tf"
+        app:layout_constraintTop_toBottomOf="@+id/select_team_for_gesture_tf" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

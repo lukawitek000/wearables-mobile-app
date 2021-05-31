@@ -149,7 +149,8 @@ class ReceivingDataViewModel
         val gestures =  mutableListOf<Gesture>()
         for (i in 1..10){
             gestures.add(
-                    Gesture(0L, "Gesture $i", i, null, 0L, 0L, deviceId)
+                    Gesture(0L, "Gesture $i", i, null, 0L, 0L,
+                        deviceId, shouldAskAboutTeam = true, shouldAskAboutPlayer = true)
             )
         }
         return gestures
@@ -261,11 +262,19 @@ class ReceivingDataViewModel
         lastGesture = gesture
         when {
             gesture.assignTeamId == 0L -> {
-                askedTeamId.value = 0L
+                if(gesture.shouldAskAboutTeam) {
+                    askedTeamId.value = 0L
+                }else{
+                    saveLastAction()
+                }
             }
             gesture.assignPlayerId == 0L -> {
                 askedTeamId.value = lastGesture.assignTeamId
-                askedPlayerId.value = 0L
+                if(gesture.shouldAskAboutPlayer) {
+                    askedPlayerId.value = 0L
+                }else{
+                    saveLastAction()
+                }
             }
             else -> {
                 askedTeamId.value = lastGesture.assignTeamId
@@ -306,7 +315,11 @@ class ReceivingDataViewModel
     }
 
     private fun askForPlayer(){
-        askedPlayerId.value = 0L
+        if(lastGesture.shouldAskAboutPlayer) {
+            askedPlayerId.value = 0L
+        }else{
+            saveLastAction()
+        }
     }
 
     fun getPlayersFromChosenTeam(): List<Player> {
