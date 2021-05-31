@@ -409,6 +409,9 @@ class ReceivingDataViewModel
         }
     }
 
+    fun getSelectedActionAsAText(): CharSequence {
+        return getNameOfTheAction(selectedAction)
+    }
 
 
 }

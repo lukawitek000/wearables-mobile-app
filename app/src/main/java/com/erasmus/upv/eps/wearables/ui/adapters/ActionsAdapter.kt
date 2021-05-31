@@ -20,7 +20,7 @@ class ActionsAdapter(private val mContext: Context, private val resource: Int, p
     ) :
     ArrayAdapter<String>(mContext, resource, actionTexts) {
 
-    
+
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view = convertView

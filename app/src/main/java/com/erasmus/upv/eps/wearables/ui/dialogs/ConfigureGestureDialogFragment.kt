@@ -135,7 +135,7 @@ class ConfigureGestureDialogFragment(
         }
         if(gesture.action != null){
             viewModel.selectedAction = gesture.action
-            editText.setText(viewModel.selectedAction.toString(), false)
+            editText.setText(viewModel.getSelectedActionAsAText(), false)
         }
     }
 
