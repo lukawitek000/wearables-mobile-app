@@ -164,13 +164,46 @@ class ReceivingDataViewModel
         return teamRepository.getTeamWithPlayers(teamId)
     }
 
-    fun getActionsForAMatch(): List<Actions> {
+    fun getActionsNamesForAMatch(): List<String> {
+        return when(match.sport){
+            Sports.FOOTBALL -> FootballActions.values().map { getNameOfTheAction(it) }.toList()
+            Sports.HANDBALL -> HandballActions.values().map { getNameOfTheAction(it) }.toList()
+            else -> BasketballActions.values().map { getNameOfTheAction(it) }.toList()
+        }
+    }
+
+    fun getActionsForAMatch(): List<Actions>{
         return when(match.sport){
             Sports.FOOTBALL -> FootballActions.values().toList()
             Sports.HANDBALL -> HandballActions.values().toList()
             else -> BasketballActions.values().toList()
         }
     }
+
+
+    private fun getNameOfTheAction(item: Actions?): String {
+        return when(item){
+            is FootballActions -> {
+                styleActionName(item.name)
+            }
+            is BasketballActions -> {
+                styleActionName(item.name)
+            }
+            is HandballActions -> {
+                styleActionName(item.name)
+            }
+            else -> {
+                "NONE"
+            }
+
+        }
+    }
+
+    private fun styleActionName(name: String): String {
+        val styledName = name.toLowerCase(Locale.ROOT).replace('_', ' ', true)
+        return styledName.replaceFirst(styledName[0], styledName[0].toUpperCase(), true)
+    }
+
 
     fun getPlayersNameFromSelectedTeam(): List<String> {
         return when(selectedTeamId) {

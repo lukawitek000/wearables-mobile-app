@@ -16,6 +16,7 @@ import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.model.actions.Actions
 import com.erasmus.upv.eps.wearables.model.actions.FootballActions
 import com.erasmus.upv.eps.wearables.model.actions.NONE
+import com.erasmus.upv.eps.wearables.ui.adapters.ActionsAdapter
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import timber.log.Timber
@@ -114,13 +115,17 @@ class ConfigureGestureDialogFragment(
     }
 
     private fun configSelectActionInput() {
+        val actionsNames = viewModel.getActionsNamesForAMatch().toMutableList()
+        actionsNames.add(NONE.NONE.name)
+        Timber.d("action names $actionsNames")
         val actions = viewModel.getActionsForAMatch().toMutableList()
         actions.add(NONE.NONE)
-        val adapter = ArrayAdapter(requireContext(), R.layout.input_list_item, actions)
+        val adapter = ActionsAdapter(requireContext(), R.layout.input_list_item,  actionsNames.toTypedArray(), actions.toTypedArray())
         val editText = (binding.selectActionTf.editText as AutoCompleteTextView)
         editText.setAdapter(adapter)
         editText.setOnItemClickListener { _, _, position, _ ->
-            val action = adapter.getItem(position)
+            val actionName = adapter.getItem(position)
+            val action = adapter.getItemAsAction(position)
             viewModel.selectedAction = if(action == NONE.NONE){
                 resetTeamInput()
                 null
