@@ -102,13 +102,13 @@ class ScanningBluetoothFragment : Fragment() {
             if(viewModel.selectedScanResults.isEmpty()){
                 Toast.makeText(requireContext(), "Choose BLE Devices to connect with", Toast.LENGTH_SHORT).show()
             }else{
-                for (device in viewModel.selectedScanResults) {
-                    val bluetoothGatt = device.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
-                    val address = bluetoothGatt.device.address
-                    if(address != null) {
-                        BLEConnectionForegroundService.gattDevicesMap[address] = bluetoothGatt
-                    }
-                }
+//                for (device in viewModel.selectedScanResults) {
+//                    val bluetoothGatt = device.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
+//                    val address = bluetoothGatt.device.address
+//                    if(address != null) {
+//                        BLEConnectionForegroundService.gattDevicesMap[address] = bluetoothGatt
+//                    }
+//                }
                 findNavController().navigate(R.id.action_scanningBluetoothFragment_to_configureDevicesFragment)
             }
         }

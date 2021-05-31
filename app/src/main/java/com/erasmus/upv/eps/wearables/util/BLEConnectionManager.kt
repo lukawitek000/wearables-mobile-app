@@ -6,16 +6,22 @@ import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattDescriptor
 import androidx.lifecycle.MutableLiveData
 import com.erasmus.upv.eps.wearables.model.Response
+import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import timber.log.Timber
 import java.util.*
 import kotlin.collections.HashMap
 
 object BLEConnectionManager {
 
-
+    enum class GattStatus{
+        CONNECTING,
+        DISCONNECTED,
+        CONNECTED
+    }
 
 
     private val bluetoothGatts = HashMap<String, BluetoothGatt?>()
+    val bluetoothGattsStatus = MutableLiveData<HashMap<String, GattStatus>>()
     val isConnectionChanged = MutableLiveData<Boolean>(false)
 
 
@@ -38,18 +44,28 @@ object BLEConnectionManager {
 
                     // save device instance
                    // bluetoothGatt = gatt
-                    if(gatt != null && !bluetoothGatts.containsKey(gatt.device?.address)){
-                        bluetoothGatts[gatt.device.address] = gatt
+                    if(gatt != null && !bluetoothGatts.containsKey(deviceAddress)){
+                        bluetoothGatts[deviceAddress!!] = gatt
+                        BLEConnectionForegroundService.gattDevicesMap[deviceAddress] = gatt
+                        updateGattStatus(deviceAddress, GattStatus.CONNECTED)
             //            bluetoothGatts[gatt.device.address]?.discoverServices()
                     }
                 }else if (newState == BluetoothGatt.STATE_DISCONNECTED){
                     Timber.w("onConnectionStateChange: disconnected address $deviceAddress name = $deviceName\"")
-                    bluetoothGatts.clear()
+                    //bluetoothGatts.clear()
+                    if (deviceAddress != null) {
+                        updateGattStatus(deviceAddress, GattStatus.DISCONNECTED)
+                    }
+                    bluetoothGatts.remove(gatt?.device?.address)
                     gatt?.close()
                 }
             }else{
                 Timber.e("onConnectionStateChange: error $status")
-                bluetoothGatts.clear()
+                //bluetoothGatts.clear()
+                bluetoothGatts.remove(gatt?.device?.address)
+                if (deviceAddress != null) {
+                    updateGattStatus(deviceAddress, GattStatus.DISCONNECTED)
+                }
                 gatt?.close()
             }
 
@@ -215,5 +231,21 @@ object BLEConnectionManager {
             )
         }
     }
+
+
+    fun updateGattStatus(address: String, status: GattStatus){
+        Timber.d("update connection status address: $address status: ${status.name}")
+        val tempMap = bluetoothGattsStatus.value ?: HashMap<String, GattStatus>()
+        tempMap[address] = status
+        bluetoothGattsStatus.postValue(tempMap)
+    }
+
+    fun disconnectAllDevices() {
+        bluetoothGatts.values.forEach {
+            it?.disconnect()
+        }
+        BLEConnectionForegroundService.gattDevicesMap.clear()
+    }
+
 
 }

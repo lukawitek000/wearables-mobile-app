@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentConfigureDevicesBinding
 import com.erasmus.upv.eps.wearables.model.BLEDevice
+import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.DevicesConfigurationAdapter
 import com.erasmus.upv.eps.wearables.ui.dialogs.ConfigureGestureDialogFragment
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
@@ -43,7 +45,34 @@ class ConfigureDevicesFragment : Fragment() {
         setUpRecyclerView()
         getSavedDeviceConfiguration()
         handleDoneButton()
+        connectToSelectedDevices()
+        setUpCustomBackPress()
+        observeGattStatusChanges()
         return binding.root
+    }
+
+
+
+
+    private fun setUpCustomBackPress() {
+        val callback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                BLEConnectionManager.disconnectAllDevices()
+                findNavController().navigateUp()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    private fun connectToSelectedDevices() {
+        for (device in viewModel.selectedScanResults) {
+            val bluetoothGatt = device.connectGatt(requireContext(), false, BLEConnectionManager.gattCallback)
+            BLEConnectionManager.updateGattStatus(bluetoothGatt.device.address, BLEConnectionManager.GattStatus.CONNECTING)
+//            val address = bluetoothGatt.device.address
+//            if(address != null) {
+//                BLEConnectionForegroundService.gattDevicesMap[address] = bluetoothGatt
+//            }
+        }
     }
 
     private fun getSavedDeviceConfiguration() {
@@ -92,5 +121,12 @@ class ConfigureDevicesFragment : Fragment() {
         deviceAdapter.notifyDataSetChanged()
     }
 
+
+    private fun observeGattStatusChanges() {
+        BLEConnectionManager.bluetoothGattsStatus.observe(viewLifecycleOwner){
+            Timber.d("status changed ${it.values.map { status -> status.name }}")
+            deviceAdapter.notifyDataSetChanged()
+        }
+    }
 
 }
