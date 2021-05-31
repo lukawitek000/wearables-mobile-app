@@ -146,6 +146,7 @@ class ConfigureDevicesFragment : Fragment() {
         BLEConnectionManager.bluetoothGattsStatus.observe(viewLifecycleOwner){
             Timber.d("status changed ${it.values.map { status -> status.name }}")
             deviceAdapter.notifyDataSetChanged()
+            binding.doneBt.isEnabled = it.values.contains(BLEConnectionManager.GattStatus.CONNECTED)
         }
     }
 
