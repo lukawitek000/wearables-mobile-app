@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import com.bumptech.glide.Glide
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.DialogFragmentConfigureGestureBinding
 import com.erasmus.upv.eps.wearables.model.BLEDevice
@@ -55,9 +56,14 @@ class ConfigureGestureDialogFragment(
 
             dismiss()
         }
+        setGifForGesture()
         configDropDownInputs()
         configCheckBoxes()
         return binding.root
+    }
+
+    private fun setGifForGesture() {
+        Glide.with(this).load(R.drawable.gesture_0).into(binding.gestureIv)
     }
 
     override fun onDismiss(dialog: DialogInterface) {

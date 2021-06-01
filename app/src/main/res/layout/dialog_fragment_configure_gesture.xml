@@ -34,8 +34,10 @@
     <ImageView
         android:id="@+id/gesture_iv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="Select team for the gesture"
-        app:layout_constraintEnd_toEndOf="@+id/select_action_tf"
+        app:layout_constraintEnd_toStartOf="@+id/do_not_ask_about_team_cb"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/select_action_tf"
         app:layout_constraintTop_toBottomOf="@+id/select_action_tf">
 
@@ -84,11 +87,13 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:hint="Select player for the gesture"
-        app:layout_constraintEnd_toEndOf="@+id/select_team_for_gesture_tf"
-        app:layout_constraintStart_toStartOf="@+id/select_team_for_gesture_tf"
-        app:layout_constraintTop_toBottomOf="@+id/do_not_ask_about_team_cb">
+        app:layout_constraintEnd_toStartOf="@+id/do_not_ask_about_player_cb"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/select_team_for_gesture_tf">
 
         <AutoCompleteTextView
             android:layout_width="match_parent"
@@ -101,18 +106,25 @@
         android:id="@+id/do_not_ask_about_player_cb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="Don't ask"
-        app:layout_constraintStart_toStartOf="@+id/select_player_for_gesture_tf"
-        app:layout_constraintTop_toBottomOf="@+id/select_player_for_gesture_tf" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/select_player_for_gesture_tf"
+        app:layout_constraintTop_toTopOf="@+id/select_player_for_gesture_tf" />
 
     <CheckBox
         android:id="@+id/do_not_ask_about_team_cb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="Don't ask"
-        app:layout_constraintStart_toStartOf="@+id/select_team_for_gesture_tf"
-        app:layout_constraintTop_toBottomOf="@+id/select_team_for_gesture_tf" />
+        app:layout_constraintBottom_toBottomOf="@+id/select_team_for_gesture_tf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/select_team_for_gesture_tf"
+        app:layout_constraintTop_toTopOf="@+id/select_team_for_gesture_tf" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -83,4 +83,7 @@ dependencies {
 
     //timber for logging
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    //Glide for displaying gifs
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
 }
