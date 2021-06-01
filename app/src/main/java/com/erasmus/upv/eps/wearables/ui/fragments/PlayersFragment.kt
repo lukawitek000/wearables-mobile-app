@@ -116,7 +116,8 @@ class PlayersFragment : Fragment() {
 
     private fun filterPlayers(players: List<Player>): List<Player>{
         return if(sharedViewModel.isCreatingTeam) {
-            viewModel.filterPlayers(players, sharedViewModel.teamPlayers, sharedViewModel.creatingTeam.teamId)
+            viewModel.filterPlayers(players, sharedViewModel.teamPlayers,
+                sharedViewModel.creatingTeam.teamId, sharedViewModel.creatingTeam.sport)
         } else {
             players
         }

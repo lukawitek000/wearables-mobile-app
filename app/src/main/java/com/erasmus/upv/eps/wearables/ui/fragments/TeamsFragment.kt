@@ -54,7 +54,10 @@ class TeamsFragment : Fragment() {
 
     private fun loadDataFromDb() {
         viewModel.getAllTeams().observe(viewLifecycleOwner){
-            val teams = filterTeams(it)
+            var teams = filterTeams(it)
+            if(sharedViewModel.whichTeamIsCreated != TeamCreated.NONE){
+                teams = teams.filter { it.sport == sharedViewModel.creatingMatch.sport }
+            }
             adapter.submitList(teams)
             if(teams.isEmpty()){
                 binding.teamsRv.visibility = View.GONE
@@ -68,7 +71,8 @@ class TeamsFragment : Fragment() {
 
     private fun filterTeams(teams: List<Team>): List<Team> {
         return teams.filter {
-            it.teamId != sharedViewModel.guestTeam?.teamId && it.teamId != sharedViewModel.homeTeam?.teamId
+            it.teamId != sharedViewModel.guestTeam?.teamId
+                    && it.teamId != sharedViewModel.homeTeam?.teamId
         }
     }
 

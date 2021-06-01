@@ -22,6 +22,7 @@ import com.erasmus.upv.eps.wearables.util.Sports
 import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
 import com.erasmus.upv.eps.wearables.viewModels.CreateTeamViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class CreateTeamFragment : Fragment() {
@@ -48,15 +49,22 @@ class CreateTeamFragment : Fragment() {
     }
 
     private fun observeSportChange() {
+        if(sharedViewModel.isCreatingTeam) {
+            binding.sportRadioGroup.check(setPlayerSport(sharedViewModel.creatingTeam.sport))
+        }
         binding.sportRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-            sharedViewModel.teamPlayers.clear()
-            adapter.submitList(sharedViewModel.teamPlayers)
+            Timber.d("selected sport ${getSelectedSport()} creaatig ${sharedViewModel.teamPlayers}")
+            if(sharedViewModel.teamPlayers.any { it.sport != getSelectedSport() }) {
+                sharedViewModel.teamPlayers.clear()
+                adapter.submitList(sharedViewModel.teamPlayers)
+            }
         }
     }
 
     private fun receiveSafeArgs() {
         if(arguments != null){
             val args = CreateTeamFragmentArgs.fromBundle(requireArguments())
+            Timber.d("team ID ${args.teamId}")
             if(args.teamId > 0L) {
                 viewModel.receivedTeamId = args.teamId
                 viewModel.getTeamWithPlayersById(viewModel.receivedTeamId).observe(viewLifecycleOwner) {
@@ -78,7 +86,7 @@ class CreateTeamFragment : Fragment() {
     }
 
     private fun populateInputs() {
-        binding.sportRadioGroup.check(setPlayerSport())
+        binding.sportRadioGroup.check(setPlayerSport(sharedViewModel.creatingTeam.sport))
         binding.teamNameEt.setText(sharedViewModel.creatingTeam.name)
         binding.teamCountryEt.setText(sharedViewModel.creatingTeam.country)
         binding.teamCityEt.setText(sharedViewModel.creatingTeam.city)
@@ -86,8 +94,8 @@ class CreateTeamFragment : Fragment() {
         adapter.submitList(sharedViewModel.teamPlayers)
     }
 
-    private fun setPlayerSport(): Int {
-        return when(viewModel.teamWithPlayers.team.sport){
+    private fun setPlayerSport(sport: String): Int {
+        return when(sport){
             Sports.FOOTBALL -> R.id.football_radio_button
             Sports.BASKETBALL -> R.id.basketball_radio_button
             else -> R.id.handball_radio_button
