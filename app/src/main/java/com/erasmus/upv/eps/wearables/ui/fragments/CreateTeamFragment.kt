@@ -43,7 +43,15 @@ class CreateTeamFragment : Fragment() {
         createTeam()
         addPlayer()
         handleBackPress()
+        observeSportChange()
         return binding.root
+    }
+
+    private fun observeSportChange() {
+        binding.sportRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            sharedViewModel.teamPlayers.clear()
+            adapter.submitList(sharedViewModel.teamPlayers)
+        }
     }
 
     private fun receiveSafeArgs() {
@@ -70,7 +78,7 @@ class CreateTeamFragment : Fragment() {
     }
 
     private fun populateInputs() {
-        setPlayerSport()
+        binding.sportRadioGroup.check(setPlayerSport())
         binding.teamNameEt.setText(sharedViewModel.creatingTeam.name)
         binding.teamCountryEt.setText(sharedViewModel.creatingTeam.country)
         binding.teamCityEt.setText(sharedViewModel.creatingTeam.city)

@@ -24,6 +24,7 @@ import com.erasmus.upv.eps.wearables.util.TeamCreated
 import com.erasmus.upv.eps.wearables.viewModels.CreateMatchViewModel
 import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.lang.Exception
 import java.util.*
 
@@ -52,10 +53,26 @@ class CreateMatchFragment : Fragment() {
         populateTeamsLayouts()
 
         customBackPress()
+        observeSportChange()
 
         return binding.root
     }
 
+    private fun observeSportChange() {
+        binding.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
+        binding.sportRadioGroup.setOnCheckedChangeListener { _, chekedId ->
+            sharedViewModel.creatingMatch.sport = getSelectedSport()
+
+            Timber.d("sport change $chekedId ${getSelectedSport()} home ${sharedViewModel.homeTeam?.sport} guest ${sharedViewModel.guestTeam?.sport}")
+            if(getSelectedSport() != sharedViewModel.homeTeam?.sport){
+                sharedViewModel.homeTeam = null
+            }
+            if(getSelectedSport() != sharedViewModel.guestTeam?.sport) {
+                sharedViewModel.guestTeam = null
+            }
+            populateTeamsLayouts()
+        }
+    }
 
 
     private fun enableSavingMatchButton() {
