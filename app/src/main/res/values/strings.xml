@@ -12,4 +12,6 @@
     <string name="registered_action">Registered %1$s</string>
     <string name="pick_team">Pick team</string>
     <string name="pick_player">Pick player</string>
+    <string name="scan_for_devices">Scan for devices</string>
+    <string name="configure_devices">Configure devices</string>
 </resources>

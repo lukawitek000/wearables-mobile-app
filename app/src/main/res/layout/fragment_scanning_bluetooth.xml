@@ -6,20 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.ScanningBluetoothFragment">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/scan_results_rv"
-        android:layout_width="0dp"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/scan_bt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scan_results_label_tv" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/saved_devices_label_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Saved devices:"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/saved_devices_rv"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/saved_devices_label_tv" />
+
+            <TextView
+                android:id="@+id/scan_results_label_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Scan results:"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/saved_devices_rv" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/scan_results_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/scan_bt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/scan_results_label_tv" />
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <Button
         android:id="@+id/scan_bt"
@@ -28,7 +74,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Scan for devices"
+        android:text="@string/scan_for_devices"
+        android:textSize="16sp"
+        android:textColor="@color/grey_light"
+        android:backgroundTint="@color/secondary_color"
         app:layout_constraintBottom_toTopOf="@+id/configure_devices_bt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -39,42 +88,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="Configure devices"
+        android:text="@string/configure_devices"
+        android:textColor="@color/grey_light"
+        android:textSize="16sp"
+        android:backgroundTint="@color/secondary_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/scan_bt"
         app:layout_constraintStart_toStartOf="@+id/scan_bt" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/saved_devices_rv"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saved_devices_label_tv" />
-
-    <TextView
-        android:id="@+id/saved_devices_label_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textSize="18sp"
-        android:text="Saved devices:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/scan_results_label_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Scan results:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saved_devices_rv" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
