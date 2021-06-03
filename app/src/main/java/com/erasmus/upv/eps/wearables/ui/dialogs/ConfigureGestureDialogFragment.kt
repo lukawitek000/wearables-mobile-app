@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.bumptech.glide.Glide
 import com.erasmus.upv.eps.wearables.R
@@ -63,7 +64,14 @@ class ConfigureGestureDialogFragment(
     }
 
     private fun setGifForGesture() {
-        Glide.with(this).load(R.drawable.gesture_0).into(binding.gestureIv)
+        when(gesture.name){
+            "Gesture 1" -> Glide.with(this).load(R.drawable.gesture_0).into(binding.gestureIv)
+            "Gesture 2" -> Glide.with(this).load(R.drawable.gesture_1).into(binding.gestureIv)
+            "Gesture 3" -> Glide.with(this).load(R.drawable.gesture_2).into(binding.gestureIv)
+            "Gesture 5" -> Glide.with(this).load(R.drawable.gesture_4).into(binding.gestureIv)
+            "Gesture 6" -> Glide.with(this).load(R.drawable.gesture_5).into(binding.gestureIv)
+            else -> Toast.makeText(requireContext(), "NO GIF", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
