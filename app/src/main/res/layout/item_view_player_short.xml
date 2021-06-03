@@ -44,7 +44,7 @@
     android:layout_height="@dimen/player_box_size"
     android:layout_margin="4dp"
     android:padding="8dp"
-    android:background="@drawable/layout_bg"
+    android:background="@drawable/card_bg"
     >
 
     <TextView

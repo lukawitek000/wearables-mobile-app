@@ -90,7 +90,7 @@ android:layout_height="wrap_content"
 android:layout_margin="8dp"
 android:orientation="horizontal"
 android:padding="8dp"
-android:background="@drawable/layout_bg"
+android:background="@drawable/card_bg"
     >
 
 <LinearLayout
