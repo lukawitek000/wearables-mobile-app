@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.databinding.ItemViewGestureConfigurationBinding
@@ -25,27 +26,28 @@ class GestureConfigurationAdapter(private val gestures: List<Gesture>,
         val currentGesture = gestures[position]
         holder.binding.gestureNameTv.text = currentGesture.name
         holder.itemView.setOnClickListener { onClick.invoke(currentGesture) }
-        changeColorOfBackgroundForConfiguredGesture(currentGesture, holder.binding.gestureCardView)
+        changeColorOfBackgroundForConfiguredGesture(currentGesture, holder.binding.gestureSetIndicatorIv)
     }
 
     private fun changeColorOfBackgroundForConfiguredGesture(
         currentGesture: Gesture,
-        cardView: CardView
+        okImg: ImageView
     ) {
         if(currentGesture.action != null ){
-            if(currentGesture.assignTeamId != 0L){
-                if(currentGesture.assignPlayerId != 0L){
-                    cardView.setCardBackgroundColor(Color.GREEN)
-                }else{
-                    cardView.setCardBackgroundColor(Color.rgb(255, 165, 0))
-                }
-            }else{
-                cardView.setCardBackgroundColor(Color.YELLOW)
-            }
+//            if(currentGesture.assignTeamId != 0L){
+//                if(currentGesture.assignPlayerId != 0L){
+//                    cardView.setCardBackgroundColor(Color.GREEN)
+//                }else{
+//                    cardView.setCardBackgroundColor(Color.rgb(255, 165, 0))
+//                }
+//            }else{
+//                cardView.setCardBackgroundColor(Color.YELLOW)
+//            }
+            okImg.visibility = View.VISIBLE
         }else{
-            cardView.setCardBackgroundColor(Color.RED)
+            okImg.visibility = View.GONE
+            //cardView.setCardBackgroundColor(Color.RED)
         }
-        cardView.radius = 12.0f
     }
 
     override fun getItemCount(): Int = gestures.size
