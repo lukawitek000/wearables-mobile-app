@@ -14,4 +14,5 @@
     <string name="pick_player">Pick player</string>
     <string name="scan_for_devices">Scan for devices</string>
     <string name="configure_devices">Configure devices</string>
+    <string name="start_recording">Start recording</string>
 </resources>

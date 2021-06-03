@@ -35,16 +35,17 @@ class GestureConfigurationAdapter(private val gestures: List<Gesture>,
         if(currentGesture.action != null ){
             if(currentGesture.assignTeamId != 0L){
                 if(currentGesture.assignPlayerId != 0L){
-                    cardView.setBackgroundColor(Color.GREEN)
+                    cardView.setCardBackgroundColor(Color.GREEN)
                 }else{
-                    cardView.setBackgroundColor(Color.rgb(255, 165, 0))
+                    cardView.setCardBackgroundColor(Color.rgb(255, 165, 0))
                 }
             }else{
-                cardView.setBackgroundColor(Color.YELLOW)
+                cardView.setCardBackgroundColor(Color.YELLOW)
             }
         }else{
-            cardView.setBackgroundColor(Color.RED)
+            cardView.setCardBackgroundColor(Color.RED)
         }
+        cardView.radius = 12.0f
     }
 
     override fun getItemCount(): Int = gestures.size

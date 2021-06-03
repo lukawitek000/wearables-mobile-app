@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/gesture_card_view"
-        card_view:cardCornerRadius="4dp"
+        card_view:cardCornerRadius="12dp"
         card_view:cardElevation="4dp"
         card_view:contentPadding="24dp"
         card_view:cardBackgroundColor="#eeeeee">
