@@ -35,6 +35,7 @@ import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.ScanResultsAdapter
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
+import com.erasmus.upv.eps.wearables.util.DialogBuilder
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -228,21 +229,15 @@ class ScanningBluetoothFragment : Fragment() {
 
     private fun informUserToTurnOnLocation() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && hasLocationPermissionGranted && !isLocationEnabled){
-            val builder = AlertDialog.Builder(requireContext())
-            val dialog = builder.create()
-            val view = requireActivity().layoutInflater.inflate(R.layout.dialog_alert_info, null)
-            val okButton = view.findViewById<Button>(R.id.yes_alert_dialog_bt)
-            okButton.text = getString(R.string.ok)
-            okButton.setOnClickListener {
-                dialog.dismiss()
-            }
-            view.findViewById<TextView>(R.id.title_alert_dialog_tv).text = getString(R.string.ble_scan_requires_location)
-            view.findViewById<TextView>(R.id.message_alert_dialog_tv).text = getString(R.string.ble_scan_requirement_message)
-            view.findViewById<Button>(R.id.no_alert_dialog_bt).visibility = View.GONE
-
-            dialog.setView(view)
-            dialog.show()
-            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            DialogBuilder.buildAndShowDialog(
+                requireContext(),
+                requireActivity().layoutInflater,
+                getString(R.string.ble_scan_requires_location),
+                getString(R.string.ble_scan_requirement_message),
+                getString(R.string.ok),
+                yesButtonAction = { dialog -> dialog.dismiss() },
+                isNoButtonVisible = false
+            )
         }
     }
 
@@ -306,29 +301,22 @@ class ScanningBluetoothFragment : Fragment() {
 
         requireActivity().runOnUiThread {
 
-            val alertDialog = AlertDialog.Builder(requireContext())
-            val dialog = alertDialog.create()
-            val view = requireActivity().layoutInflater.inflate(R.layout.dialog_alert_info, null)
 
-            view.findViewById<Button>(R.id.yes_alert_dialog_bt).setOnClickListener {
-                ActivityCompat.requestPermissions(
+            DialogBuilder.buildAndShowDialog(
+                requireContext(),
+                requireActivity().layoutInflater,
+                getString(R.string.location_permission_required),
+                getString(R.string.location_permission_message),
+                yesButtonAction = { dialog -> ActivityCompat.requestPermissions(
                     requireActivity() as MainActivity,
                     arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
                     LOCATION_PERMISSION_REQUEST_CODE
                 )
-                dialog.dismiss()
-            }
-            view.findViewById<Button>(R.id.no_alert_dialog_bt).setOnClickListener {
-                dialog.dismiss()
-            }
-
-            view.findViewById<TextView>(R.id.title_alert_dialog_tv).text = getString(R.string.location_permission_required)
-            view.findViewById<TextView>(R.id.message_alert_dialog_tv).text =
-                getString(R.string.location_permission_message)
-
-            dialog.setView(view)
-            dialog.show()
-            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                    dialog.dismiss()
+                },
+                noButtonAction = { dialog -> dialog.dismiss() }
+            )
+            
         }
 
 

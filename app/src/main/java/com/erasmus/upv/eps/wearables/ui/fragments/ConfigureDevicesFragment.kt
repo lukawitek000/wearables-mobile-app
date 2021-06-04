@@ -23,6 +23,7 @@ import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.DevicesConfigurationAdapter
 import com.erasmus.upv.eps.wearables.ui.dialogs.ConfigureGestureDialogFragment
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
+import com.erasmus.upv.eps.wearables.util.DialogBuilder
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -100,20 +101,15 @@ class ConfigureDevicesFragment : Fragment() {
     }
 
     private fun showDialogAboutResettingConfiguration() {
-        val alertDialogBuilder = AlertDialog.Builder(requireContext())
-        val dialog = alertDialogBuilder.create()
-        val view = requireActivity().layoutInflater.inflate(R.layout.dialog_alert_info, null)
-        view.findViewById<TextView>(R.id.title_alert_dialog_tv).text = getString(R.string.info)
-        view.findViewById<TextView>(R.id.message_alert_dialog_tv).text = getString(R.string.reset_config_message)
-        val okButton = view.findViewById<Button>(R.id.yes_alert_dialog_bt)
-        okButton.text = getString(R.string.ok)
-        okButton.setOnClickListener {
-            dialog.dismiss()
-        }
-        view.findViewById<Button>(R.id.no_alert_dialog_bt).visibility = View.GONE
-        dialog.setView(view)
-        dialog.show()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        DialogBuilder.buildAndShowDialog(
+            requireContext(),
+            requireActivity().layoutInflater,
+            getString(R.string.info),
+            getString(R.string.reset_config_message),
+            getString(R.string.ok),
+            isNoButtonVisible = false,
+            yesButtonAction = { dialog -> dialog.dismiss() },
+        )
     }
 
 
