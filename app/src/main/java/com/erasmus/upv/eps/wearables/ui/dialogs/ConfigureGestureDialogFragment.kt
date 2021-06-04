@@ -65,16 +65,21 @@ class ConfigureGestureDialogFragment(
 
     private fun setGifForGesture() {
         when(gesture.name){
-            "Gesture 1" -> Glide.with(this).load(R.drawable.gesture_0).into(binding.gestureIv)
-            "Gesture 2" -> Glide.with(this).load(R.drawable.gesture_1).into(binding.gestureIv)
-            "Gesture 3" -> Glide.with(this).load(R.drawable.gesture_2).into(binding.gestureIv)
-            "Gesture 5" -> Glide.with(this).load(R.drawable.gesture_4).into(binding.gestureIv)
-            "Gesture 6" -> Glide.with(this).load(R.drawable.gesture_5).into(binding.gestureIv)
+            "Gesture 1" -> Glide.with(this).load(R.drawable.gesture_1).into(binding.gestureIv)
+            "Gesture 2" -> Glide.with(this).load(R.drawable.gesture_2).into(binding.gestureIv)
+            "Gesture 3" -> Glide.with(this).load(R.drawable.gesture_3).into(binding.gestureIv)
+            "Gesture 4" -> Glide.with(this).load(R.drawable.gesture_4).into(binding.gestureIv)
+            "Gesture 5" -> Glide.with(this).load(R.drawable.gesture_5).into(binding.gestureIv)
+            "Gesture 6" -> Glide.with(this).load(R.drawable.gesture_6).into(binding.gestureIv)
+            "Gesture 7" -> Glide.with(this).load(R.drawable.gesture_7).into(binding.gestureIv)
+            "Gesture 8" -> Glide.with(this).load(R.drawable.gesture_8).into(binding.gestureIv)
+            "Gesture 9" -> Glide.with(this).load(R.drawable.gesture_9).into(binding.gestureIv)
+            "Gesture 10" -> Glide.with(this).load(R.drawable.gesture_10).into(binding.gestureIv)
             else -> Toast.makeText(requireContext(), "NO GIF", Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
+    override fun onDismiss(dialog: DialogInterface) {  
         super.onDismiss(dialog)
         updateColors.invoke()
         viewModel.clearSelectedConfig()
