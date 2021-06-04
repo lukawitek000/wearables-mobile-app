@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCurrentMatchBinding
 import com.erasmus.upv.eps.wearables.model.LiveAction
+import com.erasmus.upv.eps.wearables.model.actions.BasketballActions
+import com.erasmus.upv.eps.wearables.model.actions.FootballActions
+import com.erasmus.upv.eps.wearables.model.actions.HandballActions
 import com.erasmus.upv.eps.wearables.service.BLEConnectionForegroundService
 import com.erasmus.upv.eps.wearables.ui.adapters.LiveActionsAdapter
 import com.erasmus.upv.eps.wearables.ui.dialogs.SelectPlayerDialogFragment
@@ -61,6 +64,7 @@ class CurrentMatchFragment : Fragment() {
         observeRecordedLiveAction()
         observeConnectedDevices()
 
+        observeScore()
 
         binding.numberOfConnectedDevicesTv.setOnClickListener {
             BLEConnectionManager.readGesture()
@@ -89,8 +93,42 @@ class CurrentMatchFragment : Fragment() {
         viewModel.getLiveActionsForCurrentMatch().observe(viewLifecycleOwner){
             Timber.d("Live actions = $it")
             liveActionsAdapter.submitList(it.toMutableList())
+            if(it != null && it.isNotEmpty()) {
+                setScore(it)
+            }
         }
     }
+
+    private fun setScore(it: List<LiveAction>) {
+        val liveAction = it.first()
+        if(liveAction.action is FootballActions){
+            if((liveAction.action as FootballActions) == FootballActions.GOAL){
+                viewModel.scoreGoal(liveAction.teamId)
+            }
+        }else if(liveAction.action is HandballActions) {
+            if((liveAction.action as HandballActions) == HandballActions.GOAL){
+                viewModel.scoreGoal(liveAction.teamId)
+            }
+        }else if(liveAction.action is BasketballActions) {
+            if((liveAction.action as BasketballActions) == BasketballActions.SCORE_1_POINT){
+                viewModel.scoreGoal(liveAction.teamId, 1)
+            }else if((liveAction.action as BasketballActions) == BasketballActions.SCORE_2_POINTS){
+                viewModel.scoreGoal(liveAction.teamId, 2)
+            }else if((liveAction.action as BasketballActions) == BasketballActions.SCORE_3_POINTS){
+                viewModel.scoreGoal(liveAction.teamId, 3)
+            }
+        }
+    }
+
+    private fun observeScore(){
+        viewModel.guestTeamScore.observe(viewLifecycleOwner){
+            binding.guestTeamScoreTv.text = it.toString()
+        }
+        viewModel.homeTeamScore.observe(viewLifecycleOwner){
+            binding.homeTeamScoreTv.text = it.toString()
+        }
+    }
+
 
     private fun askForAPlayer() {
         viewModel.askedPlayerId.observe(viewLifecycleOwner){

@@ -445,5 +445,24 @@ class ReceivingDataViewModel
     }
 
 
+    var homeTeamScore = MutableLiveData<Int>()
+    var guestTeamScore = MutableLiveData<Int>()
+
+    init {
+        homeTeamScore.value = 0
+        guestTeamScore.value = 0
+    }
+
+
+
+    fun scoreGoal(teamId: Long, points: Int = 1){
+        if(teamId == homeTeam.team.teamId){
+            homeTeamScore.value = homeTeamScore.value?.plus(points)
+        }else{
+            guestTeamScore.value = guestTeamScore.value?.plus(points)
+        }
+    }
+
+
 }
 
