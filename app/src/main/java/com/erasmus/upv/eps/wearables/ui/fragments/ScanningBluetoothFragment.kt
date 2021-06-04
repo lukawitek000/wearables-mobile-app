@@ -16,11 +16,14 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -295,20 +298,28 @@ class ScanningBluetoothFragment : Fragment() {
         requireActivity().runOnUiThread {
 
             val alertDialog = AlertDialog.Builder(requireContext())
-            alertDialog.setTitle("Location permission required")
-            alertDialog.setMessage("Starting from Android M (6.0), the system requires apps to be granted " +
-                    "location access in order to scan for BLE devices.")
-            alertDialog.setCancelable(false)
-            val listener = DialogInterface.OnClickListener { dialog, which ->
-                Toast.makeText(requireContext(), "Inside listener", Toast.LENGTH_SHORT).show()
+            val dialog = alertDialog.create()
+            val view = requireActivity().layoutInflater.inflate(R.layout.dialog_alert_info, null)
+
+            view.findViewById<Button>(R.id.yes_alert_dialog_bt).setOnClickListener {
                 ActivityCompat.requestPermissions(
                     requireActivity() as MainActivity,
                     arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
                     LOCATION_PERMISSION_REQUEST_CODE
                 )
+                dialog.dismiss()
             }
-            alertDialog.setPositiveButton("OK", listener)
-            alertDialog.show()
+            view.findViewById<Button>(R.id.no_alert_dialog_bt).setOnClickListener {
+                dialog.dismiss()
+            }
+
+            view.findViewById<TextView>(R.id.title_alert_dialog_tv).text = getString(R.string.location_permission_required)
+            view.findViewById<TextView>(R.id.message_alert_dialog_tv).text =
+                getString(R.string.location_permission_message)
+            
+            dialog.setView(view)
+            dialog.show()
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         }
 
 

@@ -22,4 +22,8 @@
     <string name="done">Done</string>
     <string name="try_again">Try again</string>
     <string name="connection_with_device_failed">Connection with device failed.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="location_permission_required">Location permission required</string>
+    <string name="location_permission_message">Starting from Android M (6.0), the system requires apps to be granted location access in order to scan for BLE devices.</string>
 </resources>
