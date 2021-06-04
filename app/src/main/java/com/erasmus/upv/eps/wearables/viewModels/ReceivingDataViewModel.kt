@@ -84,12 +84,21 @@ class ReceivingDataViewModel
                 if(selectedDevices.removeIf { it.bleDevice.address == savedDevice.bleDevice.address }) {
                     selectedDevices.add(savedDevice)
                 }
+                if(savedDevice.gestures.any {
+                    gesture ->
+                    checkSport(gesture)
+                }) {
+                    savedDevice.gestures.forEach{
+                        clearGestureConfig(it)
+                    }
+                    isConfigResetForUnknownTeam = true
+                }else {
 
-
-                for (gesture in savedDevice.gestures){
-                    if(gesture.assignTeamId != 0L && gesture.assignTeamId != guestTeam.team.teamId && gesture.assignTeamId != homeTeam.team.teamId){
-                        clearGestureConfig(gesture)
-                        isConfigResetForUnknownTeam = true
+                    for (gesture in savedDevice.gestures) {
+                        if (gesture.assignTeamId != 0L && gesture.assignTeamId != guestTeam.team.teamId && gesture.assignTeamId != homeTeam.team.teamId) {
+                            clearGestureConfig(gesture)
+                            isConfigResetForUnknownTeam = true
+                        }
                     }
                 }
 
@@ -97,6 +106,23 @@ class ReceivingDataViewModel
         }
         devicesWithGestures.clear()
         devicesWithGestures.addAll(selectedDevices)
+    }
+
+    private fun checkSport(gesture: Gesture): Boolean {
+        val action = gesture.action
+        return isActionFootballStat(action) || isActionHandballStat(action) || isActionBasketballStat(action)
+    }
+
+    private fun isActionBasketballStat(action: Actions?): Boolean {
+        return action is BasketballActions && match.sport != Sports.BASKETBALL
+    }
+
+    private fun isActionHandballStat(action: Actions?): Boolean {
+        return action is HandballActions && match.sport != Sports.HANDBALL
+    }
+
+    private fun isActionFootballStat(action: Actions?): Boolean {
+        return action is FootballActions && match.sport != Sports.FOOTBALL
     }
 
     private fun clearGestureConfig(gesture: Gesture) {

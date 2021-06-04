@@ -79,7 +79,7 @@ class ConfigureGestureDialogFragment(
         }
     }
 
-    override fun onDismiss(dialog: DialogInterface) {  
+    override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         updateColors.invoke()
         viewModel.clearSelectedConfig()
