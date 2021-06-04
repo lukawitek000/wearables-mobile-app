@@ -15,8 +15,8 @@
     <color name="grey_medium">#9598AF</color>
     <color name="grey_light">#DFDFE0</color>
     <color name="green_ish">#3FB8B3</color>
-    <color name="blue_ish">#E01D4C</color>
-    <color name="red_ish">#5235E1</color>
+    <color name="red_ish">#E01D4C</color>
+    <color name="blue_ish">#5235E1</color>
     <color name="yellow_ish">#ECBF42</color>
 
 </resources>

@@ -161,7 +161,7 @@ class CreateTeamFragment : Fragment() {
 
     private fun setUpTeamPlayersRecyclerView() {
         val recyclerView = binding.teamPlayersRv
-        adapter = PlayersShortAdapter(deletePlayer = this::deletePlayerFromAdapter)
+        adapter = PlayersShortAdapter(deletePlayer = this::deletePlayerFromAdapter, context = requireContext())
         adapter.submitList(sharedViewModel.teamPlayers)
         recyclerView.adapter = adapter
                 recyclerView.layoutManager =

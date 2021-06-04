@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.DialogFragmentSelectPlayerBinding
 import com.erasmus.upv.eps.wearables.model.Player
@@ -25,6 +26,12 @@ class SelectPlayerDialogFragment : BottomSheetDialogFragment() {
     private lateinit var binding: DialogFragmentSelectPlayerBinding
     private val viewModel: ReceivingDataViewModel by hiltNavGraphViewModels(R.id.receiving_data_nested_graph)
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,7 +39,7 @@ class SelectPlayerDialogFragment : BottomSheetDialogFragment() {
         binding = DialogFragmentSelectPlayerBinding.inflate(
                 inflater, container, false
         )
-        isCancelable = false
+        isCancelable = true
         setRegisteredActionText()
         handleNotChoosingPlayer()
         setUpPlayerRecyclerView()
@@ -44,16 +51,17 @@ class SelectPlayerDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun handleNotChoosingPlayer() {
-        binding.closeSelectPlayerDialogIv.setOnClickListener {
-            viewModel.dismissSelectingPlayer()
-            dismiss()
-        }
+//        binding.closeSelectPlayerDialogIv.setOnClickListener {
+//            viewModel.dismissSelectingPlayer()
+//            dismiss()
+//        }
     }
 
     private fun setUpPlayerRecyclerView() {
         val rv = binding.selectPlayerRv
-        rv.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
-        val adapter = PlayersShortAdapter(this::selectPlayer, isDeletable = false)
+//        rv.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
+        rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val adapter = PlayersShortAdapter(this::selectPlayer, context = requireContext(),  isDeletable = false)
         adapter.submitList(viewModel.getPlayersFromChosenTeam())
         rv.adapter = adapter
     }

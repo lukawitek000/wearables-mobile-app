@@ -43,36 +43,40 @@
     android:layout_width="@dimen/player_box_size"
     android:layout_height="@dimen/player_box_size"
     android:layout_margin="4dp"
-    android:padding="8dp"
     android:background="@drawable/card_bg"
     >
 
     <TextView
         android:id="@+id/player_number_tv"
-        android:layout_width="38dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_semibold"
-        android:textColor="@color/grey_light"
-
         android:text="10"
+
+        android:textColor="@color/grey_light"
         android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/player_name_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/player_name_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+
+        android:layout_marginBottom="4dp"
         android:fontFamily="@font/poppins_semibold"
+        android:maxLines="1"
         android:text="Lewandowski"
+        android:textAlignment="center"
         android:textColor="@color/grey_light"
         android:textSize="18sp"
-
-        app:layout_constraintEnd_toEndOf="@+id/player_number_tv"
-        app:layout_constraintStart_toStartOf="@+id/player_number_tv"
-        app:layout_constraintTop_toBottomOf="@+id/player_number_tv" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/delete_player_iv"
