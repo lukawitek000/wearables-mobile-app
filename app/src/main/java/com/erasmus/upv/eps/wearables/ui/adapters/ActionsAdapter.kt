@@ -33,8 +33,6 @@ class ActionsAdapter(private val mContext: Context, private val resource: Int, p
         val item = getItem(position)
         Timber.d("item actions $item")
         itemText?.text = item
-//
-//        itemText?.setBackgroundColor(Color.RED)
 
         return view!!
     }

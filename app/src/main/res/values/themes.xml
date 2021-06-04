@@ -24,9 +24,6 @@
         <item name="boxStrokeWidth">0dp</item>
         <item name="endIconTint">@color/grey_medium</item>
         <item name="boxBackgroundColor">@color/primary_color</item>
-
-
-
     </style>
 
 
