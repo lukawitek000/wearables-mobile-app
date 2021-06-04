@@ -20,4 +20,6 @@
     <string name="select_team_for_the_gesture">Select team for the gesture</string>
     <string name="select_player_for_the_gesture">Select player for the gesture</string>
     <string name="done">Done</string>
+    <string name="try_again">Try again</string>
+    <string name="connection_with_device_failed">Connection with device failed.</string>
 </resources>
