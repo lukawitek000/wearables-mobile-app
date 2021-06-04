@@ -29,4 +29,6 @@
     <string name="ok">Ok</string>
     <string name="ble_scan_requires_location">BLE scan requires location</string>
     <string name="ble_scan_requirement_message">Turn on Location in the settings to see scan results</string>
+    <string name="info">Info</string>
+    <string name="reset_config_message">Gesture configuration for devices which are saved for teams which are not playing in the match has been reset.</string>
 </resources>

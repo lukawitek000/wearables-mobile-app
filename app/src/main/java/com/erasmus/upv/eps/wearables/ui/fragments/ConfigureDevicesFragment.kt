@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
@@ -99,12 +101,19 @@ class ConfigureDevicesFragment : Fragment() {
 
     private fun showDialogAboutResettingConfiguration() {
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
-        alertDialogBuilder.setTitle("Info")
-        alertDialogBuilder.setMessage("Gesture configuration for devices which are saved for teams which are not playing in the match have been reset.")
-        alertDialogBuilder.setPositiveButton("Ok"){dialog, _ ->
+        val dialog = alertDialogBuilder.create()
+        val view = requireActivity().layoutInflater.inflate(R.layout.dialog_alert_info, null)
+        view.findViewById<TextView>(R.id.title_alert_dialog_tv).text = getString(R.string.info)
+        view.findViewById<TextView>(R.id.message_alert_dialog_tv).text = getString(R.string.reset_config_message)
+        val okButton = view.findViewById<Button>(R.id.yes_alert_dialog_bt)
+        okButton.text = getString(R.string.ok)
+        okButton.setOnClickListener {
             dialog.dismiss()
         }
-        alertDialogBuilder.show()
+        view.findViewById<Button>(R.id.no_alert_dialog_bt).visibility = View.GONE
+        dialog.setView(view)
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
 
 
