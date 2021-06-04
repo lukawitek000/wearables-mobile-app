@@ -6,11 +6,6 @@
     app:startDestination="@id/tutorialFragment">
 
     <fragment
-        android:id="@+id/responseDataListFragment"
-        android:name="com.erasmus.upv.eps.wearables.ui.fragments.ResponseDataListFragment"
-        android:label="Received Data"
-        tools:layout="@layout/fragment_response_data_list" />
-    <fragment
         android:id="@+id/matchesFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.MatchesViewPagerFragment"
         android:label="Matches"
