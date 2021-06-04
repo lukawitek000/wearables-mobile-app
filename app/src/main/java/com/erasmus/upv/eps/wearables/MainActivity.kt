@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.Theme_Wearables)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        supportActionBar?.elevation = 0.0f
         setContentView(binding.root)
         
         setUpNavController()

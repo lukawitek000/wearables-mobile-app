@@ -32,6 +32,8 @@ import timber.log.Timber
 // TODO why here is no @AndroidEntryPoint and it's working???
 // TODO do not show receive data which is not defined
 
+//TODO check observing connected devices
+
 class CurrentMatchFragment : Fragment() {
 
     private lateinit var liveActionsAdapter: LiveActionsAdapter
@@ -121,7 +123,7 @@ class CurrentMatchFragment : Fragment() {
     private fun populateUi() {
         binding.homeTeamNameTv.text = viewModel.homeTeam.team.name
         binding.guestTeamNameTv.text = viewModel.guestTeam.team.name
-        binding.leagueNameTv.text = viewModel.match.league
+//        binding.leagueNameTv.text = viewModel.match.league
     }
 
     private fun showMatchTime() {
