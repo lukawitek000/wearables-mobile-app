@@ -94,28 +94,27 @@ class CurrentMatchFragment : Fragment() {
             Timber.d("Live actions = $it")
             liveActionsAdapter.submitList(it.toMutableList())
             if(it != null && it.isNotEmpty()) {
-                setScore(it)
+                setScore(it.first())
             }
         }
     }
 
-    private fun setScore(it: List<LiveAction>) {
-        val liveAction = it.first()
+    private fun setScore(liveAction: LiveAction, sign: Int = 1) {
         if(liveAction.action is FootballActions){
             if((liveAction.action as FootballActions) == FootballActions.GOAL){
-                viewModel.scoreGoal(liveAction.teamId)
+                viewModel.scoreGoal(liveAction.teamId, 1 * sign)
             }
         }else if(liveAction.action is HandballActions) {
             if((liveAction.action as HandballActions) == HandballActions.GOAL){
-                viewModel.scoreGoal(liveAction.teamId)
+                viewModel.scoreGoal(liveAction.teamId, 1 * sign)
             }
         }else if(liveAction.action is BasketballActions) {
             if((liveAction.action as BasketballActions) == BasketballActions.SCORE_1_POINT){
-                viewModel.scoreGoal(liveAction.teamId, 1)
+                viewModel.scoreGoal(liveAction.teamId, 1 * sign)
             }else if((liveAction.action as BasketballActions) == BasketballActions.SCORE_2_POINTS){
-                viewModel.scoreGoal(liveAction.teamId, 2)
+                viewModel.scoreGoal(liveAction.teamId, 2 * sign)
             }else if((liveAction.action as BasketballActions) == BasketballActions.SCORE_3_POINTS){
-                viewModel.scoreGoal(liveAction.teamId, 3)
+                viewModel.scoreGoal(liveAction.teamId, 3 * sign)
             }
         }
     }
@@ -313,6 +312,7 @@ class CurrentMatchFragment : Fragment() {
 
     private fun deleteLiveAction(liveAction: LiveAction){
         viewModel.deleteLiveActionById(liveAction.id)
+        setScore(liveAction, -1)
         //liveActionsAdapter.notifyDataSetChanged()
     }
 
