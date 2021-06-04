@@ -229,11 +229,20 @@ class ScanningBluetoothFragment : Fragment() {
     private fun informUserToTurnOnLocation() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && hasLocationPermissionGranted && !isLocationEnabled){
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("BLE scan requires location")
-            builder.setMessage("Turn on Location in Settings to see scan results")
-            val listener = DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() }
-            builder.setPositiveButton("Ok", listener)
-            builder.show()
+            val dialog = builder.create()
+            val view = requireActivity().layoutInflater.inflate(R.layout.dialog_alert_info, null)
+            val okButton = view.findViewById<Button>(R.id.yes_alert_dialog_bt)
+            okButton.text = getString(R.string.ok)
+            okButton.setOnClickListener {
+                dialog.dismiss()
+            }
+            view.findViewById<TextView>(R.id.title_alert_dialog_tv).text = getString(R.string.ble_scan_requires_location)
+            view.findViewById<TextView>(R.id.message_alert_dialog_tv).text = getString(R.string.ble_scan_requirement_message)
+            view.findViewById<Button>(R.id.no_alert_dialog_bt).visibility = View.GONE
+
+            dialog.setView(view)
+            dialog.show()
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         }
     }
 
@@ -316,7 +325,7 @@ class ScanningBluetoothFragment : Fragment() {
             view.findViewById<TextView>(R.id.title_alert_dialog_tv).text = getString(R.string.location_permission_required)
             view.findViewById<TextView>(R.id.message_alert_dialog_tv).text =
                 getString(R.string.location_permission_message)
-            
+
             dialog.setView(view)
             dialog.show()
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)

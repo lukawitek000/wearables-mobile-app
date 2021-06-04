@@ -26,4 +26,7 @@
     <string name="no">No</string>
     <string name="location_permission_required">Location permission required</string>
     <string name="location_permission_message">Starting from Android M (6.0), the system requires apps to be granted location access in order to scan for BLE devices.</string>
+    <string name="ok">Ok</string>
+    <string name="ble_scan_requires_location">BLE scan requires location</string>
+    <string name="ble_scan_requirement_message">Turn on Location in the settings to see scan results</string>
 </resources>
