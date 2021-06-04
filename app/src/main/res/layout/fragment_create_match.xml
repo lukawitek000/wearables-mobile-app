@@ -14,50 +14,54 @@
     android:padding="8dp"
     tools:context=".ui.fragments.CreateMatchFragment">
 
-    <RadioGroup
-        android:id="@+id/sport_radio_group"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/football_filter_bt"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checkedButton="@+id/football_radio_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/football_button"
+        app:layout_constraintEnd_toStartOf="@+id/handball_filter_bt"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/football_radio_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Football" />
+    <ImageButton
+        android:id="@+id/handball_filter_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/handball_button"
+        app:layout_constraintBottom_toBottomOf="@+id/football_filter_bt"
+        app:layout_constraintEnd_toStartOf="@+id/basketball_filter_bt"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toEndOf="@+id/football_filter_bt" />
 
-        <RadioButton
-            android:id="@+id/handball_radio_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Handball" />
-
-        <RadioButton
-            android:id="@+id/basketball_radio_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="BasketBall" />
-    </RadioGroup>
-
+    <ImageButton
+        android:id="@+id/basketball_filter_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/basketball_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toEndOf="@+id/handball_filter_bt"
+        app:layout_constraintTop_toTopOf="@+id/handball_filter_bt" />
 
     <LinearLayout
         android:id="@+id/matches_main_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="25dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sport_radio_group">
+        app:layout_constraintTop_toBottomOf="@+id/football_filter_bt">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/date_tf"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:hint="Date">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -75,6 +79,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:hint="Time">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -93,14 +98,15 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:hint="Location">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/match_location_et"
-                android:imeOptions="actionNext"
-                android:inputType="text|textCapWords"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="text|textCapWords" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -109,6 +115,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:hint="City">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -125,6 +132,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:hint="League">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -141,6 +149,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:hint="How many parts has the match?">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -159,6 +168,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:hint="Match parts duration (min)">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -180,6 +190,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:hint="Other details">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -192,9 +203,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
-
     </LinearLayout>
 
 
@@ -204,7 +212,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Select Team"
+        android:text="Teams"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/matches_main_info_layout" />
 
@@ -212,52 +220,70 @@
         android:id="@+id/label_home_team_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Home team"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"
+        android:text="Select home team color"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/select_team_label_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/choose_home_team_bt" />
 
     <HorizontalScrollView
         android:id="@+id/select_home_team_color_hsv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/label_home_team_tv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/label_home_team_tv"
-        app:layout_constraintTop_toBottomOf="@+id/select_team_label_tv">
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_home_team_tv">
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/home_team_color_cg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:singleSelection="true"
-            app:singleLine="true">
+            android:layout_marginBottom="20dp"
+            app:singleLine="true"
+            app:singleSelection="true">
 
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/home_team_color_red_c"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:checked="true"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#ff0000"
-                android:text="RED" />
+                android:backgroundTint="#E50040"
+                android:text="RED"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:checked="true" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/home_team_color_green_c"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#00ff00"
-                android:text="GREEN" />
+                android:backgroundTint="#009F96"
+                android:text="GREEN"
+                android:textColor="@color/white"
+                android:textAlignment="center"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/home_team_color_blue_c"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#0000ff"
-                android:text="BLUE" />
+                android:backgroundTint="#4B48EF"
+                android:text="BLUE"
+                android:textColor="@color/white"
+                android:textAlignment="center"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/home_team_color_yellow_c"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#E7A90C"
+                android:text="YELLOW"
+                android:textColor="@color/white"
+                android:textAlignment="center"/>
 
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
@@ -268,6 +294,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Choose home team"
+        android:backgroundTint="#009F96"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_team_selected" />
@@ -276,10 +303,11 @@
         android:id="@+id/label_guest_team_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Guest Team"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"
+        android:text="Select guest team color"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/choose_home_team_bt" />
+        app:layout_constraintTop_toBottomOf="@+id/choose_guest_team_bt" />
 
 
     <HorizontalScrollView
@@ -287,8 +315,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/label_guest_team_tv"
-        app:layout_constraintTop_toTopOf="@+id/label_guest_team_tv">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_guest_team_tv">
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/guest_team_color_cg"
@@ -301,27 +329,43 @@
             <com.google.android.material.chip.Chip
                 android:id="@+id/guest_team_color_red_c"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#ff0000"
-                android:text="RED" />
+                android:backgroundTint="#E50040"
+                android:text="RED"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:checked="true" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/guest_team_color_green_c"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:checked="true"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#00ff00"
-                android:text="GREEN" />
+                android:backgroundTint="#009F96"
+                android:text="GREEN"
+                android:textColor="@color/white"
+                android:textAlignment="center"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/guest_team_color_blue_c"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#0000ff"
-                android:text="BLUE" />
+                android:backgroundTint="#4B48EF"
+                android:text="BLUE"
+                android:textColor="@color/white"
+                android:textAlignment="center"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/guest_team_color_yellow_c"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#E7A90C"
+                android:text="YELLOW"
+                android:textColor="@color/white"
+                android:textAlignment="center"/>
 
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
@@ -338,17 +382,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_home_team_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/select_team_label_tv" />
 
     <include
         android:id="@+id/guest_team_selected"
         layout="@layout/item_view_team"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/select_guest_team_color_hsv" />
+        app:layout_constraintTop_toBottomOf="@+id/select_home_team_color_hsv" />
 
     <Button
         android:id="@+id/choose_guest_team_bt"
@@ -356,6 +399,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Choose guest team"
+        android:backgroundTint="#009F96"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guest_team_selected" />
@@ -365,12 +409,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:src="@drawable/ic_done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/choose_guest_team_bt" />
+        app:layout_constraintTop_toBottomOf="@id/select_guest_team_color_hsv"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

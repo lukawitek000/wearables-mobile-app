@@ -3,17 +3,17 @@
 
     <item android:id="@+id/matchesFragment"
         android:title="Matches"
-        android:icon="@drawable/ic_info"
+        android:icon="@drawable/ic_matches"
         />
 
     <item android:id="@+id/teamsFragment"
         android:title="Teams"
-        android:icon="@drawable/ic_info"
+        android:icon="@drawable/ic_teams"
         />
 
     <item android:id="@+id/playersFragment"
         android:title="Players"
-        android:icon="@drawable/ic_info"
+        android:icon="@drawable/ic_player"
         />
 
     <item android:id="@+id/infoFragment"

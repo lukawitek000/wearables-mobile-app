@@ -7,51 +7,56 @@
     android:layout_height="match_parent"
     android:padding="8dp"
     tools:context=".ui.fragments.CreatePlayerFragment">
+    android:background="@drawable/card_bg"
 
-    <RadioGroup
-        android:id="@+id/sport_radio_group"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/football_filter_bt"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checkedButton="@+id/football_radio_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/football_button"
+        app:layout_constraintEnd_toStartOf="@+id/handball_filter_bt"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/football_radio_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Football" />
+    <ImageButton
+        android:id="@+id/handball_filter_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/handball_button"
+        app:layout_constraintBottom_toBottomOf="@+id/football_filter_bt"
+        app:layout_constraintEnd_toStartOf="@+id/basketball_filter_bt"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toEndOf="@+id/football_filter_bt" />
 
-        <RadioButton
-            android:id="@+id/handball_radio_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Handball" />
-
-        <RadioButton
-            android:id="@+id/basketball_radio_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="BasketBall" />
-    </RadioGroup>
-
+    <ImageButton
+        android:id="@+id/basketball_filter_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/basketball_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toEndOf="@+id/handball_filter_bt"
+        app:layout_constraintTop_toTopOf="@+id/handball_filter_bt" />
 
     <LinearLayout
         android:id="@+id/player_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="25dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sport_radio_group">
+        app:layout_constraintTop_toBottomOf="@+id/football_filter_bt">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/player_name_tf"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:hint="Name">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -68,6 +73,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:hint="Number">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -85,6 +91,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:hint="Position">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -118,6 +125,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
+        android:backgroundTint="#009F96"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
