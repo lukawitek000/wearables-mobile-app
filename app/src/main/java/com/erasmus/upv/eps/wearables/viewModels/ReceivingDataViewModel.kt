@@ -448,6 +448,8 @@ class ReceivingDataViewModel
     var homeTeamScore = MutableLiveData<Int>()
     var guestTeamScore = MutableLiveData<Int>()
 
+    var isGoalDeleted = false
+
     init {
         homeTeamScore.value = 0
         guestTeamScore.value = 0
@@ -455,11 +457,48 @@ class ReceivingDataViewModel
 
 
 
-    fun scoreGoal(teamId: Long, points: Int = 1){
+    private fun scoreGoal(teamId: Long, points: Int = 1){
+        Timber.d("team $teamId points $points")
         if(teamId == homeTeam.team.teamId){
             homeTeamScore.value = homeTeamScore.value?.plus(points)
         }else{
             guestTeamScore.value = guestTeamScore.value?.plus(points)
+        }
+    }
+
+
+    fun setScore(liveAction: LiveAction, sign: Int = 1) {
+        if(sign < 0){
+            isGoalDeleted = true
+        }
+        if(liveAction.action is FootballActions){
+            if((liveAction.action as FootballActions) == FootballActions.GOAL){
+                scoreGoal(liveAction.teamId, 1 * sign)
+            }
+        }else if(liveAction.action is HandballActions) {
+            val action = (liveAction.action as HandballActions)
+            if(action == HandballActions.GOAL_6MTS || action == HandballActions.GOAL_7MTS || action == HandballActions.GOAL_9MTS){
+                scoreGoal(liveAction.teamId, 1 * sign)
+            }
+        }else if(liveAction.action is BasketballActions) {
+            if((liveAction.action as BasketballActions) == BasketballActions.SCORE_1_POINT){
+                scoreGoal(liveAction.teamId, 1 * sign)
+            }else if((liveAction.action as BasketballActions) == BasketballActions.SCORE_2_POINTS){
+                scoreGoal(liveAction.teamId, 2 * sign)
+            }else if((liveAction.action as BasketballActions) == BasketballActions.SCORE_3_POINTS){
+                scoreGoal(liveAction.teamId, 3 * sign)
+            }
+        }
+    }
+
+
+    fun updateScore(it: List<LiveAction>) {
+        if (it.isNotEmpty()) {
+            if (isGoalDeleted) {
+                isGoalDeleted = false
+            } else {
+                setScore(it.first())
+            }
         }
     }
 
