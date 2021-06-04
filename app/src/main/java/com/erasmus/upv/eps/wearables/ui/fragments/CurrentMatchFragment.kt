@@ -22,6 +22,7 @@ import com.erasmus.upv.eps.wearables.ui.dialogs.SelectPlayerDialogFragment
 import com.erasmus.upv.eps.wearables.ui.dialogs.SelectTeamDialogFragment
 import com.erasmus.upv.eps.wearables.util.BLEConnectionManager
 import com.erasmus.upv.eps.wearables.util.DateTimeFormatter
+import com.erasmus.upv.eps.wearables.util.DialogBuilder
 import com.erasmus.upv.eps.wearables.util.MatchTimer
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import com.google.android.material.slider.RangeSlider
@@ -225,28 +226,31 @@ class CurrentMatchFragment : Fragment() {
     private fun setUpCustomBackPress() {
         val callback = object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
-                buildBackPressedAlertDialog().show()
+                buildBackPressedAlertDialog()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
 
-    private fun buildBackPressedAlertDialog(): AlertDialog {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
-        builder.setTitle("Warning")
-        builder.setMessage("If you left this screen the statistics recording will fail. Do you want to exit?")
-        builder.apply {
-            setPositiveButton("Yes") { _, _ ->
+    private fun buildBackPressedAlertDialog() {
+
+        DialogBuilder.buildAndShowDialog(
+            requireContext(),
+            requireActivity().layoutInflater,
+            getString(R.string.warning),
+            getString(R.string.exit_recording_message),
+            yesButtonAction = { dialog ->
                 stopService()
                 findNavController().navigate(R.id.action_currentMatchFragment_to_matchesFragment)
                 MatchTimer.stopTimer()
-            }
-            setNegativeButton("No" ){ dialog, _ ->
+                dialog.dismiss()
+            },
+            noButtonAction = { dialog ->
                 dialog.dismiss()
             }
-        }
-        return builder.create()
+        )
+        
     }
 
 

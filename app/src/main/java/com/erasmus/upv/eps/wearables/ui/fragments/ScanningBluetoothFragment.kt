@@ -316,7 +316,7 @@ class ScanningBluetoothFragment : Fragment() {
                 },
                 noButtonAction = { dialog -> dialog.dismiss() }
             )
-            
+
         }
 
 

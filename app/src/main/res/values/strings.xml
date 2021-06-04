@@ -31,4 +31,6 @@
     <string name="ble_scan_requirement_message">Turn on Location in the settings to see scan results</string>
     <string name="info">Info</string>
     <string name="reset_config_message">Gesture configuration for devices which are saved for teams which are not playing in the match has been reset.</string>
+    <string name="warning">Warning</string>
+    <string name="exit_recording_message">If you left this screen the statistics recording will be finished. Do you want to exit?</string>
 </resources>
