@@ -11,7 +11,17 @@
 
         <item name="android:colorBackground">@color/background_color</item>
         <item name="android:textColor">@color/grey_light</item>
+
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextAppearance</item>
     </style>
+
+
+    <style name="myCustomMenuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/primary_color</item>
+    </style>
+
+
+
 
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
         <item name="android:textColorHint">@color/grey_medium</item>
