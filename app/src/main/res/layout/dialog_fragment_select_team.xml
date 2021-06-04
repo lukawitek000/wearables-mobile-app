@@ -4,70 +4,80 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.dialogs.SelectTeamDialogFragment"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+   >
 
-    <ImageButton
-        android:id="@+id/close_select_team_dialog_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_close"
-        android:tint="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_action_title_tv" />
 
     <TextView
         android:id="@+id/register_action_title_tv"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#93A2F8"
-        android:paddingVertical="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/card_bg"
+        android:backgroundTint="@color/secondary_color"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
         android:text="@string/registered_action"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:translationZ="90dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/pick_team_label_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/pick_team"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_action_title_tv" />
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        android:padding="8dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/card_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pick_team_label_tv">
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/close_select_team_dialog_iv"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginEnd="8dp"-->
+        <!--            android:background="@android:color/transparent"-->
+        <!--            android:src="@drawable/ic_close"-->
+        <!--            android:tint="#000000"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent" />-->
 
 
-        <Button
+        <TextView
             android:id="@+id/team_1_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/left_team_button"
+            android:gravity="center"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/team_2_bt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
             tools:text="Team 1" />
 
-        <Button
+        <TextView
             android:id="@+id/team_2_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/right_team_button"
+            android:gravity="center"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/team_1_bt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/team_1_bt"
+            app:layout_constraintTop_toTopOf="@+id/team_1_bt"
             tools:text="Team 2" />
-    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

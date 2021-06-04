@@ -242,7 +242,8 @@ class ReceivingDataViewModel
     var isDataCleared = false
 
     fun getLastActionRecorded(): String{
-        return lastGesture.action.toString()
+//        return lastGesture.action.toString()
+        return getNameOfTheAction(lastGesture.action)
     }
 
 

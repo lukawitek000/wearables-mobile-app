@@ -1,5 +1,8 @@
 package com.erasmus.upv.eps.wearables.ui.dialogs
 
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Binder
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -25,12 +28,18 @@ class SelectTeamDialogFragment : BottomSheetDialogFragment() {
     private lateinit var binding: DialogFragmentSelectTeamBinding
     private val viewModel: ReceivingDataViewModel by hiltNavGraphViewModels(R.id.receiving_data_nested_graph)
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = DialogFragmentSelectTeamBinding.inflate(inflater, container, false)
-        isCancelable = false
+        isCancelable = true
         setTeamNamesTexts()
         setRegisteredActionText()
         setHomeTeamButtonListener()
@@ -41,16 +50,19 @@ class SelectTeamDialogFragment : BottomSheetDialogFragment() {
         return binding.root
     }
 
+
     private fun handleNotChoosingTeam() {
-        binding.closeSelectTeamDialogIv.setOnClickListener {
-            viewModel.dismissSelectingTeam()
-            dismiss()
-        }
+//        binding.closeSelectTeamDialogIv.setOnClickListener {
+//            viewModel.dismissSelectingTeam()
+//            dismiss()
+//        }
     }
 
     private fun setButtonsColors() {
-        binding.team1Bt.setBackgroundColor(viewModel.match.homeTeamColor)
-        binding.team2Bt.setBackgroundColor(viewModel.match.guestTeamColor)
+        binding.team1Bt.backgroundTintList = ColorStateList.valueOf(viewModel.match.homeTeamColor)
+        binding.team2Bt.backgroundTintList = ColorStateList.valueOf(viewModel.match.guestTeamColor)
+//        binding.team1Bt.setBackgroundColor(viewModel.match.homeTeamColor)
+//        binding.team2Bt.setBackgroundColor(viewModel.match.guestTeamColor)
     }
 
     private fun setRegisteredActionText() {
