@@ -1,7 +1,9 @@
 package com.erasmus.upv.eps.wearables.ui.adapters
 
 import android.bluetooth.BluetoothDevice
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -32,13 +34,27 @@ class LiveActionsAdapter(
 
     override fun onBindViewHolder(holder: LiveActionsViewHolder, position: Int) {
         val currentLiveAction = getItem(position)
-        holder.binding.timeTv.text = currentLiveAction.time
-        holder.binding.eventTv.text = currentLiveAction.action.toString()
-        holder.binding.teamTv.text = getTeamNameById.invoke(currentLiveAction.teamId)
-        holder.binding.teamTv.setBackgroundColor(getTeamColor.invoke(currentLiveAction.teamId))
-        holder.binding.playerTv.text = getPlayerNameById.invoke(currentLiveAction.playerId)
-        holder.binding.deleteLiveAction.setOnClickListener {
-            onDeleteClick.invoke(currentLiveAction)
+        holder.binding.apply {
+            timeTv.text = currentLiveAction.time
+            eventTv.text = currentLiveAction.action.toString()
+
+            if(currentLiveAction.teamId == 0L){
+                teamTv.visibility = View.INVISIBLE
+            }else{
+                teamTv.text = getTeamNameById.invoke(currentLiveAction.teamId)
+                teamTv.backgroundTintList = ColorStateList.valueOf(getTeamColor.invoke(currentLiveAction.teamId))
+            }
+
+            if(currentLiveAction.playerId == 0L){
+                playerTv.visibility = View.INVISIBLE
+            }else{
+                playerTv.backgroundTintList = ColorStateList.valueOf(getTeamColor.invoke(currentLiveAction.teamId))
+                playerTv.text = getPlayerNameById.invoke(currentLiveAction.playerId)
+            }
+
+            deleteLiveAction.setOnClickListener {
+                onDeleteClick.invoke(currentLiveAction)
+            }
         }
 
     }
