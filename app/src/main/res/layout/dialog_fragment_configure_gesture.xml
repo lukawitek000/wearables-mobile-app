@@ -5,15 +5,20 @@
     android:id="@+id/frameLayout11"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/background_color"
     tools:context=".ui.dialogs.ConfigureGestureDialogFragment">
 
     <Button
         android:id="@+id/done_config_gesture_bn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Done"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/secondary_color"
+        android:text="@string/done"
+        android:textColor="@color/grey_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +28,6 @@
         android:id="@+id/config_gesture_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="Gesture 9"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/gesture_iv"
@@ -35,23 +39,22 @@
         android:id="@+id/gesture_iv"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
-        android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@drawable/gesture_placeholder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/select_action_tf"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        style="@style/TextInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:hint="Select action for the gesture"
+        android:hint="@string/select_action_for_the_gesture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/config_gesture_name_tv">
@@ -59,17 +62,18 @@
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none" />
+            android:inputType="none"
+            android:textColor="@color/grey_light" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/select_team_for_gesture_tf"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Select team for the gesture"
+        android:layout_marginTop="16dp"
+        android:hint="@string/select_team_for_the_gesture"
         app:layout_constraintEnd_toStartOf="@+id/do_not_ask_about_team_cb"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/select_action_tf"
@@ -78,18 +82,19 @@
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none" />
+            android:inputType="none"
+            android:textColor="@color/grey_light" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/select_player_for_gesture_tf"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:hint="Select player for the gesture"
+        android:layout_marginTop="16dp"
+        android:hint="@string/select_player_for_the_gesture"
         app:layout_constraintEnd_toStartOf="@+id/do_not_ask_about_player_cb"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +103,8 @@
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none" />
+            android:inputType="none"
+            android:textColor="@color/grey_light" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,9 +113,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Don't ask"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:buttonTint="@color/grey_light"
+        android:text="@string/don_t_ask"
+        android:textColor="@color/grey_light"
+        app:layout_constraintBottom_toBottomOf="@+id/select_player_for_gesture_tf"
+        app:layout_constraintEnd_toEndOf="@+id/do_not_ask_about_team_cb"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/select_player_for_gesture_tf"
         app:layout_constraintTop_toTopOf="@+id/select_player_for_gesture_tf" />
@@ -119,10 +127,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Don't ask"
+        android:buttonTint="@color/grey_light"
+        android:text="@string/don_t_ask"
+        android:textColor="@color/grey_light"
         app:layout_constraintBottom_toBottomOf="@+id/select_team_for_gesture_tf"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/select_action_tf"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/select_team_for_gesture_tf"
         app:layout_constraintTop_toTopOf="@+id/select_team_for_gesture_tf" />

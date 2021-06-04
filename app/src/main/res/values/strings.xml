@@ -15,4 +15,9 @@
     <string name="scan_for_devices">Scan for devices</string>
     <string name="configure_devices">Configure devices</string>
     <string name="start_recording">Start recording</string>
+    <string name="don_t_ask">Don\'t ask</string>
+    <string name="select_action_for_the_gesture">Select action for the gesture</string>
+    <string name="select_team_for_the_gesture">Select team for the gesture</string>
+    <string name="select_player_for_the_gesture">Select player for the gesture</string>
+    <string name="done">Done</string>
 </resources>
