@@ -16,7 +16,7 @@ import timber.log.Timber
 class LiveActionsAdapter(
     private val onDeleteClick: (liveAction: LiveAction) -> Unit,
     private val getTeamColor: (teamId: Long) -> Int,
-    private val getPlayerNameById: (playerId: Long) -> String?,
+    private val getPlayerNumberById: (playerId: Long) -> String?,
     private val getTeamNameById: (teamId: Long) -> String?
 )
     : ListAdapter<LiveAction, LiveActionsAdapter.LiveActionsViewHolder>(LiveActionsComparator()){
@@ -49,7 +49,7 @@ class LiveActionsAdapter(
                 playerTv.visibility = View.INVISIBLE
             }else{
                 playerTv.backgroundTintList = ColorStateList.valueOf(getTeamColor.invoke(currentLiveAction.teamId))
-                playerTv.text = getPlayerNameById.invoke(currentLiveAction.playerId)
+                playerTv.text = getPlayerNumberById.invoke(currentLiveAction.playerId)
             }
 
             deleteLiveAction.setOnClickListener {

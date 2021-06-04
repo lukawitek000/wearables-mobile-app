@@ -400,6 +400,23 @@ class ReceivingDataViewModel
         }
     }
 
+
+    fun getPlayerNumberById(playerId: Long): String?{
+        return when {
+            homeTeam.players.count { player -> player.playerId == playerId } > 0 -> {
+                homeTeam.players.find { it.playerId == playerId }?.number.toString()
+            }
+            guestTeam.players.count { player -> player.playerId == playerId } > 0 -> {
+                guestTeam.players.find { it.playerId == playerId }?.number.toString()
+            }
+            else -> {
+                null
+            }
+        }
+    }
+
+
+
     fun getPlayerIdByPlayerName(playerName: String?): Long {
         return when {
             homeTeam.players.any { it.name == playerName } -> {

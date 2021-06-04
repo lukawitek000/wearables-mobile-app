@@ -262,7 +262,7 @@ class CurrentMatchFragment : Fragment() {
         liveActionsAdapter = LiveActionsAdapter(
             this::deleteLiveAction,
             viewModel::getTeamColor,
-            viewModel::getPlayerNameById,
+            viewModel::getPlayerNumberById,
             viewModel::getTeamNameById
         )
         liveActionsAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
