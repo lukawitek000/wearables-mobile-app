@@ -11,68 +11,57 @@
         tools:context=".ui.fragments.CreateTeamFragment">
 
 
-        <TextView
-            android:id="@+id/team_details_label_tv"
+        <ImageButton
+            android:id="@+id/football_filter_bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Team details"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/football_button"
+            app:layout_constraintEnd_toStartOf="@+id/handball_filter_bt"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sport_radio_group" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioGroup
-            android:id="@+id/sport_radio_group"
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/handball_filter_bt"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkedButton="@+id/football_radio_button"
+            android:background="@drawable/handball_button"
+            app:layout_constraintBottom_toBottomOf="@+id/football_filter_bt"
+            app:layout_constraintEnd_toStartOf="@+id/basketball_filter_bt"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toEndOf="@+id/football_filter_bt" />
+
+        <ImageButton
+            android:id="@+id/basketball_filter_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/basketball_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <RadioButton
-                android:id="@+id/football_radio_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Football" />
-
-            <RadioButton
-                android:id="@+id/handball_radio_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Handball" />
-
-            <RadioButton
-                android:id="@+id/basketball_radio_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="BasketBall" />
-        </RadioGroup>
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toEndOf="@+id/handball_filter_bt"
+            app:layout_constraintTop_toTopOf="@+id/handball_filter_bt" />
 
 
         <LinearLayout
             android:id="@+id/team_details_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:orientation="vertical"
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/team_details_label_tv">
+            app:layout_constraintTop_toBottomOf="@+id/football_filter_bt">
 
-            <Button
-                android:id="@+id/upload_logo_bt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Upload button" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/team_name_tf"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
                 android:hint="Name">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -89,6 +78,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
                 android:hint="Country">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -105,6 +95,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
                 android:hint="City">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -144,13 +135,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/team_details_layout" />
 
-        <Button
+        <ImageButton
             android:id="@+id/add_player_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:background="@drawable/plus"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Add player"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/team_player_label_tv" />
 
@@ -160,9 +151,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Save"
+            android:backgroundTint="#009F96"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/team_players_rv" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/team_players_rv"
@@ -171,8 +164,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_player_bt" />
+            app:layout_constraintStart_toEndOf="@id/add_player_bt"
+            app:layout_constraintTop_toTopOf="@+id/add_player_bt"
+            app:layout_constraintBottom_toBottomOf="@id/add_player_bt"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

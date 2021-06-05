@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:drawable="@drawable/button_bg"
+        android:height="80dp"
+        android:width="80dp"/>
+    <item android:drawable="@drawable/basketball_unselected"
+        android:gravity = "center"
+        android:height="80dp"
+        android:width="80dp"/>
+</layer-list>
