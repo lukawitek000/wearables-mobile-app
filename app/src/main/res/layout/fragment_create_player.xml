@@ -8,37 +8,89 @@
     android:padding="8dp"
     tools:context=".ui.fragments.CreatePlayerFragment">
 
-    <ImageButton
-        android:id="@+id/football_filter_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/football_button"
-        app:layout_constraintEnd_toStartOf="@+id/handball_filter_bt"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/football_filter_bt"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:background="@drawable/football_button"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/handball_filter_bt"-->
+<!--        app:layout_constraintHorizontal_bias="0.2"-->
+<!--        app:layout_constraintHorizontal_chainStyle="spread"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <ImageButton
-        android:id="@+id/handball_filter_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/handball_button"
-        app:layout_constraintBottom_toBottomOf="@+id/football_filter_bt"
-        app:layout_constraintEnd_toStartOf="@+id/basketball_filter_bt"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toEndOf="@+id/football_filter_bt" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/handball_filter_bt"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/handball_button"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/football_filter_bt"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/basketball_filter_bt"-->
+<!--        app:layout_constraintHorizontal_bias="0.2"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/football_filter_bt" />-->
 
-    <ImageButton
-        android:id="@+id/basketball_filter_bt"
-        android:layout_width="wrap_content"
+<!--    <ImageButton-->
+<!--        android:id="@+id/basketball_filter_bt"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/basketball_button"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.2"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/handball_filter_bt"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/handball_filter_bt" />-->
+
+    <RadioGroup
+        android:id="@+id/sport_radio_group"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/basketball_button"
+        android:orientation="horizontal"
+        android:checkedButton="@+id/football_radio_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toEndOf="@+id/handball_filter_bt"
-        app:layout_constraintTop_toTopOf="@+id/handball_filter_bt" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/football_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/football_button"
+            android:button="@android:color/transparent"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/handball_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/handball_button"
+            android:button="@android:color/transparent"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/basketball_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/basketball_button"
+            android:button="@android:color/transparent"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </RadioGroup>
 
     <LinearLayout
         android:id="@+id/player_info_layout"
@@ -48,7 +100,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/football_filter_bt">
+        app:layout_constraintTop_toBottomOf="@+id/sport_radio_group">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/player_name_tf"

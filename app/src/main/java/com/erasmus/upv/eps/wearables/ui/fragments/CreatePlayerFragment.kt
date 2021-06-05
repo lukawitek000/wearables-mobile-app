@@ -56,7 +56,7 @@ class CreatePlayerFragment : Fragment() {
 
 
     private fun populateInputs() {
-        //binding.sportRadioGroup.check(setRadioButtonForPlayerSport())
+        binding.sportRadioGroup.check(setRadioButtonForPlayerSport())
         binding.playerNationalityEt.setText(viewModel.player.nationality)
         binding.playerNameEt.setText(viewModel.player.name)
         binding.playerNumberEt.setText(viewModel.player.number.toString())
@@ -65,42 +65,42 @@ class CreatePlayerFragment : Fragment() {
     }
 
 
-//    private fun setRadioButtonForPlayerSport(): Int {
-//        return when(viewModel.player.sport){
-//            Sports.FOOTBALL -> R.id.football_radio_button
-//            Sports.BASKETBALL -> R.id.basketball_radio_button
-//            else -> R.id.handball_radio_button
-//        }
-//    }
+    private fun setRadioButtonForPlayerSport(): Int {
+        return when(viewModel.player.sport){
+            Sports.FOOTBALL -> R.id.football_radio_button
+            Sports.BASKETBALL -> R.id.basketball_radio_button
+            else -> R.id.handball_radio_button
+        }
+    }
 
 
     private fun observeUserInput() {
         savePlayerSportFromRadioButton()
-        getRadioButtonInput()
+        getSportInput()
         setSavePlayerListener()
     }
 
 
     private fun savePlayerSportFromRadioButton() {
-        viewModel.player.sport = Sports.FOOTBALL
-       // viewModel.player.sport = getCheckedSport(binding.sportRadioGroup.checkedRadioButtonId)
+        viewModel.player.sport = getCheckedSport(binding.sportRadioGroup.checkedRadioButtonId)
     }
 
 
-    private fun getRadioButtonInput(){
-//        binding.sportRadioGroup.setOnCheckedChangeListener { _, _ ->
-//            savePlayerSportFromRadioButton()
-//        }
+    private fun getSportInput(){
+        binding.sportRadioGroup.setOnCheckedChangeListener { _, _ ->
+            savePlayerSportFromRadioButton()
+        }
+
     }
 
 
-//    private fun getCheckedSport(checkedId: Int) : String {
-//        return when (checkedId) {
-//            R.id.football_radio_button -> Sports.FOOTBALL
-//            R.id.basketball_radio_button -> Sports.BASKETBALL
-//            else -> Sports.HANDBALL
-//        }
-//    }
+    private fun getCheckedSport(checkedId: Int) : String {
+        return when (checkedId) {
+            R.id.football_radio_button -> Sports.FOOTBALL
+            R.id.basketball_radio_button -> Sports.BASKETBALL
+            else -> Sports.HANDBALL
+        }
+    }
 
 
     private fun setSavePlayerListener(){
