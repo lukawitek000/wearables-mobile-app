@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:padding="8dp"
     tools:context=".ui.fragments.CreatePlayerFragment">
-    android:background="@drawable/card_bg"
 
     <ImageButton
         android:id="@+id/football_filter_bt"
@@ -53,68 +52,90 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/player_name_tf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:hint="Name">
+            android:hint="@string/name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/player_name_et"
                 android:inputType="text|textCapWords"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/grey_light"
                 android:imeOptions="actionNext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/player_number_tf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:hint="Number">
+            android:hint="@string/number">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/player_number_et"
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/grey_light"
                 android:imeOptions="actionNext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/player_position_tf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/player_nationality_tf"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:hint="Position">
+            android:hint="@string/nationality">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/player_nationality_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|textCapSentences"
+            android:textColor="@color/grey_light"
+            android:imeOptions="actionNext"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/player_position_tf"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:hint="@string/position">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/player_position_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text|textCapSentences"
+                android:textColor="@color/grey_light"
                 android:imeOptions="actionNext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/player_other_info_tf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Other info">
+            android:hint="@string/other_info">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/player_other_info_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text|textCapSentences"
+                android:textColor="@color/grey_light"
                 android:imeOptions="actionDone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -122,10 +143,10 @@
 
     <Button
         android:id="@+id/save_player_bt"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Save"
-        android:backgroundTint="#009F96"
+        android:text="@string/save"
+        android:backgroundTint="@color/secondary_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

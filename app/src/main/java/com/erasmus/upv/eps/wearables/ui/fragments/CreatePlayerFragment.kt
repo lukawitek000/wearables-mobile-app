@@ -57,6 +57,7 @@ class CreatePlayerFragment : Fragment() {
 
     private fun populateInputs() {
         //binding.sportRadioGroup.check(setRadioButtonForPlayerSport())
+        binding.playerNationalityEt.setText(viewModel.player.nationality)
         binding.playerNameEt.setText(viewModel.player.name)
         binding.playerNumberEt.setText(viewModel.player.number.toString())
         binding.playerPositionEt.setText(viewModel.player.position)
@@ -81,6 +82,7 @@ class CreatePlayerFragment : Fragment() {
 
 
     private fun savePlayerSportFromRadioButton() {
+        viewModel.player.sport = Sports.FOOTBALL
        // viewModel.player.sport = getCheckedSport(binding.sportRadioGroup.checkedRadioButtonId)
     }
 
@@ -117,6 +119,7 @@ class CreatePlayerFragment : Fragment() {
         viewModel.updatePlayer(
                 binding.playerNameEt.text.toString(),
                 getPlayerNumber(),
+                binding.playerNationalityEt.text.toString(),
                 binding.playerPositionEt.text.toString(),
                 binding.playerOtherInfoEt.text.toString()
         )
@@ -128,6 +131,7 @@ class CreatePlayerFragment : Fragment() {
         viewModel.createPlayer(
                 binding.playerNameEt.text.toString(),
                 getPlayerNumber(),
+                binding.playerNationalityEt.text.toString(),
                 binding.playerPositionEt.text.toString(),
                 binding.playerOtherInfoEt.text.toString()
         )

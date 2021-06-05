@@ -23,15 +23,16 @@ class CreatePlayerViewModel
     }
 
 
-    fun createPlayer(name: String, number: Int, position: String, otherInfo: String){
-        setPlayerProperties(name, number, position, otherInfo)
+    fun createPlayer(name: String, number: Int, nationality: String, position: String, otherInfo: String){
+        setPlayerProperties(name, number, nationality, position, otherInfo)
         savePlayerToDatabase()
     }
 
 
-    private fun setPlayerProperties(name: String, number: Int, position: String, otherInfo: String) {
+    private fun setPlayerProperties(name: String, number: Int, nationality: String, position: String, otherInfo: String) {
         player.name = name
         player.number = number
+        player.nationality = nationality
         player.position = position
         player.otherInfo = otherInfo
     }
@@ -44,9 +45,9 @@ class CreatePlayerViewModel
     }
 
 
-    fun updatePlayer(name: String, playerNumber: Int, position: String, otherInfo: String) {
+    fun updatePlayer(name: String, playerNumber: Int, nationality: String, position: String, otherInfo: String) {
         viewModelScope.launch {
-            setPlayerProperties(name, playerNumber, position, otherInfo)
+            setPlayerProperties(name, playerNumber, nationality, position, otherInfo)
             repository.updatePlayer(player)
         }
     }

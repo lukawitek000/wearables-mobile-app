@@ -33,4 +33,10 @@
     <string name="reset_config_message">Gesture configuration for devices which are saved for teams which are not playing in the match has been reset.</string>
     <string name="warning">Warning</string>
     <string name="exit_recording_message">If you left this screen the statistics recording will be finished. Do you want to exit?</string>
+    <string name="name">Name</string>
+    <string name="number">Number</string>
+    <string name="nationality">Nationality</string>
+    <string name="position">Position</string>
+    <string name="other_info">Other info</string>
+    <string name="save">Save</string>
 </resources>
