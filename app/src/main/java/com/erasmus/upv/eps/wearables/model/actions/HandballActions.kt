@@ -11,6 +11,7 @@ enum class HandballActions: Actions {
     MISSED_SHOT_6MTS,
     MISSED_SHOT_9MTS,
     MISSED_SHOT_7MTS,
-    SAVED_SHOTS
+    SAVED_SHOTS,
+    STRIKEBACK
 
 }
