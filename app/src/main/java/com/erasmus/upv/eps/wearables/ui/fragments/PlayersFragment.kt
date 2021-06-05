@@ -65,8 +65,7 @@ class PlayersFragment : Fragment() {
     private fun setUpRecyclerView() {
         val rv = binding.playersRv
         playersAdapter = PlayersAdapter(
-                onClickPlayerItem = this::onClickPlayerItem,
-                onClickDeletePlayer = this::onClickDeletePlayer
+                onClickPlayerItem = this::onClickPlayerItem
         )
         rv.adapter = playersAdapter
         rv.layoutManager =
