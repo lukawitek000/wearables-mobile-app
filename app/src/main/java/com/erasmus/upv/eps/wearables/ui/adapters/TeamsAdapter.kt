@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.erasmus.upv.eps.wearables.databinding.ItemViewTeamBinding
 import com.erasmus.upv.eps.wearables.model.Team
 
-class TeamsAdapter(private val onClickTeamItem: (team: Team) -> Unit,
-                private val onClickTeamInfo: (team: Team) -> Unit
+class TeamsAdapter(private val onClickTeamItem: (team: Team) -> Unit
                    ) : ListAdapter<Team, TeamsAdapter.TeamsViewHolder>(TeamsComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamsViewHolder {
@@ -26,9 +25,6 @@ class TeamsAdapter(private val onClickTeamItem: (team: Team) -> Unit,
         holder.binding.teamNameAdapterTv.text = getItem(position).name
         holder.binding.teamCityAdapterTv.text = getItem(position).city
         holder.itemView.setOnClickListener { onClickTeamItem.invoke(getItem(position)) }
-        holder.binding.teamInfoIv.setOnClickListener {
-            onClickTeamInfo.invoke(getItem(position))
-        }
     }
 
     inner class TeamsViewHolder(val binding: ItemViewTeamBinding) : RecyclerView.ViewHolder(binding.root)

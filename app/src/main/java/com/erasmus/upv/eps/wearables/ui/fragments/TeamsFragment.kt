@@ -78,7 +78,7 @@ class TeamsFragment : Fragment() {
 
     private fun setUpTeamsRecyclerView() {
         val rv = binding.teamsRv
-        adapter = TeamsAdapter(onClickTeamItem = this::onClickTeamItem, onClickTeamInfo = this::onClickTeamInfo)
+        adapter = TeamsAdapter(onClickTeamItem = this::onClickTeamItem)
         rv.adapter = adapter
         rv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -86,6 +86,7 @@ class TeamsFragment : Fragment() {
 
     private fun onClickTeamItem(team: Team){
         if(sharedViewModel.whichTeamIsCreated == TeamCreated.NONE){
+            onClickTeamInfo(team)
             return
         }
         createProperTeam(team)
