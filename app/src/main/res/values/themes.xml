@@ -48,6 +48,11 @@
         <item name="boxStrokeWidth">0dp</item>
         <item name="endIconTint">@color/grey_medium</item>
         <item name="boxBackgroundColor">@color/primary_color</item>
+        <item name="android:theme">@style/cursorStyle</item>
+    </style>
+
+    <style name="cursorStyle" parent="ThemeOverlay.MaterialComponents.TextInputEditText.FilledBox">
+        <item name="colorControlActivated">@color/grey_medium</item>
     </style>
 
 

@@ -8,41 +8,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         tools:context=".ui.fragments.CreateTeamFragment">
 
 
-        <ImageButton
-            android:id="@+id/football_filter_bt"
-            android:layout_width="wrap_content"
+        <include
+            android:id="@+id/radio_button_layout"
+            layout="@layout/radio_button_sport_select"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/football_button"
-            app:layout_constraintEnd_toStartOf="@+id/handball_filter_bt"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/handball_filter_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/handball_button"
-            app:layout_constraintBottom_toBottomOf="@+id/football_filter_bt"
-            app:layout_constraintEnd_toStartOf="@+id/basketball_filter_bt"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toEndOf="@+id/football_filter_bt" />
-
-        <ImageButton
-            android:id="@+id/basketball_filter_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/basketball_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toEndOf="@+id/handball_filter_bt"
-            app:layout_constraintTop_toTopOf="@+id/handball_filter_bt" />
-
 
         <LinearLayout
             android:id="@+id/team_details_layout"
@@ -53,21 +30,22 @@
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/football_filter_bt">
+            app:layout_constraintTop_toBottomOf="@+id/radio_button_layout">
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/team_name_tf"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:hint="Name">
+                android:hint="@string/name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/team_name_et"
                     android:inputType="text|textCapWords"
                     android:imeOptions="actionNext"
+                    android:textColor="@color/grey_light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -75,16 +53,17 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/team_country_tf"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:hint="Country">
+                android:hint="@string/country">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/team_country_et"
                     android:inputType="text|textCapWords"
                     android:imeOptions="actionNext"
+                    android:textColor="@color/grey_light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -92,16 +71,17 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/team_city_tf"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:hint="City">
+                android:hint="@string/city">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/team_city_et"
                     android:inputType="text|textCapWords"
                     android:imeOptions="actionNext"
+                    android:textColor="@color/grey_light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -109,15 +89,17 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/team_other_info_tf"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Others">
+                android:hint="@string/other_info">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/team_info_et"
                     android:inputType="text|textCapSentences"
                     android:imeOptions="actionDone"
+                    android:textColor="@color/grey_light"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -131,15 +113,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="Players"
+            android:textSize="28sp"
+            android:text="@string/players"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/team_details_layout" />
 
         <ImageButton
             android:id="@+id/add_player_bt"
             android:background="@drawable/plus"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="@dimen/player_box_size"
+            android:layout_height="@dimen/player_box_size"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -147,11 +130,12 @@
 
         <Button
             android:id="@+id/save_team_bt"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Save"
             android:backgroundTint="#009F96"
+            android:text="@string/save"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/team_players_rv" />
