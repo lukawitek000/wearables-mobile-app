@@ -13,6 +13,7 @@ data class Player(
         var sport: String,
         var number: Int,
         var position: String,
+        var nationality: String,
         var otherInfo: String = "", // default value just for now, because of fake data
         var photo: String = "" // TODO add taking photos or getting photos from device
 ){
@@ -23,6 +24,7 @@ data class Player(
                 sport = "",
                 number = 0,
                 position = "",
+                nationality = "",
                 otherInfo = "",
                 photo = ""
         )

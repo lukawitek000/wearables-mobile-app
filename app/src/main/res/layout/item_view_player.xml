@@ -8,16 +8,15 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/imageView"
+        android:id="@+id/player_photo_cv"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        app:cardCornerRadius="12dp"
+        android:background="@drawable/card_bg"
         android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:elevation="10dp"
-        app:cardBackgroundColor="#C4C4C4">
+        android:elevation="10dp">
     <ImageView
         android:layout_width="55dp"
         android:layout_height="55dp"
@@ -30,11 +29,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:text="Lewandowski"
+        tools:text="Lewandowski"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/delete_player_forever_iv"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/player_photo_cv"
+        app:layout_constraintTop_toTopOf="@id/player_photo_cv"
         />
 
     <TextView
@@ -43,10 +42,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:fontFamily="sans-serif-light"
-        android:textColor="#9598AF"
+        android:textColor="@color/grey_medium"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@id/imageView"
-        app:layout_constraintBottom_toBottomOf="@id/imageView"
+        app:layout_constraintStart_toEndOf="@id/player_photo_cv"
+        app:layout_constraintBottom_toBottomOf="@id/player_photo_cv"
         tools:text="POLAND"
         />
 

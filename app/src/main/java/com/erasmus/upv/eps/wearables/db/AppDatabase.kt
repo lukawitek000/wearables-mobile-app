@@ -12,7 +12,7 @@ import com.erasmus.upv.eps.wearables.model.*
 
 
 @Database(entities = [Player::class, Team::class, Match::class, MatchTeamCrossRef::class, BLEDevice::class,
-                     Gesture::class, LiveAction::class], version = 15, exportSchema = false)
+                     Gesture::class, LiveAction::class], version = 16, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

@@ -24,12 +24,14 @@ class PlayersAdapter(
     }
 
     override fun onBindViewHolder(holder: PlayersViewHolder, position: Int) {
-        holder.binding.playerNameAdapterTv.text = getItem(position).name
+        val player = getItem(position)
+        holder.binding.playerNameAdapterTv.text = player.name
+        holder.binding.playerNationalityAdapterTv.text = player.nationality
         holder.itemView.setOnClickListener {
-            onClickPlayerItem.invoke(getItem(position))
+            onClickPlayerItem.invoke(player)
         }
         holder.binding.deletePlayerForeverIv.setOnClickListener {
-            onClickDeletePlayer.invoke(getItem(position))
+            onClickDeletePlayer.invoke(player)
         }
     }
 
