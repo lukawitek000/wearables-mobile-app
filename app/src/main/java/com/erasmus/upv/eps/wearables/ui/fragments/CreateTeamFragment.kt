@@ -49,16 +49,16 @@ class CreateTeamFragment : Fragment() {
     }
 
     private fun observeSportChange() {
-        if(sharedViewModel.isCreatingTeam) {
-            binding.sportRadioGroup.check(setPlayerSport(sharedViewModel.creatingTeam.sport))
-        }
-        binding.sportRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-            Timber.d("selected sport ${getSelectedSport()} creaatig ${sharedViewModel.teamPlayers}")
-            if(sharedViewModel.teamPlayers.any { it.sport != getSelectedSport() }) {
-                sharedViewModel.teamPlayers.clear()
-                adapter.submitList(sharedViewModel.teamPlayers)
-            }
-        }
+//        if(sharedViewModel.isCreatingTeam) {
+//            binding.sportRadioGroup.check(setPlayerSport(sharedViewModel.creatingTeam.sport))
+//        }
+//        binding.sportRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+//            Timber.d("selected sport ${getSelectedSport()} creaatig ${sharedViewModel.teamPlayers}")
+//            if(sharedViewModel.teamPlayers.any { it.sport != getSelectedSport() }) {
+//                sharedViewModel.teamPlayers.clear()
+//                adapter.submitList(sharedViewModel.teamPlayers)
+//            }
+//        }
     }
 
     private fun receiveSafeArgs() {
@@ -86,7 +86,7 @@ class CreateTeamFragment : Fragment() {
     }
 
     private fun populateInputs() {
-        binding.sportRadioGroup.check(setPlayerSport(sharedViewModel.creatingTeam.sport))
+       // binding.sportRadioGroup.check(setPlayerSport(sharedViewModel.creatingTeam.sport))
         binding.teamNameEt.setText(sharedViewModel.creatingTeam.name)
         binding.teamCountryEt.setText(sharedViewModel.creatingTeam.country)
         binding.teamCityEt.setText(sharedViewModel.creatingTeam.city)
@@ -94,13 +94,13 @@ class CreateTeamFragment : Fragment() {
         adapter.submitList(sharedViewModel.teamPlayers)
     }
 
-    private fun setPlayerSport(sport: String): Int {
-        return when(sport){
-            Sports.FOOTBALL -> R.id.football_radio_button
-            Sports.BASKETBALL -> R.id.basketball_radio_button
-            else -> R.id.handball_radio_button
-        }
-    }
+//    private fun setPlayerSport(sport: String): Int {
+//        return when(sport){
+//            Sports.FOOTBALL -> R.id.football_radio_button
+//            Sports.BASKETBALL -> R.id.basketball_radio_button
+//            else -> R.id.handball_radio_button
+//        }
+//    }
 
 
     private fun handleBackPress() {
@@ -146,18 +146,19 @@ class CreateTeamFragment : Fragment() {
         return Team(
             viewModel.receivedTeamId,
             binding.teamNameEt.text.toString(),
-            getSelectedSport(),
+            //getSelectedSport(),
+            "Football",
             binding.teamCountryEt.text.toString(),
             binding.teamCityEt.text.toString(),
             binding.teamInfoEt.text.toString()
         )
     }
 
-    private fun getSelectedSport(): String  = when(binding.sportRadioGroup.checkedRadioButtonId){
-        R.id.football_radio_button -> Sports.FOOTBALL
-        R.id.handball_radio_button -> Sports.HANDBALL
-        else -> Sports.BASKETBALL
-    }
+//    private fun getSelectedSport(): String  = when(binding.sportRadioGroup.checkedRadioButtonId){
+//        R.id.football_radio_button -> Sports.FOOTBALL
+//        R.id.handball_radio_button -> Sports.HANDBALL
+//        else -> Sports.BASKETBALL
+//    }
 
     private fun setUpTeamPlayersRecyclerView() {
         val recyclerView = binding.teamPlayersRv

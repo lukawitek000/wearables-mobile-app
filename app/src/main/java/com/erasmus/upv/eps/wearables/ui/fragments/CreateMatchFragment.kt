@@ -59,19 +59,19 @@ class CreateMatchFragment : Fragment() {
     }
 
     private fun observeSportChange() {
-        binding.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
-        binding.sportRadioGroup.setOnCheckedChangeListener { _, chekedId ->
-            sharedViewModel.creatingMatch.sport = getSelectedSport()
-
-            Timber.d("sport change $chekedId ${getSelectedSport()} home ${sharedViewModel.homeTeam?.sport} guest ${sharedViewModel.guestTeam?.sport}")
-            if(getSelectedSport() != sharedViewModel.homeTeam?.sport){
-                sharedViewModel.homeTeam = null
-            }
-            if(getSelectedSport() != sharedViewModel.guestTeam?.sport) {
-                sharedViewModel.guestTeam = null
-            }
-            populateTeamsLayouts()
-        }
+//        binding.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
+//        binding.sportRadioGroup.setOnCheckedChangeListener { _, chekedId ->
+//            sharedViewModel.creatingMatch.sport = getSelectedSport()
+//
+//            Timber.d("sport change $chekedId ${getSelectedSport()} home ${sharedViewModel.homeTeam?.sport} guest ${sharedViewModel.guestTeam?.sport}")
+//            if(getSelectedSport() != sharedViewModel.homeTeam?.sport){
+//                sharedViewModel.homeTeam = null
+//            }
+//            if(getSelectedSport() != sharedViewModel.guestTeam?.sport) {
+//                sharedViewModel.guestTeam = null
+//            }
+//            populateTeamsLayouts()
+//        }
     }
 
 
@@ -111,7 +111,7 @@ class CreateMatchFragment : Fragment() {
         populateTeamsLayouts()
         setTeamColors()
         binding.doneCreatingMatchFb.isEnabled = true
-        binding.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
+       // binding.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
     }
 
     private fun setTeamColors() {
@@ -156,13 +156,13 @@ class CreateMatchFragment : Fragment() {
         binding.matchPartsNumberEt.setText(match.matchParts)
     }
 
-    private fun setSportRadioButton(sport: String): Int {
-        return when(sport){
-            Sports.FOOTBALL -> R.id.football_radio_button
-            Sports.BASKETBALL -> R.id.basketball_radio_button
-            else -> R.id.handball_radio_button
-        }
-    }
+//    private fun setSportRadioButton(sport: String): Int {
+//        return when(sport){
+////            Sports.FOOTBALL -> R.id.football_radio_button
+////            Sports.BASKETBALL -> R.id.basketball_radio_button
+////            else -> R.id.handball_radio_button
+//        }
+//    }
 
     private fun changeButtonIcon() {
         binding.doneCreatingMatchFb.setImageResource(R.drawable.ic_update)
@@ -226,7 +226,7 @@ class CreateMatchFragment : Fragment() {
     private fun getMatchFromUserInput() {
         sharedViewModel.creatingMatch.location = binding.matchLocationEt.text.toString()
         sharedViewModel.creatingMatch.city = binding.matchCityEt.text.toString()
-        sharedViewModel.creatingMatch.sport = getSelectedSport()
+       // sharedViewModel.creatingMatch.sport = getSelectedSport()
         sharedViewModel.creatingMatch.league = binding.matchLeagueEt.text.toString()
         sharedViewModel.creatingMatch.otherDetails = binding.matchDetailsEt.text.toString()
         sharedViewModel.creatingMatch.homeTeamColor = getHomeTeamColorFromChips()
@@ -267,11 +267,11 @@ class CreateMatchFragment : Fragment() {
         }
     }
 
-    private fun getSelectedSport(): String  = when(binding.sportRadioGroup.checkedRadioButtonId){
-        R.id.football_radio_button -> Sports.FOOTBALL
-        R.id.handball_radio_button -> Sports.HANDBALL
-        else -> Sports.BASKETBALL
-    }
+//    private fun getSelectedSport(): String  = when(binding.sportRadioGroup.checkedRadioButtonId){
+//        R.id.football_radio_button -> Sports.FOOTBALL
+//        R.id.handball_radio_button -> Sports.HANDBALL
+//        else -> Sports.BASKETBALL
+//    }
 
     private fun handleTimeInput() {
         binding.matchTimeEt.setOnClickListener {
