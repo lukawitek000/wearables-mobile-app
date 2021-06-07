@@ -92,8 +92,8 @@ class CurrentMatchFragment : Fragment() {
     private fun observeRecordedLiveAction() {
         viewModel.getLiveActionsForCurrentMatch().observe(viewLifecycleOwner){
             Timber.d("Live actions = $it")
+            viewModel.calculateScore(it)
             liveActionsAdapter.submitList(it.toMutableList())
-            viewModel.updateScore(it)
         }
     }
 
@@ -141,7 +141,6 @@ class CurrentMatchFragment : Fragment() {
     private fun populateUi() {
         binding.homeTeamNameTv.text = viewModel.homeTeam.team.name
         binding.guestTeamNameTv.text = viewModel.guestTeam.team.name
-//        binding.leagueNameTv.text = viewModel.match.league
     }
 
     private fun showMatchTime() {
@@ -278,7 +277,7 @@ class CurrentMatchFragment : Fragment() {
         val rv = binding.liveActionsRv
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         liveActionsAdapter = LiveActionsAdapter(
-            this::deleteLiveAction,
+            viewModel::deleteLiveAction,
             viewModel::getTeamColor,
             viewModel::getPlayerNumberById,
             viewModel::getTeamNameById
@@ -291,11 +290,6 @@ class CurrentMatchFragment : Fragment() {
         rv.adapter = liveActionsAdapter
     }
 
-    private fun deleteLiveAction(liveAction: LiveAction){
-        viewModel.setScore(liveAction, -1)
-        viewModel.deleteLiveActionById(liveAction.id)
-        //liveActionsAdapter.notifyDataSetChanged()
-    }
 
 
     private fun stopService() {

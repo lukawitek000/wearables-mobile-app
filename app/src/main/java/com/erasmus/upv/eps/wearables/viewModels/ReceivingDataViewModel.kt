@@ -378,9 +378,9 @@ class ReceivingDataViewModel
     }
 
 
-    fun deleteLiveActionById(id: Long) {
+    fun deleteLiveAction(liveAction: LiveAction) {
         viewModelScope.launch {
-            statisticsRepository.deleteLiveActionById(id)
+            statisticsRepository.deleteLiveActionById(liveAction.id)
         }
     }
 
@@ -471,62 +471,55 @@ class ReceivingDataViewModel
     }
 
 
-    var homeTeamScore = MutableLiveData<Int>()
-    var guestTeamScore = MutableLiveData<Int>()
-
-    var isGoalDeleted = false
+    val homeTeamScore = MutableLiveData<Int>()
+    val guestTeamScore = MutableLiveData<Int>()
 
     init {
         homeTeamScore.value = 0
         guestTeamScore.value = 0
     }
 
-
-
-    private fun scoreGoal(teamId: Long, points: Int = 1){
-        Timber.d("team $teamId points $points")
-        if(teamId == homeTeam.team.teamId){
-            homeTeamScore.value = homeTeamScore.value?.plus(points)
-        }else{
-            guestTeamScore.value = guestTeamScore.value?.plus(points)
+    fun calculateScore(liveActions: List<LiveAction>?) {
+        if(liveActions == null){
+            return
         }
+        var homeScore = 0
+        var guestScore = 0
+        for(action in liveActions){
+            if(action.teamId == homeTeam.team.teamId) {
+                homeScore += getPointFromLiveAction(action)
+            }else if(action.teamId == guestTeam.team.teamId){
+                guestScore += getPointFromLiveAction(action)
+            }
+        }
+        homeTeamScore.value = homeScore
+        guestTeamScore.value = guestScore
+
     }
 
 
-    fun setScore(liveAction: LiveAction, sign: Int = 1) {
-        if(sign < 0){
-            isGoalDeleted = true
-        }
+    private fun getPointFromLiveAction(liveAction: LiveAction): Int {
         if(liveAction.action is FootballActions){
             if((liveAction.action as FootballActions) == FootballActions.GOAL){
-                scoreGoal(liveAction.teamId, 1 * sign)
+                return 1
             }
         }else if(liveAction.action is HandballActions) {
             val action = (liveAction.action as HandballActions)
             if(action == HandballActions.GOAL_6MTS || action == HandballActions.GOAL_7MTS || action == HandballActions.GOAL_9MTS){
-                scoreGoal(liveAction.teamId, 1 * sign)
+                return 1
             }
         }else if(liveAction.action is BasketballActions) {
             if((liveAction.action as BasketballActions) == BasketballActions.SCORE_1_POINT){
-                scoreGoal(liveAction.teamId, 1 * sign)
+                return 1
             }else if((liveAction.action as BasketballActions) == BasketballActions.SCORE_2_POINTS){
-                scoreGoal(liveAction.teamId, 2 * sign)
+                return 2
             }else if((liveAction.action as BasketballActions) == BasketballActions.SCORE_3_POINTS){
-                scoreGoal(liveAction.teamId, 3 * sign)
+                return 3
             }
         }
+        return 0
     }
 
-
-    fun updateScore(it: List<LiveAction>) {
-        if (it.isNotEmpty()) {
-            if (isGoalDeleted) {
-                isGoalDeleted = false
-            } else {
-                setScore(it.first())
-            }
-        }
-    }
 
 
 }
