@@ -16,6 +16,7 @@ import com.erasmus.upv.eps.wearables.model.Match
 import com.erasmus.upv.eps.wearables.model.MatchWithTeams
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.ui.adapters.MatchesAdapter
+import com.erasmus.upv.eps.wearables.util.DialogBuilder
 import com.erasmus.upv.eps.wearables.util.Sports
 import com.erasmus.upv.eps.wearables.viewModels.MatchesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -105,36 +106,31 @@ class MatchesFragment : Fragment() {
         matchesAdapter = MatchesAdapter( {
             handleClickOnMatchesRecyclerView(it)
         }, {
-            Toast.makeText(requireContext(), "Show match info", Toast.LENGTH_SHORT).show()
             val destination = MatchesViewPagerFragmentDirections.actionMatchesFragmentToMatchInfoFragment(matchId = it.matchId)
             findNavController().navigate(destination)
         })
         binding.matchesRv.adapter = matchesAdapter
     }
-    
+
 
     private fun handleClickOnMatchesRecyclerView(match: Match){
         if(matchesType ==  MatchTime.UPCOMING) {
-            buildAlertDialog(match).show()
+            DialogBuilder.buildAndShowDialog(
+                requireContext(),
+                requireActivity().layoutInflater,
+                "Info",
+                "Do you want to start recording statistics for the match?",
+                yesButtonAction = { dialog ->
+                    navigateToScanningForBLEDevices(match.matchId)
+                    dialog.dismiss()
+                                  },
+                noButtonAction = {dialog -> dialog.dismiss() }
+            )
         }else{
             findNavController().navigate(R.id.action_matchesFragment_to_matchStatisticsFragment)
         }
     }
-
-
-
-    private fun buildAlertDialog(match: Match): AlertDialog {
-        return AlertDialog.Builder(requireContext())
-            .setTitle("Do you want to start recording statistics for the match ${match.matchId}?")
-            .setPositiveButton("Yes"
-            ) { _, _ ->
-                navigateToScanningForBLEDevices(match.matchId)
-            }
-            .setNegativeButton("No") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .create()
-    }
+    
 
     private fun navigateToScanningForBLEDevices(matchId: Long) {
         val directions = MatchesViewPagerFragmentDirections.actionMatchesFragmentToReceivingDataNestedGraph(matchId)
