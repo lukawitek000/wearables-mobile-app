@@ -28,9 +28,6 @@ import timber.log.Timber
 import java.lang.Exception
 import java.util.*
 
-// TODO check sport when updating
-// TODO show teams when updating
-
 
 @AndroidEntryPoint
 class CreateMatchFragment : Fragment() {
@@ -66,10 +63,13 @@ class CreateMatchFragment : Fragment() {
         populateTeamsLayouts()
 
         customBackPress()
-        observeSportChange()
+        if(viewModel.receivedMatchId == 0L) {
+            observeSportChange()
+        }
 
         return binding.root
     }
+
 
     private fun observeSportChange() {
         binding.radioButtonLayout.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
@@ -115,12 +115,16 @@ class CreateMatchFragment : Fragment() {
                 sharedViewModel.creatingMatch = it.match
             }
             populateUi()
+            observeSportChange()
         }
     }
 
     private fun populateUi() {
+        Timber.d("creating match = ${sharedViewModel.creatingMatch}")
+
         setEditTexts(sharedViewModel.creatingMatch)
         setTeamsToSharedViewModel()
+        Timber.d("home team ${sharedViewModel.homeTeam} guest team ${sharedViewModel.guestTeam}")
         populateTeamsLayouts()
         setTeamColors()
         binding.doneCreatingMatchFb.isEnabled = true
@@ -186,6 +190,7 @@ class CreateMatchFragment : Fragment() {
     private fun customBackPress() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
             sharedViewModel.clearTeams()
+            sharedViewModel.resetCreatingMatch()
             findNavController().navigateUp()
         }
     }

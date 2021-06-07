@@ -84,5 +84,9 @@ class CreateRelationsViewModel
         creatingTeam.teamId = 0L
     }
 
+    fun resetCreatingMatch() {
+        creatingMatch.matchId = 0L
+    }
+
 
 }
