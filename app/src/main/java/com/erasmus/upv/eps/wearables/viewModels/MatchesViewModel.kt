@@ -19,11 +19,11 @@ class MatchesViewModel
     var filterSport: String = Sports.FOOTBALL
     var matchId: Long = 0L
 
-    fun getAllUpcomingMatches(): LiveData<List<Match>>{
+    fun getAllUpcomingMatches(): LiveData<List<MatchWithTeams>>{
         return repository.allMatches.asLiveData()
     }
 
-    fun getAllPastMatches(): LiveData<List<Match>>{
+    fun getAllPastMatches(): LiveData<List<MatchWithTeams>>{
         return repository.allMatches.asLiveData()
     }
 

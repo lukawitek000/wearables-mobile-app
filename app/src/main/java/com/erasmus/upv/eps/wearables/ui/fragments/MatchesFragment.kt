@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentMatchesBinding
 import com.erasmus.upv.eps.wearables.model.Match
+import com.erasmus.upv.eps.wearables.model.MatchWithTeams
+import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.ui.adapters.MatchesAdapter
 import com.erasmus.upv.eps.wearables.util.Sports
 import com.erasmus.upv.eps.wearables.viewModels.MatchesViewModel
@@ -80,7 +82,7 @@ class MatchesFragment : Fragment() {
     }
 
     private fun showPlayersOrNoPlayersText(
-        matches: MutableList<Match>
+        matches: MutableList<MatchWithTeams>
     ) {
         if (matches.isEmpty()) {
             binding.noPlayersInfoTv.visibility = View.VISIBLE
@@ -92,9 +94,9 @@ class MatchesFragment : Fragment() {
         matchesAdapter.submitList(matches)
     }
 
-    private fun filterMatches(matches: List<Match>?): MutableList<Match> {
-        return matches?.filter {
-            match -> match.sport == viewModel.filterSport
+    private fun filterMatches(matchesWithTeams: List<MatchWithTeams>?): MutableList<MatchWithTeams> {
+        return matchesWithTeams?.filter {
+                matchWithTeams -> matchWithTeams.match.sport == viewModel.filterSport
         }?.toMutableList() ?: mutableListOf()
     }
 
@@ -109,7 +111,7 @@ class MatchesFragment : Fragment() {
         })
         binding.matchesRv.adapter = matchesAdapter
     }
-
+    
 
     private fun handleClickOnMatchesRecyclerView(match: Match){
         if(matchesType ==  MatchTime.UPCOMING) {

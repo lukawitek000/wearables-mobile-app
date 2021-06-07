@@ -20,7 +20,7 @@ class MatchRepository
         }
     }
 
-    var allMatches = matchDao.getAllMatches()
+    var allMatches = matchDao.getAllMatchesWithTeams()
 
 
     fun getMatchById(id: Long): LiveData<Match>{

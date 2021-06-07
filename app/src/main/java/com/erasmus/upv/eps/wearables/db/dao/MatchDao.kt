@@ -18,8 +18,9 @@ interface MatchDao {
     suspend fun insertMatchTeamCrossRef(matchTeamCrossRef: MatchTeamCrossRef): Long
 
 
+    @Transaction
     @Query("SELECT * FROM `Match`")
-    fun getAllMatches(): Flow<List<Match>>
+    fun getAllMatchesWithTeams(): Flow<List<MatchWithTeams>>
 
 
     @Query("SELECT * FROM `Match` WHERE :id == matchId")
