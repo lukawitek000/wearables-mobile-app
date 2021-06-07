@@ -22,7 +22,6 @@ object BLEConnectionManager {
 
     private val bluetoothGatts = HashMap<String, BluetoothGatt?>()
     val bluetoothGattsStatus = MutableLiveData<HashMap<String, GattStatus>>()
-    val isConnectionChanged = MutableLiveData<Boolean>(false)
 
 
     fun getBluetoothConnectedGatts(): List<BluetoothGatt?>{
@@ -68,8 +67,6 @@ object BLEConnectionManager {
                 }
                 gatt?.close()
             }
-
-            isConnectionChanged.postValue(true)
         }
 
 

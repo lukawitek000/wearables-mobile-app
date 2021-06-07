@@ -55,8 +55,7 @@ class CurrentMatchFragment : Fragment() {
         populateUi()
         setUpCustomBackPress()
         setUpRecyclerView()
-        handleStartMatchTimerButton()
-        showMatchTime()
+        enableTimer()
 
         observeReceivedData()
         askForATeam()
@@ -79,12 +78,28 @@ class CurrentMatchFragment : Fragment() {
         return binding.root
     }
 
+    private fun enableTimer() {
+        if (viewModel.match.matchPartDuration == 0L || viewModel.match.matchParts == 0) {
+            binding.matchTimeSl.visibility = View.GONE
+            binding.matchTimerTv.visibility = View.GONE
+            binding.startMatchBt.visibility = View.GONE
+            binding.pauseTimerBt.visibility = View.GONE
+        } else {
+            handleStartMatchTimerButton()
+            showMatchTime()
+        }
+    }
+
     private fun observeConnectedDevices() {
-        BLEConnectionManager.isConnectionChanged.observe(viewLifecycleOwner){
-            if(it){
-                Timber.d("Connected devices: ${BLEConnectionManager.getBluetoothConnectedGatts()}")
-                binding.numberOfConnectedDevicesTv.text = BLEConnectionManager.getBluetoothConnectedGatts().size.toString()
+
+        BLEConnectionManager.bluetoothGattsStatus.observe(viewLifecycleOwner){
+            var numberOfConnectedDevices = 0
+            for (status in it.values){
+                if(status == BLEConnectionManager.GattStatus.CONNECTED){
+                    numberOfConnectedDevices++
+                }
             }
+            binding.numberOfConnectedDevicesTv.text = numberOfConnectedDevices.toString()
         }
     }
 
