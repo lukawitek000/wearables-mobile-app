@@ -48,7 +48,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/select_action_tf"
-        style="@style/TextInputLayoutStyle"
+        style="@style/DropDownMenuLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -69,7 +69,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/select_team_for_gesture_tf"
-        style="@style/TextInputLayoutStyle"
+        style="@style/DropDownMenuLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -89,7 +89,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/select_player_for_gesture_tf"
-        style="@style/TextInputLayoutStyle"
+        style="@style/DropDownMenuLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
