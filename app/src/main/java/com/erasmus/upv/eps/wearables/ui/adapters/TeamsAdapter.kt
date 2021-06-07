@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.ItemViewTeamBinding
 import com.erasmus.upv.eps.wearables.model.Team
+import com.erasmus.upv.eps.wearables.util.Sports
 
 class TeamsAdapter(private val onClickTeamItem: (team: Team) -> Unit
                    ) : ListAdapter<Team, TeamsAdapter.TeamsViewHolder>(TeamsComparator()) {
@@ -26,6 +28,12 @@ class TeamsAdapter(private val onClickTeamItem: (team: Team) -> Unit
         holder.binding.teamNameAdapterTv.text = team.name
         holder.binding.teamCityAdapterTv.text = team.city
         holder.itemView.setOnClickListener { onClickTeamItem.invoke(team) }
+        val sportIv = holder.binding.teamSportIv
+        when(team.sport){
+            Sports.FOOTBALL -> sportIv.setImageResource(R.drawable.football_unselected)
+            Sports.BASKETBALL -> sportIv.setImageResource(R.drawable.basketball_unselected)
+            else -> sportIv.setImageResource(R.drawable.handball_unselected)
+        }
     }
 
     inner class TeamsViewHolder(val binding: ItemViewTeamBinding) : RecyclerView.ViewHolder(binding.root)

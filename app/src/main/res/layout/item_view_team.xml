@@ -32,29 +32,41 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        tools:text="Levante"
-        android:maxLines="1"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
+        android:maxLines="1"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/team_sport_iv"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        tools:text="Levante" />
 
     <TextView
         android:id="@+id/team_city_adapter_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:ellipsize="end"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
         android:fontFamily="sans-serif-light"
+        android:maxLines="1"
         android:text="VALENCIA"
         android:textColor="#9598AF"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/imageView2"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/team_sport_iv"
         app:layout_constraintStart_toEndOf="@id/imageView2" />
+
+
+    <ImageView
+        android:id="@+id/team_sport_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/team_city_adapter_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/team_name_adapter_tv"
+        app:srcCompat="@drawable/basketball_unselected" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

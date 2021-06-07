@@ -35,7 +35,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/player_sport_iv"
+        app:layout_constraintEnd_toStartOf="@+id/team_sport_iv"
         app:layout_constraintStart_toEndOf="@+id/player_photo_cv"
         app:layout_constraintTop_toTopOf="@id/player_photo_cv"
         tools:text="Lewandowski" />
