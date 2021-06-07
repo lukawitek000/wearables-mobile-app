@@ -22,9 +22,10 @@ class TeamsAdapter(private val onClickTeamItem: (team: Team) -> Unit
     }
 
     override fun onBindViewHolder(holder: TeamsViewHolder, position: Int) {
-        holder.binding.teamNameAdapterTv.text = getItem(position).name
-        holder.binding.teamCityAdapterTv.text = getItem(position).city
-        holder.itemView.setOnClickListener { onClickTeamItem.invoke(getItem(position)) }
+        val team = getItem(position)
+        holder.binding.teamNameAdapterTv.text = team.name
+        holder.binding.teamCityAdapterTv.text = team.city
+        holder.itemView.setOnClickListener { onClickTeamItem.invoke(team) }
     }
 
     inner class TeamsViewHolder(val binding: ItemViewTeamBinding) : RecyclerView.ViewHolder(binding.root)

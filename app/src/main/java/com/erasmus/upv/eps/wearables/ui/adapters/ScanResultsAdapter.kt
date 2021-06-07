@@ -33,10 +33,10 @@ class ScanResultsAdapter(private val onClickScanResult: (BluetoothDevice) -> Uni
     }
 
     override fun onBindViewHolder(holder: ScanResultsViewHolder, position: Int) {
+        val btDevice = getItem(position)
+        holder.binding.deviceNameTextView.text = btDevice.name ?: "Unknown Device"
 
-        holder.binding.deviceNameTextView.text = getItem(position).name ?: "Unknown Device"
-
-        holder.binding.selectedDeviceCb.isChecked = selectedDevices.contains(getItem(position))
+        holder.binding.selectedDeviceCb.isChecked = selectedDevices.contains(btDevice)
 
         holder.binding.selectedDeviceCb.setOnCheckedChangeListener { _, _ ->
             controlSelectedDevices(position)

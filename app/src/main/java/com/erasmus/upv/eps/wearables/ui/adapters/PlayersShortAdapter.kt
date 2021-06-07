@@ -32,14 +32,15 @@ class PlayersShortAdapter(
     }
 
     override fun onBindViewHolder(holder: PlayersShortViewHolder, position: Int) {
-        holder.binding.playerNameTv.text = getItem(position).name
-        holder.binding.playerNumberTv.text = getItem(position).number.toString()
+        val player = getItem(position)
+        holder.binding.playerNameTv.text = item.name
+        holder.binding.playerNumberTv.text = item.number.toString()
         holder.itemView.setOnClickListener {
-            choosePlayer.invoke(getItem(position))
+            choosePlayer.invoke(item)
         }
         if(isDeletable) {
             holder.binding.deletePlayerIv.setOnClickListener {
-                deletePlayer.invoke(getItem(position))
+                deletePlayer.invoke(item)
             }
         }else{
             holder.binding.deletePlayerIv.visibility = View.GONE
