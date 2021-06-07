@@ -14,6 +14,7 @@ import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentPlayersBinding
 import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.ui.adapters.PlayersAdapter
+import com.erasmus.upv.eps.wearables.util.DialogBuilder
 import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
 import com.erasmus.upv.eps.wearables.viewModels.PlayersViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -76,8 +77,33 @@ class PlayersFragment : Fragment() {
         if(sharedViewModel.isCreatingTeam) {
             addPlayerToTheTeam(player)
         }else{
-            navigateToPlayerInfoFragment(player)
+            //navigateToPlayerInfoFragment(player)
+            showDialogWithPlayerOptions(player)
         }
+    }
+
+    private fun showDialogWithPlayerOptions(player: Player) {
+        DialogBuilder.buildAndShowDialog(
+            requireContext(),
+            requireActivity().layoutInflater,
+            "Player action",
+            "What do you want to do with this player?",
+            yesButtonText = "Delete",
+            noButtonText = "Update",
+            yesButtonAction = { dialog ->
+                viewModel.deletePlayer(player)
+                dialog.dismiss()
+            },
+            noButtonAction = { dialog ->
+                navigateToUpdateThePlayer(player.playerId)
+                dialog.dismiss()
+            }
+        )
+    }
+
+    private fun navigateToUpdateThePlayer(playerId: Long) {
+        val directions = PlayersFragmentDirections.actionPlayersFragmentToCreatePlayerFragment(playerId = playerId)
+        findNavController().navigate(directions)
     }
 
 
@@ -93,9 +119,6 @@ class PlayersFragment : Fragment() {
     }
 
 
-    private fun onClickDeletePlayer(player: Player){
-        viewModel.deletePlayer(player)
-    }
 
     private fun listenToDbChanges() {
         viewModel.getAllPlayers().observe(viewLifecycleOwner){

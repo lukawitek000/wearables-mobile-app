@@ -17,6 +17,9 @@ import com.erasmus.upv.eps.wearables.viewModels.MatchStatisticsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+// TODO the statistics are not updated sometimes
+
+
 @AndroidEntryPoint
 class MatchStatisticsFragment : Fragment() {
 
