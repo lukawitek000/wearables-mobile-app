@@ -25,7 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 
-// TODO check update team and populating team recycler view
 
 
 @AndroidEntryPoint
@@ -48,7 +47,9 @@ class CreateTeamFragment : Fragment() {
         createTeam()
         addPlayer()
         handleBackPress()
-        observeSportChange()
+        if(viewModel.receivedTeamId == 0L) {
+            observeSportChange()
+        }
         return binding.root
     }
 
@@ -80,6 +81,7 @@ class CreateTeamFragment : Fragment() {
                     }
                     populateInputs()
                     changeButtonText()
+                    observeSportChange()
                 }
             }
         }
