@@ -28,6 +28,10 @@ import timber.log.Timber
 import java.lang.Exception
 import java.util.*
 
+// TODO check sport when updating
+// TODO show teams when updating
+
+
 @AndroidEntryPoint
 class CreateMatchFragment : Fragment() {
 
@@ -164,7 +168,7 @@ class CreateMatchFragment : Fragment() {
         binding.matchLeagueEt.setText(match.league)
         binding.matchDetailsEt.setText(match.otherDetails)
         binding.matchPartsDurationEt.setText(match.matchPartDuration.toString())
-        binding.matchPartsNumberEt.setText(match.matchParts)
+        binding.matchPartsNumberEt.setText(match.matchParts.toString())
     }
 
     private fun setSportRadioButton(sport: String): Int {

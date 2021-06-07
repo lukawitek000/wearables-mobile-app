@@ -31,10 +31,10 @@ class MatchesViewModel
         return repository.getMatchAndTeamsById(matchId)
     }
 
-    fun deleteMatch() {
+    fun deleteMatch(id: Long = matchId) {
         viewModelScope.launch {
-            repository.deleteMatchById(matchId)
-            repository.deleteMatchTeamCrossRefByMatchId(matchId)
+            repository.deleteMatchById(id)
+            repository.deleteMatchTeamCrossRefByMatchId(id)
         }
     }
 

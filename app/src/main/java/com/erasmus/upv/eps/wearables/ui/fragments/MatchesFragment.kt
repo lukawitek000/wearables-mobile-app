@@ -106,10 +106,39 @@ class MatchesFragment : Fragment() {
         matchesAdapter = MatchesAdapter( {
             handleClickOnMatchesRecyclerView(it)
         }, {
-            val destination = MatchesViewPagerFragmentDirections.actionMatchesFragmentToMatchInfoFragment(matchId = it.matchId)
-            findNavController().navigate(destination)
+//            val destination = MatchesViewPagerFragmentDirections.actionMatchesFragmentToMatchInfoFragment(matchId = it.matchId)
+//            findNavController().navigate(destination)
+            showMatchActions(it.matchId)
         })
         binding.matchesRv.adapter = matchesAdapter
+    }
+
+    private fun showMatchActions(matchId: Long) {
+        DialogBuilder.buildAndShowDialog(
+            requireContext(),
+            requireActivity().layoutInflater,
+            "Match actions",
+            "What do you want to do with this Match?",
+            yesButtonText = "Delete",
+            noButtonText = "Update",
+            yesButtonAction = { dialog ->
+                handleDeleteMatch(matchId)
+                dialog.dismiss()
+            },
+            noButtonAction = { dialog ->
+                navigateToUpdateTheTeam(matchId)
+                dialog.dismiss()
+            }
+        )
+    }
+
+    private fun navigateToUpdateTheTeam(matchId: Long) {
+        val direction = MatchesViewPagerFragmentDirections.actionMatchesFragmentToCreateMatchFragment(matchId)
+        findNavController().navigate(direction)
+    }
+
+    private fun handleDeleteMatch(matchId: Long) {
+        viewModel.deleteMatch(matchId)
     }
 
 
