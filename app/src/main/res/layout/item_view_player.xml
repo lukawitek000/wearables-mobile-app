@@ -31,11 +31,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/player_sport_iv"
         app:layout_constraintStart_toEndOf="@+id/player_photo_cv"
         app:layout_constraintTop_toTopOf="@id/player_photo_cv"
         tools:text="Lewandowski" />
@@ -45,16 +45,27 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:fontFamily="sans-serif-light"
         android:maxLines="1"
         android:textColor="@color/grey_medium"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/player_photo_cv"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/player_sport_iv"
         app:layout_constraintStart_toEndOf="@id/player_photo_cv"
         tools:text="POLAND" />
+
+    <ImageView
+        android:id="@+id/player_sport_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/player_nationality_adapter_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/player_name_adapter_tv"
+        app:srcCompat="@drawable/basketball_unselected" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
