@@ -55,19 +55,39 @@ class MatchesFragment : Fragment() {
         setUpMatchesRecyclerView()
         loadDataFromDb()
         setFilterObserver()
+
+        setUpCreatingMatches()
         return binding.root
+    }
+
+    private fun setUpCreatingMatches() {
+        if(matchesType == MatchTime.UPCOMING){
+            binding.createMatchFb.visibility = View.VISIBLE
+            binding.createMatchFb.setOnClickListener {
+                val direction = MatchesViewPagerFragmentDirections
+                    .actionMatchesFragmentToCreateMatchFragment(
+                        matchId = 0L,
+                        sport = getSportFromRadioButtons(binding.radioButtonLayout.sportRadioGroup.checkedRadioButtonId)
+                    )
+                findNavController().navigate(direction)
+            }
+        }else{
+            binding.createMatchFb.visibility = View.GONE
+        }
     }
 
     private fun setFilterObserver() {
         binding.radioButtonLayout.sportRadioGroup.check(R.id.football_radio_button)
         binding.radioButtonLayout.sportRadioGroup.setOnCheckedChangeListener { group, checkedId ->
-            when(checkedId){
-                R.id.football_radio_button -> viewModel.filterSport = Sports.FOOTBALL
-                R.id.handball_radio_button -> viewModel.filterSport = Sports.HANDBALL
-                else -> viewModel.filterSport = Sports.BASKETBALL
-            }
+            viewModel.filterSport = getSportFromRadioButtons(checkedId)
             loadDataFromDb()
         }
+    }
+
+    private fun getSportFromRadioButtons(checkedId: Int): String = when(checkedId){
+        R.id.football_radio_button -> Sports.FOOTBALL
+        R.id.handball_radio_button -> Sports.HANDBALL
+        else -> Sports.BASKETBALL
     }
 
     private fun loadDataFromDb() {

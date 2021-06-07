@@ -31,9 +31,6 @@ class MatchesViewPagerFragment : Fragment() {
         viewPager = view.findViewById(R.id.matches_view_pager)
         viewPager.adapter = MatchesViewPagerAdapter(this)
 
-        view.findViewById<FloatingActionButton>(R.id.create_match_fb).setOnClickListener {
-            findNavController().navigate(R.id.action_matchesFragment_to_createMatchFragment)
-        }
 
         setUpTabLayout(view)
 

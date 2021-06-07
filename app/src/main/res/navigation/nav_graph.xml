@@ -86,6 +86,10 @@
             android:name="matchId"
             app:argType="long"
             android:defaultValue="0L" />
+        <argument
+            android:name="sport"
+            app:argType="string"
+            android:defaultValue="Football" />
     </fragment>
     <fragment
         android:id="@+id/createTeamFragment"

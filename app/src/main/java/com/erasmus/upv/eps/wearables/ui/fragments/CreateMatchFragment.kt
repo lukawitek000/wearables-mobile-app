@@ -102,6 +102,7 @@ class CreateMatchFragment : Fragment() {
         if(arguments != null){
             val args = CreateMatchFragmentArgs.fromBundle(requireArguments())
             viewModel.receivedMatchId = args.matchId
+            binding.radioButtonLayout.sportRadioGroup.check(setSportRadioButton(args.sport))
             if(viewModel.receivedMatchId != 0L) {
                 (requireActivity() as MainActivity).supportActionBar?.title = getString(R.string.update_match)
                 changeButtonIcon()
