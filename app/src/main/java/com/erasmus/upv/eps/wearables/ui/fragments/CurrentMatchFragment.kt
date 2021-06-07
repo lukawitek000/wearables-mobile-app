@@ -34,8 +34,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 
-//TODO check observing connected devices
-
 @AndroidEntryPoint
 class CurrentMatchFragment : Fragment() {
 
