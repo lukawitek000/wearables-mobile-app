@@ -43,6 +43,12 @@ class TeamRepository (
         }
     }
 
+    suspend fun getTeamWithPlayersSuspend(teamId: Long): TeamWithPlayers {
+        return withContext(Dispatchers.IO){
+            teamDao.getTeamWithPlayersSuspend(teamId)
+        }
+    }
+
     val allTeams = teamDao.getAllTeams()
 
 }

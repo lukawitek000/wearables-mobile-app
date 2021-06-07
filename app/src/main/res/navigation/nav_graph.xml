@@ -114,7 +114,12 @@
         android:id="@+id/matchStatisticsFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.MatchStatisticsFragment"
         android:label="Match statistics"
-        tools:layout="@layout/fragment_match_statistics" />
+        tools:layout="@layout/fragment_match_statistics" >
+        <argument
+            android:name="matchId"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
     <fragment
         android:id="@+id/matchInfoFragment"
         android:name="com.erasmus.upv.eps.wearables.ui.fragments.MatchInfoFragment"

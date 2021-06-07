@@ -29,4 +29,8 @@ interface TeamDao {
     @Query("SELECT EXISTS(SELECT * FROM MatchTeamCrossRef WHERE teamId == :teamId)")
     fun isTeamPartOfAnyMatch(teamId: Long): Boolean
 
+    @Transaction
+    @Query("SELECT * FROM Team WHERE teamId == :teamId")
+    suspend fun getTeamWithPlayersSuspend(teamId: Long): TeamWithPlayers
+
 }

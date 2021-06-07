@@ -127,7 +127,8 @@ class MatchesFragment : Fragment() {
                 noButtonAction = {dialog -> dialog.dismiss() }
             )
         }else{
-            findNavController().navigate(R.id.action_matchesFragment_to_matchStatisticsFragment)
+            val direction = MatchesViewPagerFragmentDirections.actionMatchesFragmentToMatchStatisticsFragment(match.matchId)
+            findNavController().navigate(direction)
         }
     }
     

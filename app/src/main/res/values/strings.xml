@@ -43,4 +43,6 @@
     <string name="city">City</string>
     <string name="players">Players</string>
     <string name="no_matches_to_display">No matches to display</string>
+    <string name="_0">0</string>
+    <string name="sign_between_score">-</string>
 </resources>
