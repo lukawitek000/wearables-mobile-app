@@ -1,110 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:background="#aaaaaa"-->
-<!--    android:orientation="horizontal"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:layout_margin="8dp"-->
-<!--    android:padding="8dp">-->
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="1"-->
-<!--        android:orientation="vertical">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/day_number_tv"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="12" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/month_name_tv"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Dec" />-->
-<!--    </LinearLayout>-->
-
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="6">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/sport_name_tv"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Football"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/team_1_name_tv"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Team 1"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/team_2_name_tv"-->
-<!--            app:layout_constraintHorizontal_bias="0.5"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/sport_name_tv" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/team_2_name_tv"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Team 2"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.5"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/team_1_name_tv"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/team_1_name_tv" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/match_time_tv"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:text="12:00"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/team_2_name_tv"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/team_1_name_tv"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/team_1_name_tv" />-->
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--    <ImageView-->
-<!--        android:id="@+id/match_info_iv"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_gravity="center_vertical"-->
-<!--        android:layout_weight="1"-->
-<!--        app:srcCompat="@drawable/ic_info" />-->
-<!--</LinearLayout>-->
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_margin="8dp"
-android:orientation="horizontal"
-android:padding="8dp"
-android:background="@drawable/card_bg"
-    >
-
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_weight="0.1"
-    android:orientation="vertical">
-
-</LinearLayout>
-
 <androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_weight="6">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="8dp"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="@drawable/card_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/sport_name_tv"
@@ -112,10 +16,10 @@ android:background="@drawable/card_bg"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Football"
+        tools:text="Football"
         android:textAllCaps="true"
         android:textColor="@color/grey_medium"
-        android:textSize="11sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.009"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +32,7 @@ android:background="@drawable/card_bg"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins_semibold"
-        android:text="Team 1ssss"
+        tools:text="Team 1"
         android:textColor="@color/grey_light"
         android:textSize="16sp"
 
@@ -142,13 +46,14 @@ android:background="@drawable/card_bg"
         android:layout_width="0dp"
         android:layout_height="24dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+
         android:fontFamily="@font/poppins_semibold"
-
-        android:text="Team 2"
+        tools:text="Team 2"
         android:textColor="@color/grey_light"
-        android:textSize="16sp"
 
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/match_info_iv"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/team_1_name_tv"
         app:layout_constraintTop_toTopOf="@+id/team_1_name_tv" />
@@ -159,12 +64,13 @@ android:background="@drawable/card_bg"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:fontFamily="sans-serif-medium"
-        android:text="12:00"
         android:textColor="@color/grey_medium"
+        android:textSize="12sp"
 
-        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4" />
+        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintTop_toTopOf="@+id/month_name_tv"
+        tools:text="12:00" />
 
     <TextView
         android:id="@+id/day_number_tv"
@@ -173,9 +79,9 @@ android:background="@drawable/card_bg"
         android:layout_marginStart="4dp"
         android:layout_marginTop="12dp"
         android:fontFamily="sans-serif-medium"
-        android:text="12"
+        tools:text="12"
         android:textColor="@color/grey_medium"
-        android:textSize="11sp"
+        android:textSize="12sp"
 
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toBottomOf="@+id/team_1_name_tv" />
@@ -188,10 +94,10 @@ android:background="@drawable/card_bg"
         android:layout_marginTop="12dp"
         android:fontFamily="sans-serif-medium"
 
-        android:text="Dec"
+        tools:text="Dec"
         android:textAllCaps="true"
         android:textColor="@color/grey_medium"
-        android:textSize="11sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/day_number_tv"
         app:layout_constraintTop_toBottomOf="@+id/team_1_name_tv" />
 
@@ -200,10 +106,10 @@ android:background="@drawable/card_bg"
         android:layout_width="14dp"
         android:layout_height="14dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
 
+        app:layout_constraintBottom_toBottomOf="@+id/day_number_tv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/team_1_name_tv"
+        app:layout_constraintTop_toTopOf="@+id/day_number_tv"
         app:srcCompat="@drawable/ic_calendar_icon" />
 
     <ImageView
@@ -211,17 +117,20 @@ android:background="@drawable/card_bg"
         android:layout_width="13dp"
         android:layout_height="12dp"
         android:layout_marginStart="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/match_time_tv"
         app:layout_constraintStart_toEndOf="@+id/month_name_tv"
         app:layout_constraintTop_toTopOf="@+id/match_time_tv"
         app:srcCompat="@drawable/ic_time" />
-</androidx.constraintlayout.widget.ConstraintLayout>
 
-<ImageView
-    android:id="@+id/match_info_iv"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:layout_gravity="center_vertical"
-    android:layout_weight="1"
-    app:srcCompat="@drawable/ic_info" />
-</LinearLayout>
+
+    <ImageView
+        android:id="@+id/match_info_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="@+id/team_2_name_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/team_2_name_tv"
+        app:srcCompat="@drawable/ic_info" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,45 +20,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/handball_filter_bt" />
+        app:layout_constraintTop_toBottomOf="@+id/radio_button_layout" />
 
-    <ImageButton
-        android:id="@+id/football_filter_bt"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/radio_button_layout"
+        layout="@layout/radio_button_sport_select"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/football_button"
-        app:layout_constraintEnd_toStartOf="@+id/handball_filter_bt"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintHorizontal_chainStyle="spread"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/handball_filter_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/handball_button"
-        app:layout_constraintBottom_toBottomOf="@+id/football_filter_bt"
-        app:layout_constraintEnd_toStartOf="@+id/basketball_filter_bt"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toEndOf="@+id/football_filter_bt" />
-
-    <ImageButton
-        android:id="@+id/basketball_filter_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/basketball_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toEndOf="@+id/handball_filter_bt"
-        app:layout_constraintTop_toTopOf="@+id/handball_filter_bt" />
 
     <TextView
         android:id="@+id/no_players_info_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No matches to display"
+        android:text="@string/no_matches_to_display"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

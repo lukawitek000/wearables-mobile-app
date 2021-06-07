@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.erasmus.upv.eps.wearables.model.Match
 import com.erasmus.upv.eps.wearables.model.MatchWithTeams
 import com.erasmus.upv.eps.wearables.repositories.MatchRepository
+import com.erasmus.upv.eps.wearables.util.Sports
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,6 +16,7 @@ class MatchesViewModel
     private val repository: MatchRepository
 ) : ViewModel(){
 
+    var filterSport: String = Sports.FOOTBALL
     var matchId: Long = 0L
 
     fun getAllUpcomingMatches(): LiveData<List<Match>>{

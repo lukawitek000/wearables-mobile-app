@@ -14,6 +14,7 @@ import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentMatchesBinding
 import com.erasmus.upv.eps.wearables.model.Match
 import com.erasmus.upv.eps.wearables.ui.adapters.MatchesAdapter
+import com.erasmus.upv.eps.wearables.util.Sports
 import com.erasmus.upv.eps.wearables.viewModels.MatchesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,19 +51,51 @@ class MatchesFragment : Fragment() {
         }
         setUpMatchesRecyclerView()
         loadDataFromDb()
+        setFilterObserver()
         return binding.root
+    }
+
+    private fun setFilterObserver() {
+        binding.radioButtonLayout.sportRadioGroup.check(R.id.football_radio_button)
+        binding.radioButtonLayout.sportRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId){
+                R.id.football_radio_button -> viewModel.filterSport = Sports.FOOTBALL
+                R.id.handball_radio_button -> viewModel.filterSport = Sports.HANDBALL
+                else -> viewModel.filterSport = Sports.BASKETBALL
+            }
+            loadDataFromDb()
+        }
     }
 
     private fun loadDataFromDb() {
         if(matchesType == MatchTime.UPCOMING) {
             viewModel.getAllUpcomingMatches().observe(viewLifecycleOwner){
-                matchesAdapter.submitList(it)
+                showPlayersOrNoPlayersText(filterMatches(it))
             }
         }else{
             viewModel.getAllUpcomingMatches().observe(viewLifecycleOwner){
-                matchesAdapter.submitList(it)
+                showPlayersOrNoPlayersText(filterMatches(it))
             }
         }
+    }
+
+    private fun showPlayersOrNoPlayersText(
+        matches: MutableList<Match>
+    ) {
+        if (matches.isEmpty()) {
+            binding.noPlayersInfoTv.visibility = View.VISIBLE
+            binding.matchesRv.visibility = View.INVISIBLE
+        } else {
+            binding.noPlayersInfoTv.visibility = View.INVISIBLE
+            binding.matchesRv.visibility = View.VISIBLE
+        }
+        matchesAdapter.submitList(matches)
+    }
+
+    private fun filterMatches(matches: List<Match>?): MutableList<Match> {
+        return matches?.filter {
+            match -> match.sport == viewModel.filterSport
+        }?.toMutableList() ?: mutableListOf()
     }
 
     private fun setUpMatchesRecyclerView() {

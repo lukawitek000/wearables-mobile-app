@@ -29,9 +29,10 @@ class MatchesAdapter(private val onClick: (match: Match) -> Unit,
 
 
     override fun onBindViewHolder(holder: MatchesViewHolder, position: Int) {
-        holder.binding.sportNameTv.text = getItem(position).sport
-       // holder.binding.team1NameTv.text = matches[position].homeTeam.name
-       // holder.binding.team2NameTv.text = matches[position].guestTeam.name
+        val match = getItem(position)
+        holder.binding.sportNameTv.text = match.sport
+//        holder.binding.team1NameTv.text = match.
+//        holder.binding.team2NameTv.text = match.guestTeam.name
         val c = Calendar.getInstance()
         c.timeInMillis = getItem(position).date.time
         holder.binding.dayNumberTv.text = c.get(Calendar.DAY_OF_MONTH).toString()
