@@ -35,6 +35,15 @@ class CreateMatchFragment : Fragment() {
     private val sharedViewModel: CreateRelationsViewModel by activityViewModels()
     private val viewModel: CreateMatchViewModel by viewModels()
 
+
+    companion object {
+        private val green = Color.rgb(0, 159, 150)
+        private val red = Color.rgb(229, 0, 64)
+        private val blue =  Color.rgb(75, 72, 239)
+        private val yellow = Color.rgb(231, 169, 12)
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,19 +68,19 @@ class CreateMatchFragment : Fragment() {
     }
 
     private fun observeSportChange() {
-//        binding.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
-//        binding.sportRadioGroup.setOnCheckedChangeListener { _, chekedId ->
-//            sharedViewModel.creatingMatch.sport = getSelectedSport()
-//
-//            Timber.d("sport change $chekedId ${getSelectedSport()} home ${sharedViewModel.homeTeam?.sport} guest ${sharedViewModel.guestTeam?.sport}")
-//            if(getSelectedSport() != sharedViewModel.homeTeam?.sport){
-//                sharedViewModel.homeTeam = null
-//            }
-//            if(getSelectedSport() != sharedViewModel.guestTeam?.sport) {
-//                sharedViewModel.guestTeam = null
-//            }
-//            populateTeamsLayouts()
-//        }
+        binding.radioButtonLayout.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
+        binding.radioButtonLayout.sportRadioGroup.setOnCheckedChangeListener { _, chekedId ->
+            sharedViewModel.creatingMatch.sport = getSelectedSport()
+
+            Timber.d("sport change $chekedId ${getSelectedSport()} home ${sharedViewModel.homeTeam?.sport} guest ${sharedViewModel.guestTeam?.sport}")
+            if(getSelectedSport() != sharedViewModel.homeTeam?.sport){
+                sharedViewModel.homeTeam = null
+            }
+            if(getSelectedSport() != sharedViewModel.guestTeam?.sport) {
+                sharedViewModel.guestTeam = null
+            }
+            populateTeamsLayouts()
+        }
     }
 
 
@@ -111,7 +120,7 @@ class CreateMatchFragment : Fragment() {
         populateTeamsLayouts()
         setTeamColors()
         binding.doneCreatingMatchFb.isEnabled = true
-       // binding.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
+        binding.radioButtonLayout.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
     }
 
     private fun setTeamColors() {
@@ -121,16 +130,18 @@ class CreateMatchFragment : Fragment() {
 
     private fun getGuestTeamColorChipId(): Int {
         return when (sharedViewModel.creatingMatch.guestTeamColor) {
-            Color.RED -> R.id.guest_team_color_red_c
-            Color.BLUE -> R.id.guest_team_color_blue_c
-            else -> R.id.guest_team_color_green_c
+            red -> R.id.guest_team_color_red_c
+            blue -> R.id.guest_team_color_blue_c
+            green -> R.id.guest_team_color_green_c
+            else -> R.id.guest_team_color_yellow_c
         }
     }
 
     private fun getHomeTeamColorChipId(): Int {
         return when (sharedViewModel.creatingMatch.homeTeamColor) {
-            Color.RED -> R.id.home_team_color_red_c
-            Color.BLUE -> R.id.home_team_color_blue_c
+            red -> R.id.home_team_color_red_c
+            blue -> R.id.home_team_color_blue_c
+            yellow -> R.id.home_team_color_yellow_c
             else -> R.id.home_team_color_green_c
         }
     }
@@ -156,13 +167,13 @@ class CreateMatchFragment : Fragment() {
         binding.matchPartsNumberEt.setText(match.matchParts)
     }
 
-//    private fun setSportRadioButton(sport: String): Int {
-//        return when(sport){
-////            Sports.FOOTBALL -> R.id.football_radio_button
-////            Sports.BASKETBALL -> R.id.basketball_radio_button
-////            else -> R.id.handball_radio_button
-//        }
-//    }
+    private fun setSportRadioButton(sport: String): Int {
+        return when(sport){
+            Sports.FOOTBALL -> R.id.football_radio_button
+            Sports.BASKETBALL -> R.id.basketball_radio_button
+            else -> R.id.handball_radio_button
+        }
+    }
 
     private fun changeButtonIcon() {
         binding.doneCreatingMatchFb.setImageResource(R.drawable.ic_update)
@@ -178,7 +189,7 @@ class CreateMatchFragment : Fragment() {
 
     private fun populateTeamLayout(team: Team?, teamSelectedLayout: ItemViewTeamBinding) {
         if(team == null){
-            teamSelectedLayout.itemViewTeamLayout.visibility = View.GONE
+            teamSelectedLayout.itemViewTeamLayout.visibility = View.INVISIBLE
             return
         }
         teamSelectedLayout.itemViewTeamLayout.visibility = View.VISIBLE
@@ -226,7 +237,7 @@ class CreateMatchFragment : Fragment() {
     private fun getMatchFromUserInput() {
         sharedViewModel.creatingMatch.location = binding.matchLocationEt.text.toString()
         sharedViewModel.creatingMatch.city = binding.matchCityEt.text.toString()
-       // sharedViewModel.creatingMatch.sport = getSelectedSport()
+        sharedViewModel.creatingMatch.sport = getSelectedSport()
         sharedViewModel.creatingMatch.league = binding.matchLeagueEt.text.toString()
         sharedViewModel.creatingMatch.otherDetails = binding.matchDetailsEt.text.toString()
         sharedViewModel.creatingMatch.homeTeamColor = getHomeTeamColorFromChips()
@@ -253,25 +264,27 @@ class CreateMatchFragment : Fragment() {
 
     private fun getGuestTeamColorFromChips(): Int {
         return when(binding.guestTeamColorCg.checkedChipId){
-            R.id.guest_team_color_red_c -> Color.RED
-            R.id.guest_team_color_blue_c -> Color.BLUE
-            else -> Color.GREEN
+            R.id.guest_team_color_red_c -> red
+            R.id.guest_team_color_blue_c -> blue
+            R.id.guest_team_color_green_c -> green
+            else -> yellow
         }
     }
 
     private fun getHomeTeamColorFromChips(): Int {
         return when(binding.homeTeamColorCg.checkedChipId){
-            R.id.home_team_color_red_c -> Color.RED
-            R.id.home_team_color_blue_c -> Color.BLUE
-            else -> Color.GREEN
+            R.id.home_team_color_red_c -> red
+            R.id.home_team_color_blue_c -> blue
+            R.id.home_team_color_yellow_c -> yellow
+            else -> green
         }
     }
 
-//    private fun getSelectedSport(): String  = when(binding.sportRadioGroup.checkedRadioButtonId){
-//        R.id.football_radio_button -> Sports.FOOTBALL
-//        R.id.handball_radio_button -> Sports.HANDBALL
-//        else -> Sports.BASKETBALL
-//    }
+    private fun getSelectedSport(): String  = when(binding.radioButtonLayout.sportRadioGroup.checkedRadioButtonId){
+        R.id.football_radio_button -> Sports.FOOTBALL
+        R.id.handball_radio_button -> Sports.HANDBALL
+        else -> Sports.BASKETBALL
+    }
 
     private fun handleTimeInput() {
         binding.matchTimeEt.setOnClickListener {

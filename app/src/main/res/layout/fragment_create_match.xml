@@ -14,37 +14,15 @@
     android:padding="8dp"
     tools:context=".ui.fragments.CreateMatchFragment">
 
-    <ImageButton
-        android:id="@+id/football_filter_bt"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/radio_button_layout"
+        layout="@layout/radio_button_sport_select"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/football_button"
-        app:layout_constraintEnd_toStartOf="@+id/handball_filter_bt"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/handball_filter_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/handball_button"
-        app:layout_constraintBottom_toBottomOf="@+id/football_filter_bt"
-        app:layout_constraintEnd_toStartOf="@+id/basketball_filter_bt"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toEndOf="@+id/football_filter_bt" />
-
-    <ImageButton
-        android:id="@+id/basketball_filter_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/basketball_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toEndOf="@+id/handball_filter_bt"
-        app:layout_constraintTop_toTopOf="@+id/handball_filter_bt" />
 
     <LinearLayout
         android:id="@+id/matches_main_info_layout"
@@ -54,11 +32,11 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/football_filter_bt">
+        app:layout_constraintTop_toBottomOf="@+id/radio_button_layout">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/date_tf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -69,6 +47,7 @@
                 android:focusable="false"
                 android:clickable="false"
                 android:cursorVisible="false"
+                android:textColor="@color/grey_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -76,7 +55,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/time_tf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -87,6 +66,7 @@
                 android:focusable="false"
                 android:clickable="false"
                 android:cursorVisible="false"
+                android:textColor="@color/grey_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -95,7 +75,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/location_tf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -105,6 +85,7 @@
                 android:id="@+id/match_location_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/grey_light"
                 android:imeOptions="actionNext"
                 android:inputType="text|textCapWords" />
 
@@ -112,7 +93,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/city_tf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -122,6 +103,7 @@
                 android:id="@+id/match_city_et"
                 android:imeOptions="actionNext"
                 android:inputType="text|textCapWords"
+                android:textColor="@color/grey_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -129,7 +111,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/league_tf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -139,6 +121,7 @@
                 android:id="@+id/match_league_et"
                 android:imeOptions="actionNext"
                 android:inputType="text|textCapWords"
+                android:textColor="@color/grey_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -146,7 +129,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/match_parts_number_tf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -156,6 +139,7 @@
                 android:id="@+id/match_parts_number_et"
                 android:imeOptions="actionNext"
                 android:inputType="number"
+                android:textColor="@color/grey_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -165,7 +149,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/match_parts_duration_tf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -175,6 +159,7 @@
                 android:id="@+id/match_parts_duration_et"
                 android:imeOptions="actionNext"
                 android:inputType="number"
+                android:textColor="@color/grey_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -187,7 +172,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/other_details_tf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -197,6 +182,7 @@
                 android:id="@+id/match_details_et"
                 android:imeOptions="actionDone"
                 android:inputType="text|textCapSentences"
+                android:textColor="@color/grey_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -241,7 +227,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             app:singleLine="true"
-            app:singleSelection="true">
+            app:singleSelection="true"
+            app:selectionRequired="true"
+            app:checkedChip="@id/home_team_color_red_c">
 
 
             <com.google.android.material.chip.Chip
@@ -249,18 +237,21 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#E50040"
+                app:chipBackgroundColor="#E50040"
+                app:chipStrokeColor="@color/bg_red_chip"
+                app:chipStrokeWidth="2dp"
                 android:text="RED"
                 android:textColor="@color/white"
-                android:textAlignment="center"
-                android:checked="true" />
+                android:textAlignment="center" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/home_team_color_green_c"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#009F96"
+                app:chipBackgroundColor="#009F96"
+                app:chipStrokeColor="@color/bg_green_chip"
+                app:chipStrokeWidth="2dp"
                 android:text="GREEN"
                 android:textColor="@color/white"
                 android:textAlignment="center"/>
@@ -270,7 +261,9 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#4B48EF"
+                app:chipBackgroundColor="#4B48EF"
+                app:chipStrokeColor="@color/bg_blue_chip"
+                app:chipStrokeWidth="2dp"
                 android:text="BLUE"
                 android:textColor="@color/white"
                 android:textAlignment="center"/>
@@ -280,7 +273,9 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#E7A90C"
+                app:chipBackgroundColor="#E7A90C"
+                app:chipStrokeColor="@color/bg_yellow_chip"
+                app:chipStrokeWidth="2dp"
                 android:text="YELLOW"
                 android:textColor="@color/white"
                 android:textAlignment="center"/>
@@ -323,7 +318,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:singleLine="true"
-            app:singleSelection="true">
+            app:singleSelection="true"
+            app:selectionRequired="true"
+            app:checkedChip="@id/guest_team_color_green_c">
 
 
             <com.google.android.material.chip.Chip
@@ -331,18 +328,21 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#E50040"
+                app:chipBackgroundColor="#E50040"
+                app:chipStrokeColor="@color/bg_red_chip"
+                app:chipStrokeWidth="2dp"
                 android:text="RED"
                 android:textColor="@color/white"
-                android:textAlignment="center"
-                android:checked="true" />
+                android:textAlignment="center" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/guest_team_color_green_c"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#009F96"
+                app:chipBackgroundColor="#009F96"
+                app:chipStrokeColor="@color/bg_green_chip"
+                app:chipStrokeWidth="2dp"
                 android:text="GREEN"
                 android:textColor="@color/white"
                 android:textAlignment="center"/>
@@ -352,7 +352,9 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#4B48EF"
+                app:chipBackgroundColor="#4B48EF"
+                app:chipStrokeColor="@color/bg_blue_chip"
+                app:chipStrokeWidth="2dp"
                 android:text="BLUE"
                 android:textColor="@color/white"
                 android:textAlignment="center"/>
@@ -362,7 +364,9 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#E7A90C"
+                app:chipBackgroundColor="#E7A90C"
+                app:chipStrokeColor="@color/bg_yellow_chip"
+                app:chipStrokeWidth="2dp"
                 android:text="YELLOW"
                 android:textColor="@color/white"
                 android:textAlignment="center"/>
