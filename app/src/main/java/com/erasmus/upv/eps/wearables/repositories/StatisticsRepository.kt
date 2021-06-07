@@ -27,5 +27,11 @@ constructor(
         }
     }
 
+    suspend fun deleteLiveActionsByMatchId(matchId: Long) {
+        withContext(Dispatchers.IO){
+            statisticsDao.deleteLiveActionsByMatchId(matchId)
+        }
+    }
+
 
 }

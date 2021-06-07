@@ -6,7 +6,6 @@ import com.erasmus.upv.eps.wearables.model.Match
 import com.erasmus.upv.eps.wearables.model.MatchTeamCrossRef
 import com.erasmus.upv.eps.wearables.model.MatchWithTeams
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class MatchRepository
@@ -20,8 +19,8 @@ class MatchRepository
         }
     }
 
-    var allMatches = matchDao.getAllMatchesWithTeams()
-
+    var upcomingMatches = matchDao.getAllUpcomingMatchesWithTeams()
+    var pastMatches = matchDao.getAllPastMatchesWithTeams()
 
     fun getMatchById(id: Long): LiveData<Match>{
         return matchDao.getMatchById(id)

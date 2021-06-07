@@ -76,7 +76,7 @@ class MatchesFragment : Fragment() {
                 showPlayersOrNoPlayersText(filterMatches(it))
             }
         }else{
-            viewModel.getAllUpcomingMatches().observe(viewLifecycleOwner){
+            viewModel.getAllPastMatches().observe(viewLifecycleOwner){
                 showPlayersOrNoPlayersText(filterMatches(it))
             }
         }

@@ -19,8 +19,8 @@ interface MatchDao {
 
 
     @Transaction
-    @Query("SELECT * FROM `Match`")
-    fun getAllMatchesWithTeams(): Flow<List<MatchWithTeams>>
+    @Query("SELECT * FROM `Match` WHERE matchId NOT IN (SELECT matchId FROM LiveAction)")
+    fun getAllUpcomingMatchesWithTeams(): Flow<List<MatchWithTeams>>
 
 
     @Query("SELECT * FROM `Match` WHERE :id == matchId")
@@ -38,5 +38,10 @@ interface MatchDao {
 
     @Update
     fun updateMatch(match: Match)
+
+
+    @Transaction
+    @Query("SELECT * FROM `Match` WHERE matchId IN (SELECT matchId FROM LiveAction)")
+    fun getAllPastMatchesWithTeams(): Flow<List<MatchWithTeams>>
 
 }
