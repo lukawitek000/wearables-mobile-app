@@ -50,6 +50,7 @@ class TeamsFragment : Fragment() {
         if(sharedViewModel.whichTeamIsCreated == TeamCreated.NONE){
             (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
         }else{
+            (requireActivity() as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
             (activity as MainActivity).setBottomNavigationVisibility(View.GONE)
         }
     }

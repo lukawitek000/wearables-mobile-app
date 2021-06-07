@@ -73,7 +73,7 @@ class CreateMatchFragment : Fragment() {
 
 
     private fun observeSportChange() {
-        binding.radioButtonLayout.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
+       // binding.radioButtonLayout.sportRadioGroup.check(setSportRadioButton(sharedViewModel.creatingMatch.sport))
         binding.radioButtonLayout.sportRadioGroup.setOnCheckedChangeListener { _, chekedId ->
             sharedViewModel.creatingMatch.sport = getSelectedSport()
 

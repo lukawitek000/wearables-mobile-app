@@ -44,6 +44,9 @@ class PlayersFragment : Fragment() {
         if (arguments != null) {
             val args = PlayersFragmentArgs.fromBundle(requireArguments())
             sharedViewModel.isCreatingTeam = args.isCreatingTeam
+            if(sharedViewModel.isCreatingTeam){
+                (requireActivity() as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            }
         }
     }
 
