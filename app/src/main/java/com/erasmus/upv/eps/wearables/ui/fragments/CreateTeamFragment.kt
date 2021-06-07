@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreateTeamBinding
 import com.erasmus.upv.eps.wearables.model.Player
@@ -71,6 +72,7 @@ class CreateTeamFragment : Fragment() {
             val args = CreateTeamFragmentArgs.fromBundle(requireArguments())
             Timber.d("team ID ${args.teamId}")
             if(args.teamId > 0L) {
+                (requireActivity() as MainActivity).supportActionBar?.title = getString(R.string.update_team)
                 viewModel.receivedTeamId = args.teamId
                 viewModel.getTeamWithPlayersById(viewModel.receivedTeamId).observe(viewLifecycleOwner) {
                     viewModel.teamWithPlayers = it

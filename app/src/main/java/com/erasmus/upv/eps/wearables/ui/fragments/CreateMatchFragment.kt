@@ -13,6 +13,7 @@ import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreateMatchBinding
 import com.erasmus.upv.eps.wearables.databinding.ItemViewTeamBinding
@@ -102,6 +103,7 @@ class CreateMatchFragment : Fragment() {
             val args = CreateMatchFragmentArgs.fromBundle(requireArguments())
             viewModel.receivedMatchId = args.matchId
             if(viewModel.receivedMatchId != 0L) {
+                (requireActivity() as MainActivity).supportActionBar?.title = getString(R.string.update_match)
                 changeButtonIcon()
                 getMatchDetails()
             }

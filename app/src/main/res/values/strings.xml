@@ -50,4 +50,7 @@
     <string name="app_info_mobile">Mobile application  -  Łukasz Witkowski</string>
     <string name="app_info_smartwatch">Smartwatch application  -  Rasmus Hartung Sørensen</string>
     <string name="eps_valencia_2021">EPS Valencia 2021</string>
+    <string name="update_team">Update Team</string>
+    <string name="update_player">Update Player</string>
+    <string name="update_match">Update Match</string>
 </resources>

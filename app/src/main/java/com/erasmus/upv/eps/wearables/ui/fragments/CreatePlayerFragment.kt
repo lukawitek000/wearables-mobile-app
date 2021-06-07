@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.erasmus.upv.eps.wearables.MainActivity
 import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreatePlayerBinding
 import com.erasmus.upv.eps.wearables.util.Sports
@@ -35,6 +36,7 @@ class CreatePlayerFragment : Fragment() {
         if (arguments != null) {
             val args = CreatePlayerFragmentArgs.fromBundle(requireArguments())
             if (args.playerId > 0L) {
+                (requireActivity() as MainActivity).supportActionBar?.title = getString(R.string.update_player)
                 getPlayerFromDatabase(args.playerId)
             }
         }
