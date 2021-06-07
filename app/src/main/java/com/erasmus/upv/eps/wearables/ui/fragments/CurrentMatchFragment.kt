@@ -30,13 +30,13 @@ import com.erasmus.upv.eps.wearables.util.MatchTimer
 import com.erasmus.upv.eps.wearables.viewModels.ReceivingDataViewModel
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-// TODO why here is no @AndroidEntryPoint and it's working???
-// TODO do not show receive data which is not defined
 
 //TODO check observing connected devices
 
+@AndroidEntryPoint
 class CurrentMatchFragment : Fragment() {
 
     private lateinit var liveActionsAdapter: LiveActionsAdapter
