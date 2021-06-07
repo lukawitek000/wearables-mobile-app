@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.erasmus.upv.eps.wearables.MainActivity
@@ -13,6 +14,7 @@ import com.erasmus.upv.eps.wearables.R
 import com.erasmus.upv.eps.wearables.databinding.FragmentCreatePlayerBinding
 import com.erasmus.upv.eps.wearables.util.Sports
 import com.erasmus.upv.eps.wearables.viewModels.CreatePlayerViewModel
+import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,15 +22,23 @@ class CreatePlayerFragment : Fragment() {
 
     private lateinit var binding: FragmentCreatePlayerBinding
     private val viewModel: CreatePlayerViewModel by viewModels()
+    private val sharedViewModel: CreateRelationsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreatePlayerBinding.inflate(inflater, container, false)
+        setSportForCreatingPlayerForTheTeam()
         observeUserInput()
         receiveSafeArgs()
         return binding.root
+    }
+
+    private fun setSportForCreatingPlayerForTheTeam() {
+        if(sharedViewModel.isCreatingTeam){
+            binding.radioButtonSelectSport.sportRadioGroup.check(setRadioButtonForPlayerSport(sharedViewModel.creatingTeam.sport))
+        }
     }
 
 
@@ -67,8 +77,8 @@ class CreatePlayerFragment : Fragment() {
     }
 
 
-    private fun setRadioButtonForPlayerSport(): Int {
-        return when(viewModel.player.sport){
+    private fun setRadioButtonForPlayerSport(sport: String = viewModel.player.sport): Int {
+        return when(sport){
             Sports.FOOTBALL -> R.id.football_radio_button
             Sports.BASKETBALL -> R.id.basketball_radio_button
             else -> R.id.handball_radio_button
