@@ -1,8 +1,6 @@
 package com.erasmus.upv.eps.wearables.ui.fragments
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +18,7 @@ import com.erasmus.upv.eps.wearables.model.Player
 import com.erasmus.upv.eps.wearables.model.Team
 import com.erasmus.upv.eps.wearables.ui.adapters.PlayersShortAdapter
 import com.erasmus.upv.eps.wearables.util.Sports
+import com.erasmus.upv.eps.wearables.util.TeamCreated
 import com.erasmus.upv.eps.wearables.viewModels.CreateRelationsViewModel
 import com.erasmus.upv.eps.wearables.viewModels.CreateTeamViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,6 +42,7 @@ class CreateTeamFragment : Fragment() {
     ): View {
         binding = FragmentCreateTeamBinding.inflate(inflater, container, false)
 
+        setSportForCreatingTeamForTheMatch()
         setUpTeamPlayersRecyclerView()
         receiveSafeArgs()
         createTeam()
@@ -54,9 +54,15 @@ class CreateTeamFragment : Fragment() {
         return binding.root
     }
 
+    private fun setSportForCreatingTeamForTheMatch() {
+        if(sharedViewModel.whichTeamIsCreated != TeamCreated.NONE){
+            binding.radioButtonLayout.sportRadioGroup.check(setTeamSport(sharedViewModel.creatingMatch.sport))
+        }
+    }
+
     private fun observeSportChange() {
         if(sharedViewModel.isCreatingTeam) {
-            binding.radioButtonLayout.sportRadioGroup.check(setPlayerSport(sharedViewModel.creatingTeam.sport))
+            binding.radioButtonLayout.sportRadioGroup.check(setTeamSport(sharedViewModel.creatingTeam.sport))
         }
         binding.radioButtonLayout.sportRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             Timber.d("selected sport ${getSelectedSport()} creaatig ${sharedViewModel.teamPlayers}")
@@ -94,7 +100,7 @@ class CreateTeamFragment : Fragment() {
     }
 
     private fun populateInputs() {
-        binding.radioButtonLayout.sportRadioGroup.check(setPlayerSport(sharedViewModel.creatingTeam.sport))
+        binding.radioButtonLayout.sportRadioGroup.check(setTeamSport(sharedViewModel.creatingTeam.sport))
         binding.teamNameEt.setText(sharedViewModel.creatingTeam.name)
         binding.teamCountryEt.setText(sharedViewModel.creatingTeam.country)
         binding.teamCityEt.setText(sharedViewModel.creatingTeam.city)
@@ -102,7 +108,7 @@ class CreateTeamFragment : Fragment() {
         adapter.submitList(sharedViewModel.teamPlayers)
     }
 
-    private fun setPlayerSport(sport: String): Int {
+    private fun setTeamSport(sport: String): Int {
         return when(sport){
             Sports.FOOTBALL -> R.id.football_radio_button
             Sports.BASKETBALL -> R.id.basketball_radio_button
