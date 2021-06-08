@@ -207,6 +207,16 @@ class CreateMatchFragment : Fragment() {
         teamSelectedLayout.itemViewTeamLayout.visibility = View.VISIBLE
         teamSelectedLayout.teamNameAdapterTv.text = team.name
         teamSelectedLayout.teamCityAdapterTv.text = team.city
+
+        teamSelectedLayout.teamSportIv.setImageResource(getSportImageResource(team.sport))
+    }
+
+    private fun getSportImageResource(sport: String): Int {
+        return when(sport){
+            Sports.FOOTBALL -> R.drawable.football_unselected
+            Sports.BASKETBALL -> R.drawable.basketball_unselected
+            else -> R.drawable.handball_unselected
+        }
     }
 
 
