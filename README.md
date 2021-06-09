@@ -14,7 +14,7 @@ Key functionalities:
 
 ![drawing](https://user-images.githubusercontent.com/58557988/121365708-2b32cb00-c939-11eb-9464-3fc2975e825f.png){ width=50% }
 
-<img src="https://user-images.githubusercontent.com/58557988/121365708-2b32cb00-c939-11eb-9464-3fc2975e825f.png" width="300"">
+<img src="https://user-images.githubusercontent.com/58557988/121365708-2b32cb00-c939-11eb-9464-3fc2975e825f.png" width="300" height="auto">
 
 
 ![image](https://user-images.githubusercontent.com/58557988/121365788-3d146e00-c939-11eb-956f-7efa8238c0fe.png)
