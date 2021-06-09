@@ -12,24 +12,18 @@ Key functionalities:
 4. Receiving data from smartwatches about which gesture was performed and save it as a previously configured gesture.
 5. Analyzing recorded statistics.
 
-![drawing](https://user-images.githubusercontent.com/58557988/121365708-2b32cb00-c939-11eb-9464-3fc2975e825f.png){ width=50% }
-
 <img src="https://user-images.githubusercontent.com/58557988/121365708-2b32cb00-c939-11eb-9464-3fc2975e825f.png" width="300" height="auto">
 
+<img src="https://user-images.githubusercontent.com/58557988/121365788-3d146e00-c939-11eb-956f-7efa8238c0fe.png" width="300" height="auto">
 
-![image](https://user-images.githubusercontent.com/58557988/121365788-3d146e00-c939-11eb-956f-7efa8238c0fe.png)
+<img src="https://user-images.githubusercontent.com/58557988/121365753-371e8d00-c939-11eb-9985-b1001e04cfd1.png" width="300" height="auto">
 
+<img src="https://user-images.githubusercontent.com/58557988/121365866-4e5d7a80-c939-11eb-9064-61350c225a1c.png" width="300" height="auto">
 
-![image](https://user-images.githubusercontent.com/58557988/121365753-371e8d00-c939-11eb-9985-b1001e04cfd1.png)
+<img src="https://user-images.githubusercontent.com/58557988/121365909-55848880-c939-11eb-8fe7-1b690ddf6da6.png" width="300" height="auto">
 
-![image](https://user-images.githubusercontent.com/58557988/121365866-4e5d7a80-c939-11eb-9064-61350c225a1c.png)
+<img src="https://user-images.githubusercontent.com/58557988/121365945-5d442d00-c939-11eb-8bfd-5263e6cc6782.png" width="300" height="auto">
 
-![image](https://user-images.githubusercontent.com/58557988/121365909-55848880-c939-11eb-8fe7-1b690ddf6da6.png)
+<img src="(https://user-images.githubusercontent.com/58557988/121365983-646b3b00-c939-11eb-995d-e503ab0f1ef4.png" width="300" height="auto">
 
-
-![image](https://user-images.githubusercontent.com/58557988/121365945-5d442d00-c939-11eb-8bfd-5263e6cc6782.png)
-
-![image](https://user-images.githubusercontent.com/58557988/121365983-646b3b00-c939-11eb-995d-e503ab0f1ef4.png)
-
-![image](https://user-images.githubusercontent.com/58557988/121366007-69c88580-c939-11eb-8d94-0ecf1c7c271f.png)
-
+<img src="https://user-images.githubusercontent.com/58557988/121366007-69c88580-c939-11eb-8d94-0ecf1c7c271f.png" width="300" height="auto">
