@@ -12,7 +12,7 @@ Key functionalities:
 4. Receiving data from smartwatches about which gesture was performed and save it as a previously configured gesture.
 5. Analyzing recorded statistics.
 
-![image](https://user-images.githubusercontent.com/58557988/121365708-2b32cb00-c939-11eb-9464-3fc2975e825f.png)
+![image](https://user-images.githubusercontent.com/58557988/121365708-2b32cb00-c939-11eb-9464-3fc2975e825f.png =100x20)
 
 ![image](https://user-images.githubusercontent.com/58557988/121365788-3d146e00-c939-11eb-956f-7efa8238c0fe.png)
 
