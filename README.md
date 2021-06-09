@@ -27,3 +27,5 @@ Key functionalities:
 <img src="(https://user-images.githubusercontent.com/58557988/121365983-646b3b00-c939-11eb-995d-e503ab0f1ef4.png" width="300" height="auto">
 
 <img src="https://user-images.githubusercontent.com/58557988/121366007-69c88580-c939-11eb-8d94-0ecf1c7c271f.png" width="300" height="auto">
+
+<img src="https://user-images.githubusercontent.com/58557988/121367400-94ffa480-c93a-11eb-927a-1209b28478dc.png" width="300" height="auto">
